@@ -54,9 +54,9 @@ public abstract class AbsDigitUtility {
 
         NOT_NUMBER(0),
         KANSUJI_09(1),
-        KANSUJIKURAI_SEN(2),
-        KANSUJIKURAI_MAN(4),
-        KANSUJIKURAI(6),
+        KANSUJI_KURAI_SEN(2),
+        KANSUJI_KURAI_MAN(4),
+        KANSUJI_KURAI(6),
         KANSUJI(7),
         ZENKAKU(8),
         HANKAKU(16);
@@ -72,7 +72,7 @@ public abstract class AbsDigitUtility {
             if (ENotationType.mappings == null) {
                 synchronized (ENotationType.class) {
                     if (ENotationType.mappings == null) {
-                        ENotationType.mappings = new HashMap <Integer, ENotationType>();
+                        ENotationType.mappings = new HashMap <>();
                     }
                 }
             }
@@ -80,7 +80,7 @@ public abstract class AbsDigitUtility {
         }
 
 
-        private ENotationType(int value) {
+        ENotationType(int value) {
 
             this.intValue = value;
             ENotationType.getMappings().put(value, this);
