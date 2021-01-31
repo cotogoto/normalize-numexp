@@ -1,251 +1,195 @@
 package jp.livlog.normalizeNumexp.digitUtility;
 
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.TreeMap;
+import java.io.Serializable;
+import java.util.Comparator;
+import java.util.HashMap;
 
-import com.google.gson.Gson;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.reflect.TypeToken;
+import jp.livlog.normalizeNumexp.share.Symbol;
 
-import jp.livlog.normalizeNumexp.dictionaryDirpath.DictionaryDirpath;
+public abstract class DigitUtility {
 
-public class DigitUtility extends AbsDigitUtility {
-
-    public TreeMap <String, ENotationType> stringToNotationType     = new TreeMap <>();
-
-    public TreeMap <String, Integer>       kansuji09ToValue         = new TreeMap <>();
-
-    public TreeMap <String, Integer>       kansujiKuraiToPowerValue = new TreeMap <>();
-
-    class ChineseCharacter {
-
-        public ChineseCharacter(String character, int value, String notationType) {
-
-            this.character = character;
-            this.value = value;
-            this.notationType = notationType;
-        }
-
-        @SerializedName ("character")
-        @Expose
-        public final String  character;
-
-        @SerializedName ("value")
-        @Expose
-        public final Integer value;
-
-        @SerializedName ("NotationType")
-        @Expose
-        public final String  notationType;
-    }
-
-    void loadJsonFromFile(final String filepath, ArrayList <ChineseCharacter> list) {
-
-        final Reader reader = new InputStreamReader(
-                DigitUtility.class.getResourceAsStream(filepath));
-
-        final var gson = new Gson();
-        final var collectionType = new TypeToken <Collection <ChineseCharacter>>() {
-        }.getType();
-        list = gson.fromJson(reader, collectionType);
-    }
+    abstract public void initKansuji(String language);
 
 
-    void loadFromDictionary(final String dictionaryPath, ArrayList <ChineseCharacter> loadTarget) {
-
-        loadTarget.clear();
-
-        this.loadJsonFromFile(dictionaryPath, loadTarget);
-    }
+    abstract public boolean isHankakusuji(String uc);
 
 
-    @Override
-    void initKansuji(String language) {
+    abstract public boolean isZenkakusuji(String uc);
 
-        final var chineseCharacters = new ArrayList <ChineseCharacter>();
-        final var dictionaryPath = new StringBuilder(DictionaryDirpath.DICTIONARY_DIRPATH);
-        if (language.equals("ja")) {
-            dictionaryPath.append("ja/chinese_character.txt");
-        } else if (language.equals("zh")) {
-            dictionaryPath.append("zh/chinese_character.txt");
-        } else {
-            return;
-        }
 
-        this.loadFromDictionary(dictionaryPath.toString(), chineseCharacters);
-        for (var i = 0; i < chineseCharacters.size(); i++) {
-            var notationType = ENotationType.NOT_NUMBER;
-            if (chineseCharacters.get(i).notationType.equals("09")) {
-                notationType = ENotationType.KANSUJI_09;
-            } else if (chineseCharacters.get(i).notationType.equals("sen")) {
-                notationType = ENotationType.KANSUJI_KURAI_SEN;
-            } else if (chineseCharacters.get(i).notationType.equals("man")) {
-                notationType = ENotationType.KANSUJI_KURAI_MAN;
+    abstract public boolean isArabic(String uc);
+
+
+    abstract public boolean isKansuji(String uc);
+
+
+    abstract public boolean isKansuji09(String uc);
+
+
+    abstract public boolean isKansujiKuraiSen(String uc);
+
+
+    abstract public boolean isKansujiKuraiMan(String uc);
+
+
+    abstract public boolean isKansujiKurai(String uc);
+
+
+    abstract public boolean isNumber(String uc);
+
+
+    abstract public boolean isComma(String uc);
+
+
+    abstract public boolean isDecimalPoint(String ustr);
+
+
+    abstract public boolean isRangeExpression(String ustr);
+
+
+    abstract public int convertKansuji09ToValue(String uc);
+
+
+    abstract public int convertKansujiKuraiToPowerValue(String uc);
+
+    public enum ENotationType {
+
+        NOT_NUMBER(0),
+        KANSUJI_09(1),
+        KANSUJI_KURAI_SEN(2),
+        KANSUJI_KURAI_MAN(4),
+        KANSUJI_KURAI(6),
+        KANSUJI(7),
+        ZENKAKU(8),
+        HANKAKU(16);
+
+        public static final int                         SIZE = Integer.SIZE;
+
+        private final int                               intValue;
+
+        private static HashMap <Integer, ENotationType> mappings;
+
+        private static HashMap <Integer, ENotationType> getMappings() {
+
+            if (ENotationType.mappings == null) {
+                synchronized (ENotationType.class) {
+                    if (ENotationType.mappings == null) {
+                        ENotationType.mappings = new HashMap <>();
+                    }
+                }
             }
-
-            this.stringToNotationType.put(chineseCharacters.get(i).character, notationType);
-            switch (notationType) {
-                case KANSUJI_09:
-                    this.kansuji09ToValue.put(chineseCharacters.get(i).character, chineseCharacters.get(i).value);
-                    break;
-                case KANSUJI_KURAI_MAN:
-                case KANSUJI_KURAI_SEN:
-                    this.kansujiKuraiToPowerValue.put(chineseCharacters.get(i).character, chineseCharacters.get(i).value);
-                    break;
-                default:
-                    break;
-            }
-
-        }
-        this.kansujiKuraiToPowerValue.put("　", 0);
-    }
-
-
-    @Override
-    boolean isHankakusuji(String str) {
-
-        var isResult = false;
-
-        // チェック対象文字列がnullの場合はfalseを返す
-        if (str == null) {
-            return isResult;
+            return ENotationType.mappings;
         }
 
-        if (str.matches("[0-9]+")) {
-            isResult = true;
+
+        ENotationType(int value) {
+
+            this.intValue = value;
+            ENotationType.getMappings().put(value, this);
         }
 
-        return isResult;
-    }
 
+        public int getValue() {
 
-    @Override
-    boolean isZenkakusuji(String str) {
-
-        var isResult = false;
-
-        // チェック対象文字列がnullの場合はfalseを返す
-        if (str == null) {
-            return isResult;
+            return this.intValue;
         }
 
-        if (str.matches("[０-９]+")) {
-            isResult = true;
+
+        public static ENotationType forValue(int value) {
+
+            return ENotationType.getMappings().get(value);
+        }
+    }
+
+    public class Number {
+
+        public Number() {
+
+            this.originalExpression = "";
+            this.positionStart = -1;
+            this.positionEnd = -1;
+            this.valueLowerbound = Symbol.INFINITY;
+            this.valueUpperbound = -Symbol.INFINITY;
+            this.notationType = ENotationType.NOT_NUMBER.getValue();
         }
 
-        return isResult;
-    }
 
+        public Number(String originalExpression, int positionStart, int positionEnd) {
 
-    @Override
-    boolean isArabic(String str) {
-
-        return (this.isHankakusuji(str) || this.isZenkakusuji(str));
-    }
-
-
-    boolean isNotationType(final String str, ENotationType notationType) {
-
-        final var check = this.stringToNotationType.get(str);
-        if (check == null) {
-            return false;
+            this.originalExpression = originalExpression;
+            this.positionStart = positionStart;
+            this.positionEnd = positionEnd;
+            this.valueLowerbound = Symbol.INFINITY;
+            this.valueUpperbound = -Symbol.INFINITY;
+            this.notationType = ENotationType.NOT_NUMBER.getValue();
         }
 
-        return check.getValue() == notationType.getValue();
+        public String originalExpression = null;
+
+        public int    positionStart;
+
+        public int    positionEnd;
+
+        public double valueLowerbound;
+
+        public double valueUpperbound;
+
+        public int    notationType;
     }
 
+    public final class Pair <T1> {
 
-    @Override
-    boolean isKansuji(String str) {
+        public T1      first;
 
-        return this.isNotationType(str, ENotationType.KANSUJI);
-    }
+        public Integer second;
 
+        public Pair() {
 
-    @Override
-    boolean isKansuji09(String str) {
-
-        return this.isNotationType(str, ENotationType.KANSUJI_09);
-    }
-
-
-    @Override
-    boolean isKansujiKuraiSen(String str) {
-
-        return this.isNotationType(str, ENotationType.KANSUJI_KURAI_SEN);
-    }
-
-
-    @Override
-    boolean isKansujiKuraiMan(String str) {
-
-        return this.isNotationType(str, ENotationType.KANSUJI_KURAI_MAN);
-    }
-
-
-    @Override
-    boolean isKansujiKurai(String str) {
-
-        return this.isNotationType(str, ENotationType.KANSUJI_KURAI);
-    }
-
-
-    @Override
-    boolean isNumber(String str) {
-
-        return (this.isHankakusuji(str) || this.isZenkakusuji(str) || this.isKansuji(str));
-    }
-
-
-    @Override
-    boolean isComma(String str) {
-
-        return (",".equals(str) || "、".equals(str) || "，".equals(str));
-    }
-
-
-    @Override
-    boolean isDecimalPoint(String str) {
-
-        return (".".equals(str) || "・".equals(str) || "．".equals(str));
-    }
-
-
-    @Override
-    boolean isRangeExpression(String str) {
-
-        return ("~".equals(str) || "〜".equals(str) || "～".equals(str) || "-".equals(str) || "−".equals(str) || "ー".equals(str) || "―".equals(str)
-                || "から".equals(str));
-    }
-
-
-    @Override
-    int convertKansuji09ToValue(String str) {
-
-        final var value = this.kansuji09ToValue.get(str);
-        if (value == null) {
-            // 例外処理
-            throw new NullPointerException("Exception : is not kansuji09");
+            this.first = null;
+            this.second = null;
         }
 
-        return value;
-    }
 
+        public Pair(T1 firstValue, Integer secondValue) {
 
-    @Override
-    int convertKansujiKuraiToPowerValue(String str) {
-
-        final var powerValue = this.kansujiKuraiToPowerValue.get(str);
-        if (powerValue == null) {
-            // 例外処理
-            throw new NullPointerException("Exception : is not kansuji_kurai");
+            this.first = firstValue;
+            this.second = secondValue;
         }
 
-        return powerValue;
+
+        public Pair(Pair <T1> pairToCopy) {
+
+            this.first = pairToCopy.first;
+            this.second = pairToCopy.second;
+        }
+
+    }
+
+    public class PrefixComp <T1> implements Comparator <Pair <T1>>, Serializable {
+
+        /** シリアルバージョンUID. */
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public int compare(final Pair <T1> arg0, final Pair <T1> arg1) {
+
+            final var ret = arg0.second - arg1.second;
+            return ret;
+        }
+    }
+
+    public class SuffixComp <T1> implements Comparator <Pair <T1>>, Serializable {
+
+        /** シリアルバージョンUID. */
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public int compare(final Pair <T1> arg0, final Pair <T1> arg1) {
+
+            final var ret = arg1.second - arg0.second;
+
+            return ret;
+        }
     }
 
 }
