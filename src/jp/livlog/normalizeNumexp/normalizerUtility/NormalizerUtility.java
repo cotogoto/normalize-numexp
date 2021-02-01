@@ -190,7 +190,7 @@ public abstract class NormalizerUtility extends DigitUtilityImpl {
         }
 
 
-        abstract public void setOriginalExpressionFromPosition(String utext);
+        abstract public void setOriginalExpressionFromPosition(String uText);
 
         public String             originalExpression;
 
@@ -244,10 +244,10 @@ public abstract class NormalizerUtility extends DigitUtilityImpl {
         public String processType;
     }
 
-    abstract public void extractAfterString(StringBuilder utextReplaced, int i, String afterString);
+    abstract public void extractAfterString(StringBuilder uTextReplaced, int i, String afterString);
 
 
-    abstract public void extractBeforeString(StringBuilder utextReplaced, int i, String beforeString);
+    abstract public void extractBeforeString(StringBuilder uTextReplaced, int i, String beforeString);
 
 
     abstract public void prefixSearch(String ustr, List <Pair <String, Integer>> patterns, int matchingPatternId);
@@ -256,15 +256,15 @@ public abstract class NormalizerUtility extends DigitUtilityImpl {
     abstract public void suffixSearch(String ustr, List <Pair <String, Integer>> patternsRev, int matchingPatternId);
 
 
-    abstract public void searchSuffixNumberModifier(StringBuilder utextReplaced, int expPositionEnd, List <Pair <String, Integer>> suffixNumberModifierPatterns,
+    abstract public void searchSuffixNumberModifier(StringBuilder uTextReplaced, int expPositionEnd, List <Pair <String, Integer>> suffixNumberModifierPatterns,
             int matchingPatternId);
 
 
-    abstract public void searchPrefixNumberModifier(StringBuilder utextReplaced, int expPositionStart, List <Pair <String, Integer>> prefixNumberModifierPatterns,
+    abstract public void searchPrefixNumberModifier(StringBuilder uTextReplaced, int expPositionStart, List <Pair <String, Integer>> prefixNumberModifierPatterns,
             int matchingPatternId);
 
 
-    abstract public void replaceNumbersInText(String utext, List <DigitUtility.Number> numbers, StringBuilder utextReplaced);
+    abstract public void replaceNumbersInText(String uText, List <DigitUtility.Number> numbers, StringBuilder uTextReplaced);
 
 
     abstract public void shortenPlaceHolderInText(String text, StringBuilder textShortened);

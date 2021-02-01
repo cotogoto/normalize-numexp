@@ -46,7 +46,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     public abstract void deleteNotAnyTypeExpression(List <AnyTypeExpression> anyTypeExpressions);
 
 
-    public abstract void fixByRangeExpression(final String utext, List <AnyTypeExpression> anyTypeExpressions);
+    public abstract void fixByRangeExpression(final String uText, List <AnyTypeExpression> anyTypeExpressions);
 
 
     public final void buildLimitedExpressionPatternsFromLimitedExpressions() {
@@ -130,21 +130,21 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     }
 
 
-    public void searchMatchingLimitedExpression(final StringBuilder utextReplaced, final AnyTypeExpression anyTypeExpression,
+    public void searchMatchingLimitedExpression(final StringBuilder uTextReplaced, final AnyTypeExpression anyTypeExpression,
             RefObject <Integer> matchingPatternId) {
 
         final String stringAfterExpression = null;
 
-        this.normalizerUtility.extractAfterString(utextReplaced, anyTypeExpression.positionEnd, stringAfterExpression);
+        this.normalizerUtility.extractAfterString(uTextReplaced, anyTypeExpression.positionEnd, stringAfterExpression);
         this.normalizerUtility.prefixSearch(stringAfterExpression, this.limitedExpressionPatterns, matchingPatternId.argValue);
     }
 
 
-    public void searchMatchingPrefixCounter(final StringBuilder utextReplaced, final AnyTypeExpression anyTypeExpression,
+    public void searchMatchingPrefixCounter(final StringBuilder uTextReplaced, final AnyTypeExpression anyTypeExpression,
             RefObject <Integer> matchingPatternId) {
 
         final String stringBeforeExpression = null;
-        this.normalizerUtility.extractBeforeString(utextReplaced, anyTypeExpression.positionStart, stringBeforeExpression);
+        this.normalizerUtility.extractBeforeString(uTextReplaced, anyTypeExpression.positionStart, stringBeforeExpression);
         this.normalizerUtility.suffixSearch(stringBeforeExpression, this.prefixCounterPatterns, matchingPatternId.argValue);
     }
 
@@ -165,12 +165,12 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     }
 
 
-    public boolean normalizeLimitedExpression(final StringBuilder utextReplaced, List <AnyTypeExpression> anyTypeExpressions,
+    public boolean normalizeLimitedExpression(final StringBuilder uTextReplaced, List <AnyTypeExpression> anyTypeExpressions,
             RefObject <Integer> i) {
 
         var matchingPatternId = 0;
         final var temprefMatchingPatternId = new RefObject <>(matchingPatternId);
-        this.searchMatchingLimitedExpression(utextReplaced, anyTypeExpressions.get(i.argValue), temprefMatchingPatternId);
+        this.searchMatchingLimitedExpression(uTextReplaced, anyTypeExpressions.get(i.argValue), temprefMatchingPatternId);
         matchingPatternId = temprefMatchingPatternId.argValue;
         if (matchingPatternId == -1) {
             return false;
@@ -180,11 +180,11 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     }
 
 
-    public void normalizePrefixCounter(final StringBuilder utextReplaced, AnyTypeExpression anyTypeExpression) {
+    public void normalizePrefixCounter(final StringBuilder uTextReplaced, AnyTypeExpression anyTypeExpression) {
 
         var matchingPatternId = 0;
         final var tempRef_matchingPatternId = new RefObject <>(matchingPatternId);
-        this.searchMatchingPrefixCounter(utextReplaced, anyTypeExpression, tempRef_matchingPatternId);
+        this.searchMatchingPrefixCounter(uTextReplaced, anyTypeExpression, tempRef_matchingPatternId);
         matchingPatternId = tempRef_matchingPatternId.argValue;
         if (matchingPatternId == -1) {
             return;
@@ -194,10 +194,10 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
 
     @SuppressWarnings ("unused")
-    public boolean normalizeSuffixNumberModifier(final StringBuilder utextReplaced, AnyTypeExpression anyTypeExpression) {
+    public boolean normalizeSuffixNumberModifier(final StringBuilder uTextReplaced, AnyTypeExpression anyTypeExpression) {
 
         final var matchingPatternId = 0;
-        this.normalizerUtility.searchSuffixNumberModifier(utextReplaced, anyTypeExpression.positionEnd, this.suffixNumberModifierPatterns,
+        this.normalizerUtility.searchSuffixNumberModifier(uTextReplaced, anyTypeExpression.positionEnd, this.suffixNumberModifierPatterns,
                 matchingPatternId);
         if (matchingPatternId == -1) {
             return false;
@@ -208,10 +208,10 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
 
     @SuppressWarnings ("unused")
-    public boolean normalize_prefix_number_modifier(final StringBuilder utextReplaced, AnyTypeExpression anyTypeExpression) {
+    public boolean normalize_prefix_number_modifier(final StringBuilder uTextReplaced, AnyTypeExpression anyTypeExpression) {
 
         final var matchingPatternId = 0;
-        this.normalizerUtility.searchPrefixNumberModifier(utextReplaced, anyTypeExpression.positionStart, this.prefixNumberModifierPatterns,
+        this.normalizerUtility.searchPrefixNumberModifier(uTextReplaced, anyTypeExpression.positionStart, this.prefixNumberModifierPatterns,
                 matchingPatternId);
         if (matchingPatternId == -1) {
             return false;
@@ -272,7 +272,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     public void process(final String text, List <AnyTypeExpression> anyTypeExpressions) {
 
         anyTypeExpressions.clear();
-        final var utext = text;
+        final var uText = text;
 
         // numbersの作成
         final List <DigitUtility.Number> numbers = new ArrayList <>();
@@ -282,26 +282,26 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
         this.convertNumbersToAnyTypeExpressions(numbers, anyTypeExpressions);
 
         // searchするために、text中の数を*に置換しておく
-        final var utextReplaced = new StringBuilder();
-        this.normalizerUtility.replaceNumbersInText(utext, numbers, utextReplaced);
+        final var uTextReplaced = new StringBuilder();
+        this.normalizerUtility.replaceNumbersInText(uText, numbers, uTextReplaced);
 
         // 単位の探索、規格化
         for (var i = 0; i < anyTypeExpressions.size(); i++) {
-            if (!this.normalizeLimitedExpression(utextReplaced, anyTypeExpressions, new RefObject <>(i))) {
+            if (!this.normalizeLimitedExpression(uTextReplaced, anyTypeExpressions, new RefObject <>(i))) {
                 // TODO : 単位が存在しなかった場合の処理をどうするか、相談して決める
             }
-            this.normalizePrefixCounter(utextReplaced, anyTypeExpressions.get(i));
-            if (this.normalizeSuffixNumberModifier(utextReplaced, anyTypeExpressions.get(i))) {
-                this.normalizeSuffixNumberModifier(utextReplaced, anyTypeExpressions.get(i)); // TODO : 2回以上の繰り返しを本当に含めて良いのか？
+            this.normalizePrefixCounter(uTextReplaced, anyTypeExpressions.get(i));
+            if (this.normalizeSuffixNumberModifier(uTextReplaced, anyTypeExpressions.get(i))) {
+                this.normalizeSuffixNumberModifier(uTextReplaced, anyTypeExpressions.get(i)); // TODO : 2回以上の繰り返しを本当に含めて良いのか？
             }
-            if (this.normalize_prefix_number_modifier(utextReplaced, anyTypeExpressions.get(i))) {
-                this.normalizePrefixCounter(utextReplaced, anyTypeExpressions.get(i));
+            if (this.normalize_prefix_number_modifier(uTextReplaced, anyTypeExpressions.get(i))) {
+                this.normalizePrefixCounter(uTextReplaced, anyTypeExpressions.get(i));
             }
-            anyTypeExpressions.get(i).setOriginalExpressionFromPosition(utext);
+            anyTypeExpressions.get(i).setOriginalExpressionFromPosition(uText);
         }
 
         // TODO : 範囲表現の処理
-        this.fixByRangeExpression(utext, anyTypeExpressions);
+        this.fixByRangeExpression(uText, anyTypeExpressions);
 
         // 規格化されなかったnumberを削除
         this.deleteNotAnyTypeExpression(anyTypeExpressions);

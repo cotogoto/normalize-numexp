@@ -11,7 +11,7 @@ import jp.livlog.normalizeNumexp.share.Symbol;
 
 public abstract class AbstimeExpressionNormalizer extends NormalizerTemplate <AbstimeExpression, LimitedAbstimeExpression> {
 
-    public static abstract class AbstimeExpression extends NormalizerUtility.NormalizedExpressionTemplate {
+    public abstract static class AbstimeExpression extends NormalizerUtility.NormalizedExpressionTemplate {
 
         public AbstimeExpression(DigitUtility.Number number) {
 
@@ -34,7 +34,7 @@ public abstract class AbstimeExpressionNormalizer extends NormalizerTemplate <Ab
         public boolean                ordinary;
     }
 
-    public static abstract class LimitedAbstimeExpression extends NormalizerUtility.LimitedExpressionTemplate {
+    public abstract static class LimitedAbstimeExpression extends NormalizerUtility.LimitedExpressionTemplate {
 
         public ArrayList <String> corresponding_time_position = new ArrayList <>();
 
@@ -63,7 +63,7 @@ public abstract class AbstimeExpressionNormalizer extends NormalizerTemplate <Ab
     // C++ TO JAVA CONVERTER TODO TASK: The implementation of the following method could not be found:
     // void delete_not_any_type_expression(java.util.ArrayList<AbstimeExpression> abstimeexps);
     // C++ TO JAVA CONVERTER TODO TASK: The implementation of the following method could not be found:
-    // void fix_by_range_expression(final pfi::data::string::ustring utext, java.util.ArrayList<AbstimeExpression> abstimeexps);
+    // void fix_by_range_expression(final pfi::data::string::ustring uText, java.util.ArrayList<AbstimeExpression> abstimeexps);
 
     // private number_normalizer.NumberNormalizer NN = new number_normalizer.NumberNormalizer();
 

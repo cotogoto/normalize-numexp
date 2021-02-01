@@ -7,49 +7,49 @@ import jp.livlog.normalizeNumexp.share.Symbol;
 
 public abstract class DigitUtility {
 
-    abstract public void initKansuji(String language);
+    public abstract void initKansuji(String language);
 
 
-    abstract public boolean isHankakusuji(String uc);
+    public abstract boolean isHankakusuji(String uc);
 
 
-    abstract public boolean isZenkakusuji(String uc);
+    public abstract boolean isZenkakusuji(String uc);
 
 
-    abstract public boolean isArabic(String uc);
+    public abstract boolean isArabic(String uc);
 
 
-    abstract public boolean isKansuji(String uc);
+    public abstract boolean isKansuji(String uc);
 
 
-    abstract public boolean isKansuji09(String uc);
+    public abstract boolean isKansuji09(String uc);
 
 
-    abstract public boolean isKansujiKuraiSen(String uc);
+    public abstract boolean isKansujiKuraiSen(String uc);
 
 
-    abstract public boolean isKansujiKuraiMan(String uc);
+    public abstract boolean isKansujiKuraiMan(String uc);
 
 
-    abstract public boolean isKansujiKurai(String uc);
+    public abstract boolean isKansujiKurai(String uc);
 
 
-    abstract public boolean isNumber(String uc);
+    public abstract boolean isNumber(String uc);
 
 
-    abstract public boolean isComma(String uc);
+    public abstract boolean isComma(String uc);
 
 
-    abstract public boolean isDecimalPoint(String ustr);
+    public abstract boolean isDecimalPoint(String ustr);
 
 
-    abstract public boolean isRangeExpression(String ustr);
+    public abstract boolean isRangeExpression(String ustr);
 
 
-    abstract public int convertKansuji09ToValue(String uc);
+    public abstract int convertKansuji09ToValue(String uc);
 
 
-    abstract public int convertKansujiKuraiToPowerValue(String uc);
+    public abstract int convertKansujiKuraiToPowerValue(String uc);
 
     public enum ENotationType {
 

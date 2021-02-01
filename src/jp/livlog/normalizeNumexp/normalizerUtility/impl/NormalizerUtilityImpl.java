@@ -140,12 +140,12 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
 
 
     @Override
-    public void replaceNumbersInText(String utext, List <DigitUtility.Number> numbers, StringBuilder utextReplaced) {
+    public void replaceNumbersInText(String uText, List <DigitUtility.Number> numbers, StringBuilder uTextReplaced) {
 
-        utextReplaced = new StringBuilder(utext);
+        uTextReplaced = new StringBuilder(uText);
         for (final DigitUtility.Number number : numbers) {
-            utextReplaced = utextReplaced.replace(number.positionStart, number.positionEnd, String.valueOf(this.PLACE_HOLDER));
-            utextReplaced.replace(this.PLACE_HOLDER, this.PLACE_HOLDER, utext);
+            uTextReplaced = uTextReplaced.replace(number.positionStart, number.positionEnd, String.valueOf(this.PLACE_HOLDER));
+            uTextReplaced.replace(this.PLACE_HOLDER, this.PLACE_HOLDER, uText);
         }
     }
 

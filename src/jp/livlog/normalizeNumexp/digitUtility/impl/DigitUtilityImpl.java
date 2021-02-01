@@ -23,9 +23,9 @@ public class DigitUtilityImpl extends DigitUtility {
 
     public TreeMap <String, Integer>       kansujiKuraiToPowerValue = new TreeMap <>();
 
-    class ChineseCharacter {
+    public class ChineseCharacter {
 
-        public ChineseCharacter(String character, int value, String notationType) {
+        public ChineseCharacter(final String character, int value, String notationType) {
 
             this.character = character;
             this.value = value;
