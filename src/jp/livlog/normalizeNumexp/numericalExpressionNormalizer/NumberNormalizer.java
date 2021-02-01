@@ -1,6 +1,6 @@
 package jp.livlog.normalizeNumexp.numericalExpressionNormalizer;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import jp.livlog.normalizeNumexp.digitUtility.DigitUtility;
 import jp.livlog.normalizeNumexp.digitUtility.impl.DigitUtilityImpl;
@@ -12,7 +12,7 @@ public abstract class NumberNormalizer {
 
     public abstract class NumberExtractor {
 
-        public abstract void extractNumber(String input, ArrayList <DigitUtility.Number> output);
+        public abstract void extractNumber(String input, List <DigitUtility.Number> output);
 
 
         public abstract boolean isInvalidNotationType(int notationType);
@@ -65,7 +65,7 @@ public abstract class NumberNormalizer {
 
     public abstract class SymbolFixer {
 
-        public abstract void fixNumbersBySymbol(String text, ArrayList <DigitUtility.Number> numbers);
+        public abstract void fixNumbersBySymbol(String text, List <DigitUtility.Number> numbers);
 
 
         public abstract boolean isPlus(String uText, int i, String plusStrings);
@@ -74,22 +74,22 @@ public abstract class NumberNormalizer {
         public abstract boolean isMinus(String uText, int i, String plusStrings);
 
 
-        public abstract void fixPrefixSymbol(String uText, ArrayList <DigitUtility.Number> numbers, int i);
+        public abstract void fixPrefixSymbol(String uText, List <DigitUtility.Number> numbers, int i);
 
 
         public abstract double createDecimalValue(DigitUtility.Number number);
 
 
-        public abstract void fixDecimalPoint(ArrayList <DigitUtility.Number> numbers, int i, String decimalStrings);
+        public abstract void fixDecimalPoint(List <DigitUtility.Number> numbers, int i, String decimalStrings);
 
 
-        public abstract void fixRangeExpression(ArrayList <DigitUtility.Number> numbers, int i, String rangeStrings);
+        public abstract void fixRangeExpression(List <DigitUtility.Number> numbers, int i, String rangeStrings);
 
 
-        public abstract void fixIntermediateSymbol(String uText, ArrayList <DigitUtility.Number> numbers, int i);
+        public abstract void fixIntermediateSymbol(String uText, List <DigitUtility.Number> numbers, int i);
 
 
-        public abstract void fixSuffixSymbol(String uText, ArrayList <DigitUtility.Number> numbers, int i);
+        public abstract void fixSuffixSymbol(String uText, List <DigitUtility.Number> numbers, int i);
     }
 
     public NumberNormalizer(String language) {
@@ -99,11 +99,11 @@ public abstract class NumberNormalizer {
     }
 
 
-    public abstract void process(String input, ArrayList <DigitUtility.Number> output);
+    public abstract void process(String input, List <DigitUtility.Number> output);
 
 
     // 絶対時間表現の規格化の際に使用する（絶対時間表現では、前もって記号を処理させないため）
-    public abstract void process_dont_fix_by_symbol(String input, ArrayList <DigitUtility.Number> output);
+    public abstract void processDontFixBySymbol(String input, List <DigitUtility.Number> output);
 
     public String language;
 }
