@@ -1,9 +1,8 @@
 package jp.livlog.normalizeNumexp.digitUtility;
 
-import java.io.Serializable;
-import java.util.Comparator;
 import java.util.HashMap;
 
+import jp.livlog.normalizeNumexp.share.BaseExpressionTemplate;
 import jp.livlog.normalizeNumexp.share.Symbol;
 
 public abstract class DigitUtility {
@@ -101,7 +100,7 @@ public abstract class DigitUtility {
         }
     }
 
-    public class Number {
+    public class Number extends BaseExpressionTemplate {
 
         public Number() {
 
@@ -137,59 +136,59 @@ public abstract class DigitUtility {
         public int    notationType;
     }
 
-    public final class Pair <T1> {
-
-        public T1      first;
-
-        public Integer second;
-
-        public Pair() {
-
-            this.first = null;
-            this.second = null;
-        }
-
-
-        public Pair(T1 firstValue, Integer secondValue) {
-
-            this.first = firstValue;
-            this.second = secondValue;
-        }
-
-
-        public Pair(Pair <T1> pairToCopy) {
-
-            this.first = pairToCopy.first;
-            this.second = pairToCopy.second;
-        }
-
-    }
-
-    public class PrefixComp <T1> implements Comparator <Pair <T1>>, Serializable {
-
-        /** シリアルバージョンUID. */
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public int compare(final Pair <T1> arg0, final Pair <T1> arg1) {
-
-            final var ret = arg0.second - arg1.second;
-            return ret;
-        }
-    }
-
-    public class SuffixComp <T1> implements Comparator <Pair <T1>>, Serializable {
-
-        /** シリアルバージョンUID. */
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public int compare(final Pair <T1> arg0, final Pair <T1> arg1) {
-
-            final var ret = arg1.second - arg0.second;
-
-            return ret;
-        }
-    }
+//    public final class Pair <T1> {
+//
+//        public T1      first;
+//
+//        public Integer second;
+//
+//        public Pair() {
+//
+//            this.first = null;
+//            this.second = null;
+//        }
+//
+//
+//        public Pair(T1 firstValue, Integer secondValue) {
+//
+//            this.first = firstValue;
+//            this.second = secondValue;
+//        }
+//
+//
+//        public Pair(Pair <T1> pairToCopy) {
+//
+//            this.first = pairToCopy.first;
+//            this.second = pairToCopy.second;
+//        }
+//
+//    }
+//
+//    public class PrefixComp <T1> implements Comparator <Pair <T1>>, Serializable {
+//
+//        /** シリアルバージョンUID. */
+//        private static final long serialVersionUID = 1L;
+//
+//        @Override
+//        public int compare(final Pair <T1> arg0, final Pair <T1> arg1) {
+//
+//            final var ret = arg0.second - arg1.second;
+//            return ret;
+//        }
+//    }
+//
+//    public class SuffixComp <T1> implements Comparator <Pair <T1>>, Serializable {
+//
+//        /** シリアルバージョンUID. */
+//        private static final long serialVersionUID = 1L;
+//
+//        @Override
+//        public int compare(final Pair <T1> arg0, final Pair <T1> arg1) {
+//
+//            final var ret = arg1.second - arg0.second;
+//
+//            return ret;
+//        }
+//    }
 
 }

@@ -5,7 +5,10 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 
+import jp.livlog.normalizeNumexp.digitUtility.DigitUtility;
 import jp.livlog.normalizeNumexp.digitUtility.impl.DigitUtilityImpl;
+import jp.livlog.normalizeNumexp.share.BaseExpressionTemplate;
+import jp.livlog.normalizeNumexp.share.Pair;
 import jp.livlog.normalizeNumexp.share.Symbol;
 
 public abstract class NormalizerUtility extends DigitUtilityImpl {
@@ -56,12 +59,12 @@ public abstract class NormalizerUtility extends DigitUtilityImpl {
         }
 
 
-        public final String toStringFromTimeElement(double t, String null_string, String kugiri, boolean isUpperbound, int width) {
+        public final String toStringFromTimeElement(double t, String nullString, String kugiri, boolean isUpperbound, int width) {
 
             final var ss = new StringBuilder();
             String ret = null;
             if (this.isNullTimeElement(t, isUpperbound)) {
-                return null_string + kugiri;
+                return nullString + kugiri;
             } else {
                 ss.append(String.format("%04d", t));
                 ss.append(kugiri);
@@ -71,7 +74,7 @@ public abstract class NormalizerUtility extends DigitUtilityImpl {
         }
 
 
-        public final String toIntervalStringFromTimeElement(double t, String time_position, boolean isUpperbound) {
+        public final String toIntervalStringFromTimeElement(double t, String timePosition, boolean isUpperbound) {
 
             final var ss = new StringBuilder();
             String ret = null;
@@ -79,7 +82,7 @@ public abstract class NormalizerUtility extends DigitUtilityImpl {
                 return "";
             } else {
                 ss.append(t);
-                ss.append(time_position);
+                ss.append(timePosition);
                 ret = ss.toString();
                 return ret;
             }
@@ -170,7 +173,7 @@ public abstract class NormalizerUtility extends DigitUtilityImpl {
         public double second;
     }
 
-    public static class NormalizedExpressionTemplate {
+    public static abstract class NormalizedExpressionTemplate extends BaseExpressionTemplate {
 
         public NormalizedExpressionTemplate(final String originalExpression, final int positionStart, final int positionEnd) {
 
@@ -185,6 +188,9 @@ public abstract class NormalizerUtility extends DigitUtilityImpl {
             this.ordinary = false;
             this.options.clear();
         }
+
+
+        abstract public void setOriginalExpressionFromPosition(String utext);
 
         public String             originalExpression;
 
@@ -207,7 +213,7 @@ public abstract class NormalizerUtility extends DigitUtilityImpl {
         public ArrayList <String> options = new ArrayList <>();
     }
 
-    public static abstract class LimitedExpressionTemplate {
+    public static abstract class LimitedExpressionTemplate extends BaseExpressionTemplate {
 
         abstract public void setTotalNumberOfPlaceHolder();
 
@@ -225,7 +231,7 @@ public abstract class NormalizerUtility extends DigitUtilityImpl {
         public int     lengthOfStringsAfterFinalPlaceHolder; // pattern中の最後のPLACE_HOLDERの後に続く文字列の長さ（*月*日 -> 1） positionの同定に必要
     }
 
-    public static class NumberModifier {
+    public static class NumberModifier extends BaseExpressionTemplate {
 
         public NumberModifier(String pattern, String processType) {
 
@@ -238,39 +244,39 @@ public abstract class NormalizerUtility extends DigitUtilityImpl {
         public String processType;
     }
 
-    abstract public void extractAfterString(String text, int i, String afterString);
+    abstract public void extractAfterString(StringBuilder utextReplaced, int i, String afterString);
 
 
-    abstract public void extractBeforeString(String text, int i, String beforeString);
+    abstract public void extractBeforeString(StringBuilder utextReplaced, int i, String beforeString);
 
 
-    abstract public void prefixSearch(String ustr, List <Pair <String>> patterns, int matchingPatternId);
+    abstract public void prefixSearch(String ustr, List <Pair <String, Integer>> patterns, int matchingPatternId);
 
 
-    abstract public void suffixSearch(String ustr, List <Pair <String>> patternsRev, int matchingPatternId);
+    abstract public void suffixSearch(String ustr, List <Pair <String, Integer>> patternsRev, int matchingPatternId);
 
 
-    abstract public void searchSuffixNumberModifier(String text, int expPositionEnd, List <Pair <String>> suffixNumberModifierPatterns,
+    abstract public void searchSuffixNumberModifier(StringBuilder utextReplaced, int expPositionEnd, List <Pair <String, Integer>> suffixNumberModifierPatterns,
             int matchingPatternId);
 
 
-    abstract public void searchPrefixNumberModifier(String text, int expPositionStart, List <Pair <String>> prefixNumberModifierPatterns,
+    abstract public void searchPrefixNumberModifier(StringBuilder utextReplaced, int expPositionStart, List <Pair <String, Integer>> prefixNumberModifierPatterns,
             int matchingPatternId);
 
 
-    abstract public void replaceNumbersInText(String utext, List <Integer> numbers, String utextReplaced);
+    abstract public void replaceNumbersInText(String utext, List <DigitUtility.Number> numbers, StringBuilder utextReplaced);
 
 
     abstract public void shortenPlaceHolderInText(String text, StringBuilder textShortened);
 
 
-    abstract public boolean isPlaceHolder(String uc);
+    abstract public boolean isPlaceHolder(char uc);
 
 
     abstract public boolean isFinite(double value);
 
 
-    abstract public boolean isNullTime(Time time);
+    abstract public boolean isNullTime(double time);
 
 
     abstract public String identifyTimeDetail(Time time);

@@ -10,7 +10,7 @@ package jp.livlog.normalizeNumexp.share;
 public final class Symbol {
 
     /** 指定された浮動小数点型の正の無限大値を返します. */
-    public static final float INFINITY = Float.POSITIVE_INFINITY;
+    public static final double INFINITY = Double.POSITIVE_INFINITY;
 
     /**
      * コンストラクタ.

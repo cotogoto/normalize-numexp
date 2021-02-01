@@ -2,7 +2,10 @@ package jp.livlog.normalizeNumexp.normalizerUtility.impl;
 
 import java.util.List;
 
+import jp.livlog.normalizeNumexp.digitUtility.DigitUtility;
 import jp.livlog.normalizeNumexp.normalizerUtility.NormalizerUtility;
+import jp.livlog.normalizeNumexp.share.Pair;
+import jp.livlog.normalizeNumexp.share.Symbol;
 
 public class NormalizerUtilityImpl extends NormalizerUtility {
 
@@ -14,9 +17,38 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
         }
 
 
+        @Override
         public void setOriginalExpressionFromPosition(String text) {
 
             this.originalExpression = text.substring(this.positionStart, this.positionEnd);
+        }
+    }
+
+    public class LimitedExpressionTemplateImpl extends LimitedExpressionTemplate {
+
+        @Override
+        public void setTotalNumberOfPlaceHolder() {
+
+            // patternが含むPLACE_HOLDERの数（ *月*日 -> 2個）
+            this.totalNumberOfPlaceHolder = 0;
+
+            for (final char c1 : this.pattern.toCharArray()) {
+                if (NormalizerUtilityImpl.this.isPlaceHolder(c1)) {
+                    this.totalNumberOfPlaceHolder++;
+                }
+            }
+        }
+
+
+        @Override
+        public void setLengthOfStringsAfterFinalPlaceHolder() {
+
+            // pattern中の最後のPLACE_HOLDERの後に続く文字列の長さ（*月*日 -> 1） positionの同定に必要
+            this.lengthOfStringsAfterFinalPlaceHolder = 0;
+
+            final var a = this.pattern.lastIndexOf(String.valueOf(NormalizerUtilityImpl.this.PLACE_HOLDER));
+            final var str = this.pattern.substring(a);
+            this.lengthOfStringsAfterFinalPlaceHolder = str.length();
         }
     }
 
@@ -31,21 +63,21 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
 
 
     @Override
-    public void extractAfterString(String text, int i, String afterString) {
+    public void extractAfterString(StringBuilder text, int i, String afterString) {
 
         afterString = text.substring(i);
     }
 
 
     @Override
-    public void extractBeforeString(String text, int i, String beforeString) {
+    public void extractBeforeString(StringBuilder text, int i, String beforeString) {
 
         beforeString = text.substring(0, i);
     }
 
 
     @Override
-    public void prefixSearch(String ustr, List <Pair <String>> patterns, int matchingPatternId) {
+    public void prefixSearch(String ustr, List <Pair <String, Integer>> patterns, int matchingPatternId) {
 
         /*
          * patternsの中から、ustrのprefixになっているものを探索（複数ある場合は最長のもの）
@@ -54,7 +86,7 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
         this.shortenPlaceHolderInText(ustr, ustrShortened); // ustrは数字が一字一字、「*」に変換されているので、patternsの表記と食い違っている。*を縮約する操作を行う
         final var str = ustrShortened.toString();
 
-        for (final Pair <String> pair : patterns) {
+        for (final Pair <String, Integer> pair : patterns) {
             if (pair.first.contains(str)) {
                 matchingPatternId = pair.second;
                 return;
@@ -66,7 +98,7 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
 
 
     @Override
-    public void suffixSearch(String ustr, List <Pair <String>> patternsRev, int matchingPatternId) {
+    public void suffixSearch(String ustr, List <Pair <String, Integer>> patternsRev, int matchingPatternId) {
 
         /*
          * patternsの中から、ustrのsuffixになっているものを探索（複数ある場合は最長のもの）
@@ -76,7 +108,7 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
         this.shortenPlaceHolderInText(ustr, ustrShortened); // ustrは数字が一字一字、「*」に変換されているので、patternsの表記と食い違っている。*を縮約する操作を行う
         final var str = ustrShortened.toString();
 
-        for (final Pair <String> pair : patternsRev) {
+        for (final Pair <String, Integer> pair : patternsRev) {
             if (pair.first.contains(str)) {
                 matchingPatternId = pair.second;
                 return;
@@ -88,7 +120,7 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
 
 
     @Override
-    public void searchSuffixNumberModifier(String text, int expPositionEnd, List <Pair <String>> suffixNumberModifierPatterns,
+    public void searchSuffixNumberModifier(StringBuilder text, int expPositionEnd, List <Pair <String, Integer>> suffixNumberModifierPatterns,
             int matchingPatternId) {
 
         final String stringAfterExpression = null;
@@ -98,7 +130,7 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
 
 
     @Override
-    public void searchPrefixNumberModifier(String text, int expPositionStart, List <Pair <String>> prefixNumberModifierPatterns,
+    public void searchPrefixNumberModifier(StringBuilder text, int expPositionStart, List <Pair <String, Integer>> prefixNumberModifierPatterns,
             int matchingPatternId) {
 
         final String stringBeforeExpression = null;
@@ -108,11 +140,12 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
 
 
     @Override
-    public void replaceNumbersInText(String utext, List <Integer> numbers, String utextReplaced) {
+    public void replaceNumbersInText(String utext, List <DigitUtility.Number> numbers, StringBuilder utextReplaced) {
 
-        utextReplaced = utext;
-        for (final Integer number : numbers) {
-            utextReplaced = utextReplaced.replace(number.toString(), String.valueOf(this.PLACE_HOLDER));
+        utextReplaced = new StringBuilder(utext);
+        for (final DigitUtility.Number number : numbers) {
+            utextReplaced = utextReplaced.replace(number.positionStart, number.positionEnd, String.valueOf(this.PLACE_HOLDER));
+            utextReplaced.replace(this.PLACE_HOLDER, this.PLACE_HOLDER, utext);
         }
     }
 
@@ -139,34 +172,49 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
 
 
     @Override
-    public boolean isPlaceHolder(String uc) {
+    public boolean isPlaceHolder(char uc) {
 
-        // TODO 自動生成されたメソッド・スタブ
-        return false;
+        return this.PLACE_HOLDER == uc;
     }
 
 
     @Override
     public boolean isFinite(double value) {
 
-        // TODO 自動生成されたメソッド・スタブ
-        return false;
+        return value != Symbol.INFINITY && value != -Symbol.INFINITY;
     }
 
 
     @Override
-    public boolean isNullTime(Time time) {
+    public boolean isNullTime(double t) {
 
-        // TODO 自動生成されたメソッド・スタブ
-        return false;
+        final var positive_inf = Symbol.INFINITY;
+        final var negative_inf = -Symbol.INFINITY;
+        return (positive_inf == t) || (negative_inf == t);
+
     }
 
 
     @Override
     public String identifyTimeDetail(Time time) {
 
-        // TODO 自動生成されたメソッド・スタブ
-        return null;
+        if (this.isFinite(time.second)) {
+            return "s";
+        } else if (this.isFinite(time.minute)) {
+            return "mn";
+        } else if (this.isFinite(time.hour)) {
+            return "h";
+        } else if (this.isFinite(time.day)) {
+            return "d";
+        } else if (this.isFinite(time.month)) {
+            return "m";
+        } else if (this.isFinite(time.year)) {
+            return "y";
+        }
+        return "";
     }
+
+
+
 
 }

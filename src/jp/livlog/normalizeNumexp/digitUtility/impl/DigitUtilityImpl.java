@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.TreeMap;
 
 import com.google.gson.Gson;
@@ -44,7 +45,7 @@ public class DigitUtilityImpl extends DigitUtility {
         public final String  notationType;
     }
 
-    void loadJsonFromFile(final String filepath, ArrayList <ChineseCharacter> list) {
+    void loadJsonFromFile(final String filepath, List <ChineseCharacter> list) {
 
         final Reader reader = new InputStreamReader(
                 DigitUtilityImpl.class.getResourceAsStream(filepath));
@@ -56,7 +57,7 @@ public class DigitUtilityImpl extends DigitUtility {
     }
 
 
-    void loadFromDictionary(final String dictionaryPath, ArrayList <ChineseCharacter> loadTarget) {
+    void loadFromDictionary(final String dictionaryPath, List <ChineseCharacter> loadTarget) {
 
         loadTarget.clear();
 
