@@ -3,22 +3,23 @@ package jp.livlog.normalizeNumexp.numericalExpressionNormalizer;
 import java.util.List;
 
 import jp.livlog.normalizeNumexp.digitUtility.DigitUtility;
+import jp.livlog.normalizeNumexp.digitUtility.DigitUtility.ENotationType;
 import jp.livlog.normalizeNumexp.digitUtility.impl.DigitUtilityImpl;
 import jp.livlog.normalizeNumexp.share.RefObject;
 
 public abstract class NumberNormalizer {
 
-    public DigitUtility digitUtility = new DigitUtilityImpl();
+    public static DigitUtility digitUtility = new DigitUtilityImpl();
 
     public abstract class NumberExtractor {
 
         public abstract void extractNumber(String input, List <DigitUtility.Number> output);
 
 
-        public abstract boolean isInvalidNotationType(int notationType);
+        protected abstract boolean isInvalidNotationType(List <ENotationType> notationType);
 
 
-        public abstract void returnLongestNumberStrings(String uText, RefObject <Integer> i, String numstr);
+        protected abstract void returnLongestNumberStrings(String uText, RefObject <Integer> i, String numstr);
     }
 
     public abstract class NumberConverterTemplate {
@@ -26,31 +27,31 @@ public abstract class NumberNormalizer {
         public abstract void convertNumber(String numberStringOrg, RefObject <Double> value, RefObject <Integer> numberType);
 
 
-        public abstract void convertArabicKansujiMixedOf4digit(String numberString, RefObject <Integer> numberConverted);
+        protected abstract void convertArabicKansujiMixedOf4digit(String numberString, RefObject <Integer> numberConverted);
 
 
-        public abstract void deleteComma(String ustr, String ret);
+        protected abstract void deleteComma(String ustr, String ret);
 
 
-        public abstract void convertArabicNumerals(String numberString, RefObject <Double> value);
+        protected abstract void convertArabicNumerals(String numberString, RefObject <Double> value);
 
 
-        public abstract void convertArabicKansujiKuraiManMixed(String numberString, RefObject <Double> value);
+        protected abstract void convertArabicKansujiKuraiManMixed(String numberString, RefObject <Double> value);
 
 
-        public abstract void convertArabicKansujiMixed(String numberString, RefObject <Double> value);
+        protected abstract void convertArabicKansujiMixed(String numberString, RefObject <Double> value);
     }
 
     public abstract class JapaneseNumberConverter extends NumberConverterTemplate {
 
         @Override
-        public abstract void convertArabicKansujiMixedOf4digit(String numberString, RefObject <Integer> numberConverted);
+        protected abstract void convertArabicKansujiMixedOf4digit(String numberString, RefObject <Integer> numberConverted);
     }
 
     public abstract class ChineseNumberConverter extends NumberConverterTemplate {
 
         @Override
-        public abstract void convertArabicKansujiMixedOf4digit(String numberString, RefObject <Integer> numberConverted);
+        protected abstract void convertArabicKansujiMixedOf4digit(String numberString, RefObject <Integer> numberConverted);
     }
 
     public abstract class ArabicNumberConverter extends NumberConverterTemplate {
@@ -60,7 +61,7 @@ public abstract class NumberNormalizer {
 
 
         @Override
-        public abstract void convertArabicKansujiMixedOf4digit(String numberString, RefObject <Integer> numberConverted);
+        protected abstract void convertArabicKansujiMixedOf4digit(String numberString, RefObject <Integer> numberConverted);
     }
 
     public abstract class SymbolFixer {
@@ -95,7 +96,7 @@ public abstract class NumberNormalizer {
     public NumberNormalizer(String language) {
 
         this.language = language;
-        this.digitUtility.initKansuji(language);
+        NumberNormalizer.digitUtility.initKansuji(language);
     }
 
 

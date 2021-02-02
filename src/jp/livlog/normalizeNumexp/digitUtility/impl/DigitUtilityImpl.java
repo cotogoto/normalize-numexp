@@ -1,16 +1,16 @@
 package jp.livlog.normalizeNumexp.digitUtility.impl;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.TreeMap;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.reflect.TypeToken;
 
 import jp.livlog.normalizeNumexp.dictionaryDirpath.DictionaryDirpath;
 import jp.livlog.normalizeNumexp.digitUtility.DigitUtility;
@@ -51,9 +51,15 @@ public class DigitUtilityImpl extends DigitUtility {
                 DigitUtilityImpl.class.getResourceAsStream(filepath));
 
         final var gson = new Gson();
-        final var collectionType = new TypeToken <Collection <ChineseCharacter>>() {
-        }.getType();
-        list = gson.fromJson(reader, collectionType);
+        try (BufferedReader br = new BufferedReader(reader)) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                ChineseCharacter chineseCharacter  = gson.fromJson(line, ChineseCharacter.class);
+                list.add(chineseCharacter);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -108,7 +114,9 @@ public class DigitUtilityImpl extends DigitUtility {
 
 
     @Override
-    public boolean isHankakusuji(String str) {
+    public boolean isHankakusuji(char uc) {
+
+        final var str = String.valueOf(uc);
 
         var isResult = false;
 
@@ -126,7 +134,9 @@ public class DigitUtilityImpl extends DigitUtility {
 
 
     @Override
-    public boolean isZenkakusuji(String str) {
+    public boolean isZenkakusuji(char uc) {
+
+        final var str = String.valueOf(uc);
 
         var isResult = false;
 
@@ -144,13 +154,15 @@ public class DigitUtilityImpl extends DigitUtility {
 
 
     @Override
-    public boolean isArabic(String str) {
+    public boolean isArabic(char uc) {
 
-        return (this.isHankakusuji(str) || this.isZenkakusuji(str));
+        return (this.isHankakusuji(uc) || this.isZenkakusuji(uc));
     }
 
 
-    public boolean isNotationType(final String str, ENotationType notationType) {
+    public boolean isNotationType(final char uc, ENotationType notationType) {
+
+        final var str = String.valueOf(uc);
 
         final var check = this.stringToNotationType.get(str);
         if (check == null) {
@@ -162,63 +174,69 @@ public class DigitUtilityImpl extends DigitUtility {
 
 
     @Override
-    public boolean isKansuji(String str) {
+    public boolean isKansuji(char uc) {
 
-        return this.isNotationType(str, ENotationType.KANSUJI);
+        return this.isNotationType(uc, ENotationType.KANSUJI);
     }
 
 
     @Override
-    public boolean isKansuji09(String str) {
+    public boolean isKansuji09(char uc) {
 
-        return this.isNotationType(str, ENotationType.KANSUJI_09);
+        return this.isNotationType(uc, ENotationType.KANSUJI_09);
     }
 
 
     @Override
-    public boolean isKansujiKuraiSen(String str) {
+    public boolean isKansujiKuraiSen(char uc) {
 
-        return this.isNotationType(str, ENotationType.KANSUJI_KURAI_SEN);
+        return this.isNotationType(uc, ENotationType.KANSUJI_KURAI_SEN);
     }
 
 
     @Override
-    public boolean isKansujiKuraiMan(String str) {
+    public boolean isKansujiKuraiMan(char uc) {
 
-        return this.isNotationType(str, ENotationType.KANSUJI_KURAI_MAN);
+        return this.isNotationType(uc, ENotationType.KANSUJI_KURAI_MAN);
     }
 
 
     @Override
-    public boolean isKansujiKurai(String str) {
+    public boolean isKansujiKurai(char uc) {
 
-        return this.isNotationType(str, ENotationType.KANSUJI_KURAI);
+        return this.isNotationType(uc, ENotationType.KANSUJI_KURAI);
     }
 
 
     @Override
-    public boolean isNumber(String str) {
+    public boolean isNumber(char uc) {
 
-        return (this.isHankakusuji(str) || this.isZenkakusuji(str) || this.isKansuji(str));
+        return (this.isHankakusuji(uc) || this.isZenkakusuji(uc) || this.isKansuji(uc));
     }
 
 
     @Override
-    public boolean isComma(String str) {
+    public boolean isComma(char uc) {
+
+        final var str = String.valueOf(uc);
 
         return (",".equals(str) || "、".equals(str) || "，".equals(str));
     }
 
 
     @Override
-    public boolean isDecimalPoint(String str) {
+    public boolean isDecimalPoint(char uc) {
+
+        final var str = String.valueOf(uc);
 
         return (".".equals(str) || "・".equals(str) || "．".equals(str));
     }
 
 
     @Override
-    public boolean isRangeExpression(String str) {
+    public boolean isRangeExpression(char uc) {
+
+        final var str = String.valueOf(uc);
 
         return ("~".equals(str) || "〜".equals(str) || "～".equals(str) || "-".equals(str) || "−".equals(str) || "ー".equals(str) || "―".equals(str)
                 || "から".equals(str));
@@ -226,9 +244,9 @@ public class DigitUtilityImpl extends DigitUtility {
 
 
     @Override
-    public int convertKansuji09ToValue(String str) {
+    public int convertKansuji09ToValue(char uc) {
 
-        final var value = this.kansuji09ToValue.get(str);
+        final var value = this.kansuji09ToValue.get(String.valueOf(uc));
         if (value == null) {
             // 例外処理
             throw new NullPointerException("Exception : is not kansuji09");
@@ -239,15 +257,27 @@ public class DigitUtilityImpl extends DigitUtility {
 
 
     @Override
-    public int convertKansujiKuraiToPowerValue(String str) {
+    public int convertKansujiKuraiToPowerValue(char uc) {
 
-        final var powerValue = this.kansujiKuraiToPowerValue.get(str);
+        final var powerValue = this.kansujiKuraiToPowerValue.get(String.valueOf(uc));
         if (powerValue == null) {
             // 例外処理
             throw new NullPointerException("Exception : is not kansuji_kurai");
         }
 
         return powerValue;
+    }
+
+
+    @Override
+    public char getNumberStringCharacter(String numberString, int i) {
+
+        if (numberString.length() > 0) {
+            return numberString.toCharArray()[i];
+        }
+
+        // 例外処理
+        throw new NullPointerException("Exception : is not number string");
     }
 
 }
