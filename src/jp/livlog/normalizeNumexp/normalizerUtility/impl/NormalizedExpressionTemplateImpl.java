@@ -11,7 +11,7 @@ public class NormalizedExpressionTemplateImpl extends NormalizedExpressionTempla
 
 
     @Override
-    public void setOriginalExpressionFromPosition(String text) {
+    public void setOriginalExpressionFromPosition(StringBuilder text) {
 
         this.originalExpression = text.substring(this.positionStart, this.positionEnd);
     }

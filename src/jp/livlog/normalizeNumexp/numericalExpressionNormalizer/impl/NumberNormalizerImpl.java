@@ -5,6 +5,7 @@ import java.util.List;
 
 import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.NumberNormalizer;
 import jp.livlog.normalizeNumexp.share.ENotationType;
+import jp.livlog.normalizeNumexp.share.NNumber;
 import jp.livlog.normalizeNumexp.share.Pair;
 import jp.livlog.normalizeNumexp.share.RefObject;
 
@@ -71,7 +72,7 @@ public class NumberNormalizerImpl extends NumberNormalizer {
     }
 
 
-    private void joinNumbersByComma(final String text, List <jp.livlog.normalizeNumexp.share.Number> numbers) {
+    private void joinNumbersByComma(final String text, List <NNumber> numbers) {
 
         // カンマ表記を統合する。カンマは「3,000,000」のように3桁ごとに区切っているカンマしか数のカンマ表記とは認めない（「29,30」のような表記は認めない）
         for (var i = numbers.size() - 1; i > 0; i--) {
@@ -114,7 +115,7 @@ public class NumberNormalizerImpl extends NumberNormalizer {
     public class NumberExtractorImpl extends NumberExtractor {
 
         @Override
-        public void extractNumber(String text, List <jp.livlog.normalizeNumexp.share.Number> numbers) {
+        public void extractNumber(String text, List <NNumber> numbers) {
 
             numbers.clear();
             final var utext = text;
@@ -122,7 +123,7 @@ public class NumberNormalizerImpl extends NumberNormalizer {
             for (var i = 0; i < utext.length(); i++) {
                 final var uc = utext.toCharArray()[i];
                 if (NumberNormalizer.digitUtility.isNumber(uc)) {
-                    final var number = new jp.livlog.normalizeNumexp.share.Number();
+                    final var number = new NNumber();
                     number.positionStart = i;
                     this.returnLongestNumberStrings(utext, new RefObject <>(i), numstr);
                     number.originalExpression = numstr;
@@ -310,7 +311,7 @@ public class NumberNormalizerImpl extends NumberNormalizer {
     public class SymbolFixerImpl extends SymbolFixer {
 
         @Override
-        public void fixNumbersBySymbol(String text, List <jp.livlog.normalizeNumexp.share.Number> numbers) {
+        public void fixNumbersBySymbol(String text, List <NNumber> numbers) {
 
             // TODO 自動生成されたメソッド・スタブ
 
@@ -334,7 +335,7 @@ public class NumberNormalizerImpl extends NumberNormalizer {
 
 
         @Override
-        public void fixPrefixSymbol(String uText, List <jp.livlog.normalizeNumexp.share.Number> numbers, int i) {
+        public void fixPrefixSymbol(String uText, List <NNumber> numbers, int i) {
 
             // TODO 自動生成されたメソッド・スタブ
 
@@ -342,7 +343,7 @@ public class NumberNormalizerImpl extends NumberNormalizer {
 
 
         @Override
-        public double createDecimalValue(jp.livlog.normalizeNumexp.share.Number number) {
+        public double createDecimalValue(NNumber number) {
 
             // TODO 自動生成されたメソッド・スタブ
             return 0;
@@ -350,7 +351,7 @@ public class NumberNormalizerImpl extends NumberNormalizer {
 
 
         @Override
-        public void fixDecimalPoint(List <jp.livlog.normalizeNumexp.share.Number> numbers, int i, String decimalStrings) {
+        public void fixDecimalPoint(List <NNumber> numbers, int i, String decimalStrings) {
 
             // TODO 自動生成されたメソッド・スタブ
 
@@ -358,7 +359,7 @@ public class NumberNormalizerImpl extends NumberNormalizer {
 
 
         @Override
-        public void fixRangeExpression(List <jp.livlog.normalizeNumexp.share.Number> numbers, int i, String rangeStrings) {
+        public void fixRangeExpression(List <NNumber> numbers, int i, String rangeStrings) {
 
             // TODO 自動生成されたメソッド・スタブ
 
@@ -366,7 +367,7 @@ public class NumberNormalizerImpl extends NumberNormalizer {
 
 
         @Override
-        public void fixIntermediateSymbol(String uText, List <jp.livlog.normalizeNumexp.share.Number> numbers, int i) {
+        public void fixIntermediateSymbol(String uText, List <NNumber> numbers, int i) {
 
             // TODO 自動生成されたメソッド・スタブ
 
@@ -374,7 +375,7 @@ public class NumberNormalizerImpl extends NumberNormalizer {
 
 
         @Override
-        public void fixSuffixSymbol(String uText, List <jp.livlog.normalizeNumexp.share.Number> numbers, int i) {
+        public void fixSuffixSymbol(String uText, List <NNumber> numbers, int i) {
 
             // TODO 自動生成されたメソッド・スタブ
 
@@ -389,7 +390,7 @@ public class NumberNormalizerImpl extends NumberNormalizer {
 
 
     @Override
-    public void process(String input, List <jp.livlog.normalizeNumexp.share.Number> output) {
+    public void process(String input, List <NNumber> output) {
 
         // TODO 自動生成されたメソッド・スタブ
 
@@ -397,7 +398,7 @@ public class NumberNormalizerImpl extends NumberNormalizer {
 
 
     @Override
-    public void processDontFixBySymbol(String input, List <jp.livlog.normalizeNumexp.share.Number> output) {
+    public void processDontFixBySymbol(String input, List <NNumber> output) {
 
         // TODO 自動生成されたメソッド・スタブ
 

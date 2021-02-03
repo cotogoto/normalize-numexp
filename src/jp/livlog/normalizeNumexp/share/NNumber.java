@@ -1,8 +1,8 @@
 package jp.livlog.normalizeNumexp.share;
 
-public class Number extends BaseExpressionTemplate {
+public class NNumber extends BaseExpressionTemplate {
 
-    public Number() {
+    public NNumber() {
 
         this.originalExpression = "";
         this.positionStart = -1;
@@ -13,7 +13,7 @@ public class Number extends BaseExpressionTemplate {
     }
 
 
-    public Number(String originalExpression, int positionStart, int positionEnd) {
+    public NNumber(String originalExpression, int positionStart, int positionEnd) {
 
         this.originalExpression = originalExpression;
         this.positionStart = positionStart;

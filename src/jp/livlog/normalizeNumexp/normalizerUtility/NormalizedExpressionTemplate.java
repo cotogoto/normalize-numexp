@@ -22,7 +22,7 @@ public abstract class NormalizedExpressionTemplate extends BaseExpressionTemplat
     }
 
 
-    abstract public void setOriginalExpressionFromPosition(String uText);
+    abstract public void setOriginalExpressionFromPosition(StringBuilder uText);
 
     public String             originalExpression;
 

@@ -16,6 +16,7 @@ import jp.livlog.normalizeNumexp.normalizerUtility.NormalizedExpressionTemplate;
 import jp.livlog.normalizeNumexp.normalizerUtility.NormalizerUtility;
 import jp.livlog.normalizeNumexp.normalizerUtility.impl.NormalizerUtilityImpl;
 import jp.livlog.normalizeNumexp.share.BaseExpressionTemplate;
+import jp.livlog.normalizeNumexp.share.NNumber;
 import jp.livlog.normalizeNumexp.share.NumberModifier;
 import jp.livlog.normalizeNumexp.share.Pair;
 import jp.livlog.normalizeNumexp.share.RefObject;
@@ -27,7 +28,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     public abstract void init();
 
 
-    public abstract void normalizeNumber(final String text, List <jp.livlog.normalizeNumexp.share.Number> numbers);
+    public abstract void normalizeNumber(final StringBuilder uText, List <NNumber> numbers);
 
 
     public abstract void reviseAnyTypeExpressionByMatchingLimitedExpression(List <AnyTypeExpression> anyTypeExpressions,
@@ -45,7 +46,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     public abstract void deleteNotAnyTypeExpression(List <AnyTypeExpression> anyTypeExpressions);
 
 
-    public abstract void fixByRangeExpression(final String uText, List <AnyTypeExpression> anyTypeExpressions);
+    public abstract void fixByRangeExpression(final StringBuilder uText, List <AnyTypeExpression> anyTypeExpressions);
 
 
     public final void buildLimitedExpressionPatternsFromLimitedExpressions() {
@@ -132,8 +133,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     public void searchMatchingLimitedExpression(final StringBuilder uTextReplaced, final AnyTypeExpression anyTypeExpression,
             RefObject <Integer> matchingPatternId) {
 
-        final String stringAfterExpression = null;
-
+        final var stringAfterExpression = new StringBuilder();
         this.normalizerUtility.extractAfterString(uTextReplaced, anyTypeExpression.positionEnd, stringAfterExpression);
         this.normalizerUtility.prefixSearch(stringAfterExpression, this.limitedExpressionPatterns, matchingPatternId.argValue);
     }
@@ -142,7 +142,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     public void searchMatchingPrefixCounter(final StringBuilder uTextReplaced, final AnyTypeExpression anyTypeExpression,
             RefObject <Integer> matchingPatternId) {
 
-        final String stringBeforeExpression = null;
+        final var stringBeforeExpression = new StringBuilder();
         this.normalizerUtility.extractBeforeString(uTextReplaced, anyTypeExpression.positionStart, stringBeforeExpression);
         this.normalizerUtility.suffixSearch(stringBeforeExpression, this.prefixCounterPatterns, matchingPatternId.argValue);
     }
@@ -221,10 +221,10 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
 
     @SuppressWarnings ("unchecked")
-    public void convertNumbersToAnyTypeExpressions(final List <jp.livlog.normalizeNumexp.share.Number> numbers,
+    public void convertNumbersToAnyTypeExpressions(final List <NNumber> numbers,
             List <AnyTypeExpression> anyTypeExpressions) {
 
-        for (final jp.livlog.normalizeNumexp.share.Number number : numbers) {
+        for (final NNumber number : numbers) {
 
             final var baseExpressionTemplate = new BaseExpressionTemplate();
             baseExpressionTemplate.originalExpression = number.originalExpression;
@@ -271,11 +271,11 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     public void process(final String text, List <AnyTypeExpression> anyTypeExpressions) {
 
         anyTypeExpressions.clear();
-        final var uText = text;
+        final var uText = new StringBuilder(text);
 
         // numbersの作成
-        final List <jp.livlog.normalizeNumexp.share.Number> numbers = new ArrayList <>();
-        this.normalizeNumber(text, numbers);
+        final List <NNumber> numbers = new ArrayList <>();
+        this.normalizeNumber(uText, numbers);
 
         // numbersを変換して、ベースとなるany_type_expressionsを作成
         this.convertNumbersToAnyTypeExpressions(numbers, anyTypeExpressions);

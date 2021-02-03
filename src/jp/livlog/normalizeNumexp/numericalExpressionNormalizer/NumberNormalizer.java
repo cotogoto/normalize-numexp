@@ -5,6 +5,7 @@ import java.util.List;
 import jp.livlog.normalizeNumexp.digitUtility.DigitUtility;
 import jp.livlog.normalizeNumexp.digitUtility.impl.DigitUtilityImpl;
 import jp.livlog.normalizeNumexp.share.ENotationType;
+import jp.livlog.normalizeNumexp.share.NNumber;
 import jp.livlog.normalizeNumexp.share.RefObject;
 
 public abstract class NumberNormalizer {
@@ -13,7 +14,7 @@ public abstract class NumberNormalizer {
 
     public abstract class NumberExtractor {
 
-        public abstract void extractNumber(String input, List <jp.livlog.normalizeNumexp.share.Number> output);
+        public abstract void extractNumber(String input, List <NNumber> output);
 
 
         protected abstract boolean isInvalidNotationType(List <ENotationType> notationType);
@@ -66,7 +67,7 @@ public abstract class NumberNormalizer {
 
     public abstract class SymbolFixer {
 
-        public abstract void fixNumbersBySymbol(String text, List <jp.livlog.normalizeNumexp.share.Number> numbers);
+        public abstract void fixNumbersBySymbol(String text, List <NNumber> numbers);
 
 
         public abstract boolean isPlus(String uText, int i, String plusStrings);
@@ -75,22 +76,22 @@ public abstract class NumberNormalizer {
         public abstract boolean isMinus(String uText, int i, String plusStrings);
 
 
-        public abstract void fixPrefixSymbol(String uText, List <jp.livlog.normalizeNumexp.share.Number> numbers, int i);
+        public abstract void fixPrefixSymbol(String uText, List <NNumber> numbers, int i);
 
 
-        public abstract double createDecimalValue(jp.livlog.normalizeNumexp.share.Number number);
+        public abstract double createDecimalValue(NNumber number);
 
 
-        public abstract void fixDecimalPoint(List <jp.livlog.normalizeNumexp.share.Number> numbers, int i, String decimalStrings);
+        public abstract void fixDecimalPoint(List <NNumber> numbers, int i, String decimalStrings);
 
 
-        public abstract void fixRangeExpression(List <jp.livlog.normalizeNumexp.share.Number> numbers, int i, String rangeStrings);
+        public abstract void fixRangeExpression(List <NNumber> numbers, int i, String rangeStrings);
 
 
-        public abstract void fixIntermediateSymbol(String uText, List <jp.livlog.normalizeNumexp.share.Number> numbers, int i);
+        public abstract void fixIntermediateSymbol(String uText, List <NNumber> numbers, int i);
 
 
-        public abstract void fixSuffixSymbol(String uText, List <jp.livlog.normalizeNumexp.share.Number> numbers, int i);
+        public abstract void fixSuffixSymbol(String uText, List <NNumber> numbers, int i);
     }
 
     public NumberNormalizer(String language) {
@@ -100,11 +101,11 @@ public abstract class NumberNormalizer {
     }
 
 
-    public abstract void process(String input, List <jp.livlog.normalizeNumexp.share.Number> output);
+    public abstract void process(String input, List <NNumber> output);
 
 
     // 絶対時間表現の規格化の際に使用する（絶対時間表現では、前もって記号を処理させないため）
-    public abstract void processDontFixBySymbol(String input, List <jp.livlog.normalizeNumexp.share.Number> output);
+    public abstract void processDontFixBySymbol(String input, List <NNumber> output);
 
     public String language;
 }

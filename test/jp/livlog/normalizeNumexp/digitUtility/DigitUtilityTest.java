@@ -16,10 +16,10 @@ class DigitUtilityTest {
     }
 
 
-    @Test
-    void testInitKansuji() {
+//    @Test
+//    void testInitKansuji() {
 //        this.digitUtility.initKansuji("ja");
-    }
+//    }
 
 
     @Test
@@ -122,45 +122,45 @@ class DigitUtilityTest {
     }
 
 
-    @Test
-    void testIsComma() {
-
-        // Assertions.fail('まだ実装されていません');
-    }
-
-
-    @Test
-    void testIsDecimalPoint() {
-
-        // Assertions.fail('まだ実装されていません');
-    }
-
-
-    @Test
-    void testIsRangeExpression() {
-
-        // Assertions.fail('まだ実装されていません');
-    }
-
-
-    @Test
-    void testConvertKansuji09ToValue() {
-
-        // Assertions.fail('まだ実装されていません');
-    }
-
-
-    @Test
-    void testConvertKansujiKuraiToPowerValue() {
-
-        // Assertions.fail('まだ実装されていません');
-    }
-
-
-    @Test
-    void testGetNumberStringCharacter() {
-
-        // Assertions.fail('まだ実装されていません');
-    }
+//    @Test
+//    void testIsComma() {
+//
+//        // Assertions.fail('まだ実装されていません');
+//    }
+//
+//
+//    @Test
+//    void testIsDecimalPoint() {
+//
+//        // Assertions.fail('まだ実装されていません');
+//    }
+//
+//
+//    @Test
+//    void testIsRangeExpression() {
+//
+//        // Assertions.fail('まだ実装されていません');
+//    }
+//
+//
+//    @Test
+//    void testConvertKansuji09ToValue() {
+//
+//        // Assertions.fail('まだ実装されていません');
+//    }
+//
+//
+//    @Test
+//    void testConvertKansujiKuraiToPowerValue() {
+//
+//        // Assertions.fail('まだ実装されていません');
+//    }
+//
+//
+//    @Test
+//    void testGetNumberStringCharacter() {
+//
+//        // Assertions.fail('まだ実装されていません');
+//    }
 
 }

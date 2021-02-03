@@ -10,6 +10,8 @@ import jp.livlog.normalizeNumexp.normalizerUtility.LimitedExpressionTemplate;
 import jp.livlog.normalizeNumexp.normalizerUtility.NormalizedExpressionTemplate;
 import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.NumberNormalizer;
 import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.impl.NumberNormalizerImpl;
+import jp.livlog.normalizeNumexp.share.NNumber;
+import jp.livlog.normalizeNumexp.share.NTime;
 import jp.livlog.normalizeNumexp.share.NumberModifier;
 import jp.livlog.normalizeNumexp.share.RefObject;
 import jp.livlog.normalizeNumexp.share.Symbol;
@@ -18,13 +20,13 @@ public abstract class AbstimeExpressionNormalizer extends NormalizerTemplate <Ab
 
     public abstract static class AbstimeExpression extends NormalizedExpressionTemplate {
 
-        public AbstimeExpression(jp.livlog.normalizeNumexp.share.Number number) {
+        public AbstimeExpression(NNumber number) {
 
             super(number.originalExpression, number.positionStart, number.positionEnd);
             this.orgValueLowerbound = number.valueLowerbound;
             this.orgValueUpperbound = number.valueUpperbound;
-            this.valueLowerbound = new jp.livlog.normalizeNumexp.share.Time(Symbol.INFINITY);
-            this.valueUpperbound = new jp.livlog.normalizeNumexp.share.Time(-Symbol.INFINITY);
+            this.valueLowerbound = new NTime(Symbol.INFINITY);
+            this.valueUpperbound = new NTime(-Symbol.INFINITY);
             this.ordinary = false;
         }
 
@@ -32,9 +34,9 @@ public abstract class AbstimeExpressionNormalizer extends NormalizerTemplate <Ab
 
         public double                 orgValueUpperbound;
 
-        public jp.livlog.normalizeNumexp.share.Time valueLowerbound;
+        public NTime valueLowerbound;
 
-        public jp.livlog.normalizeNumexp.share.Time valueUpperbound;
+        public NTime valueUpperbound;
 
         public boolean                ordinary;
     }
@@ -59,7 +61,7 @@ public abstract class AbstimeExpressionNormalizer extends NormalizerTemplate <Ab
 
 
     @Override
-    public abstract void normalizeNumber(String text, List <jp.livlog.normalizeNumexp.share.Number> numbers);
+    public abstract void normalizeNumber(StringBuilder uText, List <NNumber> numbers);
 
 
     @Override
@@ -81,7 +83,7 @@ public abstract class AbstimeExpressionNormalizer extends NormalizerTemplate <Ab
 
 
     @Override
-    public abstract void fixByRangeExpression(String uText, List <AbstimeExpression> abstimeexps);
+    public abstract void fixByRangeExpression(StringBuilder uText, List <AbstimeExpression> abstimeexps);
 
     public NumberNormalizer NN;
 

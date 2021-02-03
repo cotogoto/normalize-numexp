@@ -1,14 +1,14 @@
 package jp.livlog.normalizeNumexp.share;
 
-public  class Time {
+public  class NTime {
 
-    public Time(final double value) {
+    public NTime(final double value) {
 
         this.year = this.month = this.day = this.hour = this.minute = this.second = value;
     }
 
 
-    public Time(final double year, final double month, final double day, final double hour, final double minute, final double second) {
+    public NTime(final double year, final double month, final double day, final double hour, final double minute, final double second) {
 
         this.year = year;
         this.month = month;
@@ -19,7 +19,7 @@ public  class Time {
     }
 
 
-    public boolean equalsTo(final Time t) {
+    public boolean equalsTo(final NTime t) {
 
         return t.year == this.year && t.month == this.month && t.day == this.day && t.hour == this.hour && t.minute == this.minute
                 && t.second == this.second;

@@ -3,6 +3,8 @@ package jp.livlog.normalizeNumexp.normalizerUtility.impl;
 import java.util.List;
 
 import jp.livlog.normalizeNumexp.normalizerUtility.NormalizerUtility;
+import jp.livlog.normalizeNumexp.share.NNumber;
+import jp.livlog.normalizeNumexp.share.NTime;
 import jp.livlog.normalizeNumexp.share.Pair;
 import jp.livlog.normalizeNumexp.share.Symbol;
 
@@ -19,21 +21,23 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
 
 
     @Override
-    public void extractAfterString(StringBuilder text, int i, String afterString) {
+    public void extractAfterString(StringBuilder text, int i, StringBuilder afterString) {
 
-        afterString = text.substring(i);
+        final var value = text.substring(i);
+        afterString = new StringBuilder(value);
     }
 
 
     @Override
-    public void extractBeforeString(StringBuilder text, int i, String beforeString) {
+    public void extractBeforeString(StringBuilder text, int i, StringBuilder beforeString) {
 
-        beforeString = text.substring(0, i);
+        final var value = text.substring(0, i);
+        beforeString = new StringBuilder(value);
     }
 
 
     @Override
-    public void prefixSearch(String ustr, List <Pair <String, Integer>> patterns, int matchingPatternId) {
+    public void prefixSearch(StringBuilder ustr, List <Pair <String, Integer>> patterns, int matchingPatternId) {
 
         /*
          * patternsの中から、ustrのprefixになっているものを探索（複数ある場合は最長のもの）
@@ -54,14 +58,14 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
 
 
     @Override
-    public void suffixSearch(String ustr, List <Pair <String, Integer>> patternsRev, int matchingPatternId) {
+    public void suffixSearch(StringBuilder stringBeforeExpression, List <Pair <String, Integer>> patternsRev, int matchingPatternId) {
 
         /*
          * patternsの中から、ustrのsuffixになっているものを探索（複数ある場合は最長のもの）
          * あらかじめpatternsの文字列を逆にしたものを保管しておき（patterns_rev）、ustrも逆にしてしまい、その状態でprefixSearchを行った結果を返す
          */
         final var ustrShortened = new StringBuilder();
-        this.shortenPlaceHolderInText(ustr, ustrShortened); // ustrは数字が一字一字、「*」に変換されているので、patternsの表記と食い違っている。*を縮約する操作を行う
+        this.shortenPlaceHolderInText(stringBeforeExpression, ustrShortened); // ustrは数字が一字一字、「*」に変換されているので、patternsの表記と食い違っている。*を縮約する操作を行う
         final var str = ustrShortened.toString();
 
         for (final Pair <String, Integer> pair : patternsRev) {
@@ -79,7 +83,7 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
     public void searchSuffixNumberModifier(StringBuilder text, int expPositionEnd, List <Pair <String, Integer>> suffixNumberModifierPatterns,
             int matchingPatternId) {
 
-        final String stringAfterExpression = null;
+        final var stringAfterExpression = new StringBuilder();
         this.extractAfterString(text, expPositionEnd, stringAfterExpression);
         this.prefixSearch(stringAfterExpression, suffixNumberModifierPatterns, matchingPatternId);
     }
@@ -89,31 +93,30 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
     public void searchPrefixNumberModifier(StringBuilder text, int expPositionStart, List <Pair <String, Integer>> prefixNumberModifierPatterns,
             int matchingPatternId) {
 
-        final String stringBeforeExpression = null;
+        final var stringBeforeExpression = new StringBuilder();
         this.extractBeforeString(text, expPositionStart, stringBeforeExpression);
         this.suffixSearch(stringBeforeExpression, prefixNumberModifierPatterns, matchingPatternId);
     }
 
 
     @Override
-    public void replaceNumbersInText(String uText, List <jp.livlog.normalizeNumexp.share.Number> numbers, StringBuilder uTextReplaced) {
+    public void replaceNumbersInText(StringBuilder uText, List <NNumber> numbers, StringBuilder uTextReplaced) {
 
         uTextReplaced = new StringBuilder(uText);
-        for (final jp.livlog.normalizeNumexp.share.Number number : numbers) {
+        for (final NNumber number : numbers) {
             uTextReplaced = uTextReplaced.replace(number.positionStart, number.positionEnd, String.valueOf(NormalizerUtility.PLACE_HOLDER));
-            uTextReplaced.replace(NormalizerUtility.PLACE_HOLDER, NormalizerUtility.PLACE_HOLDER, uText);
         }
     }
 
 
     @Override
-    public void shortenPlaceHolderInText(String text, StringBuilder textShortened) {
+    public void shortenPlaceHolderInText(StringBuilder ustr, StringBuilder textShortened) {
 
         // 「****年*月」 -> 「*年*月」のように数の部分を縮約する（uxのprefixSearchで一致させるため）
         textShortened = new StringBuilder();
         var prevIsPlaceHolder = false;
-        for (var i = 0; i < text.length(); i++) {
-            final var chr = text.charAt(i);
+        for (var i = 0; i < ustr.length(); i++) {
+            final var chr = ustr.charAt(i);
             if (chr == NormalizerUtility.PLACE_HOLDER) {
                 if (!prevIsPlaceHolder) {
                     textShortened.append(NormalizerUtility.PLACE_HOLDER);
@@ -142,17 +145,17 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
 
 
     @Override
-    public boolean isNullTime(double t) {
+    public boolean isNullTime(NTime t) {
 
-        final var positive_inf = Symbol.INFINITY;
-        final var negative_inf = -Symbol.INFINITY;
-        return (positive_inf == t) || (negative_inf == t);
+        final var positive_inf = new NTime(Symbol.INFINITY);
+        final var negative_inf = new NTime(-Symbol.INFINITY);
+        return (positive_inf.equalsTo(t)) || (negative_inf.equalsTo(t));
 
     }
 
 
     @Override
-    public String identifyTimeDetail(jp.livlog.normalizeNumexp.share.Time time) {
+    public String identifyTimeDetail(NTime time) {
 
         if (this.isFinite(time.second)) {
             return "s";
