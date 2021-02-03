@@ -1,6 +1,4 @@
-package jp.livlog.normalizeNumexp.normalizerUtility;
-
-import jp.livlog.normalizeNumexp.share.BaseExpressionTemplate;
+package jp.livlog.normalizeNumexp.share;
 
 public class NumberModifier extends BaseExpressionTemplate {
 

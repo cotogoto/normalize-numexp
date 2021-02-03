@@ -14,9 +14,9 @@ import jp.livlog.normalizeNumexp.digitUtility.impl.DigitUtilityImpl;
 import jp.livlog.normalizeNumexp.normalizerUtility.LimitedExpressionTemplate;
 import jp.livlog.normalizeNumexp.normalizerUtility.NormalizedExpressionTemplate;
 import jp.livlog.normalizeNumexp.normalizerUtility.NormalizerUtility;
-import jp.livlog.normalizeNumexp.normalizerUtility.NumberModifier;
 import jp.livlog.normalizeNumexp.normalizerUtility.impl.NormalizerUtilityImpl;
 import jp.livlog.normalizeNumexp.share.BaseExpressionTemplate;
+import jp.livlog.normalizeNumexp.share.NumberModifier;
 import jp.livlog.normalizeNumexp.share.Pair;
 import jp.livlog.normalizeNumexp.share.RefObject;
 

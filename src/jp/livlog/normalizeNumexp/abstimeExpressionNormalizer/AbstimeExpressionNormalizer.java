@@ -8,9 +8,9 @@ import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.AbstimeExpressionNo
 import jp.livlog.normalizeNumexp.normalizerTemplate.NormalizerTemplate;
 import jp.livlog.normalizeNumexp.normalizerUtility.LimitedExpressionTemplate;
 import jp.livlog.normalizeNumexp.normalizerUtility.NormalizedExpressionTemplate;
-import jp.livlog.normalizeNumexp.normalizerUtility.NumberModifier;
 import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.NumberNormalizer;
 import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.impl.NumberNormalizerImpl;
+import jp.livlog.normalizeNumexp.share.NumberModifier;
 import jp.livlog.normalizeNumexp.share.RefObject;
 import jp.livlog.normalizeNumexp.share.Symbol;
 
