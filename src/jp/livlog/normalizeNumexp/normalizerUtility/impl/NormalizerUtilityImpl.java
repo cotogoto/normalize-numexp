@@ -96,10 +96,10 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
 
 
     @Override
-    public void replaceNumbersInText(String uText, List <jp.livlog.normalizeNumexp.digitUtility.Number> numbers, StringBuilder uTextReplaced) {
+    public void replaceNumbersInText(String uText, List <jp.livlog.normalizeNumexp.share.Number> numbers, StringBuilder uTextReplaced) {
 
         uTextReplaced = new StringBuilder(uText);
-        for (final jp.livlog.normalizeNumexp.digitUtility.Number number : numbers) {
+        for (final jp.livlog.normalizeNumexp.share.Number number : numbers) {
             uTextReplaced = uTextReplaced.replace(number.positionStart, number.positionEnd, String.valueOf(NormalizerUtility.PLACE_HOLDER));
             uTextReplaced.replace(NormalizerUtility.PLACE_HOLDER, NormalizerUtility.PLACE_HOLDER, uText);
         }
@@ -152,7 +152,7 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
 
 
     @Override
-    public String identifyTimeDetail(jp.livlog.normalizeNumexp.normalizerUtility.Time time) {
+    public String identifyTimeDetail(jp.livlog.normalizeNumexp.share.Time time) {
 
         if (this.isFinite(time.second)) {
             return "s";

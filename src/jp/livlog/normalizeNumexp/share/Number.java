@@ -1,7 +1,4 @@
-package jp.livlog.normalizeNumexp.digitUtility;
-
-import jp.livlog.normalizeNumexp.share.BaseExpressionTemplate;
-import jp.livlog.normalizeNumexp.share.Symbol;
+package jp.livlog.normalizeNumexp.share;
 
 public class Number extends BaseExpressionTemplate {
 

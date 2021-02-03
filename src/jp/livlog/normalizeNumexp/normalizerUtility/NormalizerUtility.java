@@ -5,6 +5,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 
 import jp.livlog.normalizeNumexp.share.Pair;
+import jp.livlog.normalizeNumexp.share.Time;
 
 public abstract class NormalizerUtility {
 
@@ -30,7 +31,7 @@ public abstract class NormalizerUtility {
             int matchingPatternId);
 
 
-    abstract public void replaceNumbersInText(String uText, List <jp.livlog.normalizeNumexp.digitUtility.Number> numbers,
+    abstract public void replaceNumbersInText(String uText, List <jp.livlog.normalizeNumexp.share.Number> numbers,
             StringBuilder uTextReplaced);
 
 

@@ -2,8 +2,8 @@ package jp.livlog.normalizeNumexp.normalizerUtility;
 
 import java.util.ArrayList;
 
-import jp.livlog.normalizeNumexp.digitUtility.ENotationType;
 import jp.livlog.normalizeNumexp.share.BaseExpressionTemplate;
+import jp.livlog.normalizeNumexp.share.ENotationType;
 
 public abstract class NormalizedExpressionTemplate extends BaseExpressionTemplate {
 

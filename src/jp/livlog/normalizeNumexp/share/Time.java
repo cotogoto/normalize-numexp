@@ -1,7 +1,4 @@
-package jp.livlog.normalizeNumexp.normalizerUtility;
-
-
-import jp.livlog.normalizeNumexp.share.Symbol;
+package jp.livlog.normalizeNumexp.share;
 
 public  class Time {
 

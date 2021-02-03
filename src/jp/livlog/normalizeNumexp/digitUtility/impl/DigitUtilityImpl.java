@@ -14,7 +14,7 @@ import com.google.gson.annotations.SerializedName;
 
 import jp.livlog.normalizeNumexp.dictionaryDirpath.DictionaryDirpath;
 import jp.livlog.normalizeNumexp.digitUtility.DigitUtility;
-import jp.livlog.normalizeNumexp.digitUtility.ENotationType;
+import jp.livlog.normalizeNumexp.share.ENotationType;
 
 public class DigitUtilityImpl extends DigitUtility {
 

@@ -1,4 +1,4 @@
-package jp.livlog.normalizeNumexp.digitUtility;
+package jp.livlog.normalizeNumexp.share;
 
 import java.util.HashMap;
 

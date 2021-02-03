@@ -18,13 +18,13 @@ public abstract class AbstimeExpressionNormalizer extends NormalizerTemplate <Ab
 
     public abstract static class AbstimeExpression extends NormalizedExpressionTemplate {
 
-        public AbstimeExpression(jp.livlog.normalizeNumexp.digitUtility.Number number) {
+        public AbstimeExpression(jp.livlog.normalizeNumexp.share.Number number) {
 
             super(number.originalExpression, number.positionStart, number.positionEnd);
             this.orgValueLowerbound = number.valueLowerbound;
             this.orgValueUpperbound = number.valueUpperbound;
-            this.valueLowerbound = new jp.livlog.normalizeNumexp.normalizerUtility.Time(Symbol.INFINITY);
-            this.valueUpperbound = new jp.livlog.normalizeNumexp.normalizerUtility.Time(-Symbol.INFINITY);
+            this.valueLowerbound = new jp.livlog.normalizeNumexp.share.Time(Symbol.INFINITY);
+            this.valueUpperbound = new jp.livlog.normalizeNumexp.share.Time(-Symbol.INFINITY);
             this.ordinary = false;
         }
 
@@ -32,9 +32,9 @@ public abstract class AbstimeExpressionNormalizer extends NormalizerTemplate <Ab
 
         public double                 orgValueUpperbound;
 
-        public jp.livlog.normalizeNumexp.normalizerUtility.Time valueLowerbound;
+        public jp.livlog.normalizeNumexp.share.Time valueLowerbound;
 
-        public jp.livlog.normalizeNumexp.normalizerUtility.Time valueUpperbound;
+        public jp.livlog.normalizeNumexp.share.Time valueUpperbound;
 
         public boolean                ordinary;
     }
@@ -59,7 +59,7 @@ public abstract class AbstimeExpressionNormalizer extends NormalizerTemplate <Ab
 
 
     @Override
-    public abstract void normalizeNumber(String text, List <jp.livlog.normalizeNumexp.digitUtility.Number> numbers);
+    public abstract void normalizeNumber(String text, List <jp.livlog.normalizeNumexp.share.Number> numbers);
 
 
     @Override

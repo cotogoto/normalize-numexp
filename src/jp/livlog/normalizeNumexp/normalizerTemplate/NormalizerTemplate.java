@@ -27,7 +27,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     public abstract void init();
 
 
-    public abstract void normalizeNumber(final String text, List <jp.livlog.normalizeNumexp.digitUtility.Number> numbers);
+    public abstract void normalizeNumber(final String text, List <jp.livlog.normalizeNumexp.share.Number> numbers);
 
 
     public abstract void reviseAnyTypeExpressionByMatchingLimitedExpression(List <AnyTypeExpression> anyTypeExpressions,
@@ -221,10 +221,10 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
 
     @SuppressWarnings ("unchecked")
-    public void convertNumbersToAnyTypeExpressions(final List <jp.livlog.normalizeNumexp.digitUtility.Number> numbers,
+    public void convertNumbersToAnyTypeExpressions(final List <jp.livlog.normalizeNumexp.share.Number> numbers,
             List <AnyTypeExpression> anyTypeExpressions) {
 
-        for (final jp.livlog.normalizeNumexp.digitUtility.Number number : numbers) {
+        for (final jp.livlog.normalizeNumexp.share.Number number : numbers) {
 
             final var baseExpressionTemplate = new BaseExpressionTemplate();
             baseExpressionTemplate.originalExpression = number.originalExpression;
@@ -274,7 +274,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
         final var uText = text;
 
         // numbersの作成
-        final List <jp.livlog.normalizeNumexp.digitUtility.Number> numbers = new ArrayList <>();
+        final List <jp.livlog.normalizeNumexp.share.Number> numbers = new ArrayList <>();
         this.normalizeNumber(text, numbers);
 
         // numbersを変換して、ベースとなるany_type_expressionsを作成
