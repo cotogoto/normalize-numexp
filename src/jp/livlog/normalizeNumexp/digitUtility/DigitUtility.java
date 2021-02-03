@@ -1,10 +1,5 @@
 package jp.livlog.normalizeNumexp.digitUtility;
 
-import java.util.HashMap;
-
-import jp.livlog.normalizeNumexp.share.BaseExpressionTemplate;
-import jp.livlog.normalizeNumexp.share.Symbol;
-
 public abstract class DigitUtility {
 
     public abstract void initKansuji(String language);
@@ -54,90 +49,7 @@ public abstract class DigitUtility {
 
     public abstract char getNumberStringCharacter(String numberString, int i);
 
-    public enum ENotationType {
 
-        NOT_NUMBER(0),
-        KANSUJI_09(1),
-        KANSUJI_KURAI_SEN(2),
-        KANSUJI_KURAI_MAN(4),
-        KANSUJI_KURAI(6),
-        KANSUJI(7),
-        ZENKAKU(8),
-        HANKAKU(16);
-
-        public static final int                         SIZE = Integer.SIZE;
-
-        private final int                               intValue;
-
-        private static HashMap <Integer, ENotationType> mappings;
-
-        private static HashMap <Integer, ENotationType> getMappings() {
-
-            if (ENotationType.mappings == null) {
-                synchronized (ENotationType.class) {
-                    if (ENotationType.mappings == null) {
-                        ENotationType.mappings = new HashMap <>();
-                    }
-                }
-            }
-            return ENotationType.mappings;
-        }
-
-
-        ENotationType(int value) {
-
-            this.intValue = value;
-            ENotationType.getMappings().put(value, this);
-        }
-
-
-        public int getValue() {
-
-            return this.intValue;
-        }
-
-
-        public static ENotationType forValue(int value) {
-
-            return ENotationType.getMappings().get(value);
-        }
-    }
-
-    public static class Number extends BaseExpressionTemplate {
-
-        public Number() {
-
-            this.originalExpression = "";
-            this.positionStart = -1;
-            this.positionEnd = -1;
-            this.valueLowerbound = Symbol.INFINITY;
-            this.valueUpperbound = -Symbol.INFINITY;
-            this.notationType = ENotationType.NOT_NUMBER.getValue();
-        }
-
-
-        public Number(String originalExpression, int positionStart, int positionEnd) {
-
-            this.originalExpression = originalExpression;
-            this.positionStart = positionStart;
-            this.positionEnd = positionEnd;
-            this.valueLowerbound = Symbol.INFINITY;
-            this.valueUpperbound = -Symbol.INFINITY;
-            this.notationType = ENotationType.NOT_NUMBER.getValue();
-        }
-
-        public String originalExpression = null;
-
-        public int    positionStart;
-
-        public int    positionEnd;
-
-        public double valueLowerbound;
-
-        public double valueUpperbound;
-
-        public int    notationType;
-    }
 
     // public final class Pair <T1> {
     //

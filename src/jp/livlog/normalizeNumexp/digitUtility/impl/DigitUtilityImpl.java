@@ -14,6 +14,7 @@ import com.google.gson.annotations.SerializedName;
 
 import jp.livlog.normalizeNumexp.dictionaryDirpath.DictionaryDirpath;
 import jp.livlog.normalizeNumexp.digitUtility.DigitUtility;
+import jp.livlog.normalizeNumexp.digitUtility.ENotationType;
 
 public class DigitUtilityImpl extends DigitUtility {
 
@@ -51,13 +52,13 @@ public class DigitUtilityImpl extends DigitUtility {
                 DigitUtilityImpl.class.getResourceAsStream(filepath));
 
         final var gson = new Gson();
-        try (BufferedReader br = new BufferedReader(reader)) {
+        try (var br = new BufferedReader(reader)) {
             String line;
             while ((line = br.readLine()) != null) {
-                ChineseCharacter chineseCharacter  = gson.fromJson(line, ChineseCharacter.class);
+                final var chineseCharacter = gson.fromJson(line, ChineseCharacter.class);
                 list.add(chineseCharacter);
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
     }
@@ -176,7 +177,7 @@ public class DigitUtilityImpl extends DigitUtility {
     @Override
     public boolean isKansuji(char uc) {
 
-        return this.isNotationType(uc, ENotationType.KANSUJI);
+        return this.isKansuji09(uc);
     }
 
 
@@ -204,14 +205,14 @@ public class DigitUtilityImpl extends DigitUtility {
     @Override
     public boolean isKansujiKurai(char uc) {
 
-        return this.isNotationType(uc, ENotationType.KANSUJI_KURAI);
+        return this.isKansujiKuraiSen(uc) || this.isKansujiKuraiMan(uc);
     }
 
 
     @Override
     public boolean isNumber(char uc) {
 
-        return (this.isHankakusuji(uc) || this.isZenkakusuji(uc) || this.isKansuji(uc));
+        return (this.isHankakusuji(uc) || this.isZenkakusuji(uc) || this.isKansuji(uc) || this.isKansujiKurai(uc));
     }
 
 

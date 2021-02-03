@@ -2,55 +2,11 @@ package jp.livlog.normalizeNumexp.normalizerUtility.impl;
 
 import java.util.List;
 
-import jp.livlog.normalizeNumexp.digitUtility.DigitUtility;
 import jp.livlog.normalizeNumexp.normalizerUtility.NormalizerUtility;
 import jp.livlog.normalizeNumexp.share.Pair;
 import jp.livlog.normalizeNumexp.share.Symbol;
 
 public class NormalizerUtilityImpl extends NormalizerUtility {
-
-    public class NormalizedExpressionTemplateImpl extends NormalizedExpressionTemplate {
-
-        public NormalizedExpressionTemplateImpl(String originalExpression, int positionStart, int positionEnd) {
-
-            super(originalExpression, positionStart, positionEnd);
-        }
-
-
-        @Override
-        public void setOriginalExpressionFromPosition(String text) {
-
-            this.originalExpression = text.substring(this.positionStart, this.positionEnd);
-        }
-    }
-
-    public class LimitedExpressionTemplateImpl extends LimitedExpressionTemplate {
-
-        @Override
-        public void setTotalNumberOfPlaceHolder() {
-
-            // patternが含むPLACE_HOLDERの数（ *月*日 -> 2個）
-            this.totalNumberOfPlaceHolder = 0;
-
-            for (final char c1 : this.pattern.toCharArray()) {
-                if (NormalizerUtilityImpl.this.isPlaceHolder(c1)) {
-                    this.totalNumberOfPlaceHolder++;
-                }
-            }
-        }
-
-
-        @Override
-        public void setLengthOfStringsAfterFinalPlaceHolder() {
-
-            // pattern中の最後のPLACE_HOLDERの後に続く文字列の長さ（*月*日 -> 1） positionの同定に必要
-            this.lengthOfStringsAfterFinalPlaceHolder = 0;
-
-            final var a = this.pattern.lastIndexOf(String.valueOf(NormalizerUtilityImpl.this.PLACE_HOLDER));
-            final var str = this.pattern.substring(a);
-            this.lengthOfStringsAfterFinalPlaceHolder = str.length();
-        }
-    }
 
     @Override
     public String reverseString(String str) {
@@ -140,12 +96,12 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
 
 
     @Override
-    public void replaceNumbersInText(String uText, List <DigitUtility.Number> numbers, StringBuilder uTextReplaced) {
+    public void replaceNumbersInText(String uText, List <jp.livlog.normalizeNumexp.digitUtility.Number> numbers, StringBuilder uTextReplaced) {
 
         uTextReplaced = new StringBuilder(uText);
-        for (final DigitUtility.Number number : numbers) {
-            uTextReplaced = uTextReplaced.replace(number.positionStart, number.positionEnd, String.valueOf(this.PLACE_HOLDER));
-            uTextReplaced.replace(this.PLACE_HOLDER, this.PLACE_HOLDER, uText);
+        for (final jp.livlog.normalizeNumexp.digitUtility.Number number : numbers) {
+            uTextReplaced = uTextReplaced.replace(number.positionStart, number.positionEnd, String.valueOf(NormalizerUtility.PLACE_HOLDER));
+            uTextReplaced.replace(NormalizerUtility.PLACE_HOLDER, NormalizerUtility.PLACE_HOLDER, uText);
         }
     }
 
@@ -158,9 +114,9 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
         var prevIsPlaceHolder = false;
         for (var i = 0; i < text.length(); i++) {
             final var chr = text.charAt(i);
-            if (chr == this.PLACE_HOLDER) {
+            if (chr == NormalizerUtility.PLACE_HOLDER) {
                 if (!prevIsPlaceHolder) {
-                    textShortened.append(this.PLACE_HOLDER);
+                    textShortened.append(NormalizerUtility.PLACE_HOLDER);
                     prevIsPlaceHolder = true;
                 }
             } else {
@@ -174,7 +130,7 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
     @Override
     public boolean isPlaceHolder(char uc) {
 
-        return this.PLACE_HOLDER == uc;
+        return NormalizerUtility.PLACE_HOLDER == uc;
     }
 
 
@@ -196,7 +152,7 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
 
 
     @Override
-    public String identifyTimeDetail(Time time) {
+    public String identifyTimeDetail(jp.livlog.normalizeNumexp.normalizerUtility.Time time) {
 
         if (this.isFinite(time.second)) {
             return "s";
@@ -213,8 +169,5 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
         }
         return "";
     }
-
-
-
 
 }

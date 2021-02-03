@@ -10,12 +10,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import jp.livlog.normalizeNumexp.dictionaryDirpath.DictionaryDirpath;
-import jp.livlog.normalizeNumexp.digitUtility.DigitUtility;
 import jp.livlog.normalizeNumexp.digitUtility.impl.DigitUtilityImpl;
+import jp.livlog.normalizeNumexp.normalizerUtility.LimitedExpressionTemplate;
+import jp.livlog.normalizeNumexp.normalizerUtility.NormalizedExpressionTemplate;
 import jp.livlog.normalizeNumexp.normalizerUtility.NormalizerUtility;
-import jp.livlog.normalizeNumexp.normalizerUtility.NormalizerUtility.LimitedExpressionTemplate;
-import jp.livlog.normalizeNumexp.normalizerUtility.NormalizerUtility.NormalizedExpressionTemplate;
-import jp.livlog.normalizeNumexp.normalizerUtility.NormalizerUtility.NumberModifier;
+import jp.livlog.normalizeNumexp.normalizerUtility.NumberModifier;
 import jp.livlog.normalizeNumexp.normalizerUtility.impl.NormalizerUtilityImpl;
 import jp.livlog.normalizeNumexp.share.BaseExpressionTemplate;
 import jp.livlog.normalizeNumexp.share.Pair;
@@ -28,7 +27,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     public abstract void init();
 
 
-    public abstract void normalizeNumber(final String text, List <DigitUtility.Number> numbers);
+    public abstract void normalizeNumber(final String text, List <jp.livlog.normalizeNumexp.digitUtility.Number> numbers);
 
 
     public abstract void reviseAnyTypeExpressionByMatchingLimitedExpression(List <AnyTypeExpression> anyTypeExpressions,
@@ -40,7 +39,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
 
     public abstract void reviseAnyTypeExpressionByNumberModifier(AnyTypeExpression anyTypeExpressions,
-            final NormalizerUtility.NumberModifier numberModifier);
+            final NumberModifier numberModifier);
 
 
     public abstract void deleteNotAnyTypeExpression(List <AnyTypeExpression> anyTypeExpressions);
@@ -222,10 +221,10 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
 
     @SuppressWarnings ("unchecked")
-    public void convertNumbersToAnyTypeExpressions(final List <DigitUtility.Number> numbers,
+    public void convertNumbersToAnyTypeExpressions(final List <jp.livlog.normalizeNumexp.digitUtility.Number> numbers,
             List <AnyTypeExpression> anyTypeExpressions) {
 
-        for (final DigitUtility.Number number : numbers) {
+        for (final jp.livlog.normalizeNumexp.digitUtility.Number number : numbers) {
 
             final var baseExpressionTemplate = new BaseExpressionTemplate();
             baseExpressionTemplate.originalExpression = number.originalExpression;
@@ -275,7 +274,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
         final var uText = text;
 
         // numbersの作成
-        final List <DigitUtility.Number> numbers = new ArrayList <>();
+        final List <jp.livlog.normalizeNumexp.digitUtility.Number> numbers = new ArrayList <>();
         this.normalizeNumber(text, numbers);
 
         // numbersを変換して、ベースとなるany_type_expressionsを作成
@@ -319,9 +318,9 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
     public List <AnyTypeLimitedExpression>         prefixCounters               = new ArrayList <>();
 
-    public List <NormalizerUtility.NumberModifier> suffixNumberModifier         = new ArrayList <>();
+    public List <NumberModifier> suffixNumberModifier         = new ArrayList <>();
 
-    public List <NormalizerUtility.NumberModifier> prefixNumberModifier         = new ArrayList <>();
+    public List <NumberModifier> prefixNumberModifier         = new ArrayList <>();
 
     public String                                  language;
 

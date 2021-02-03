@@ -5,10 +5,10 @@ import java.util.List;
 
 import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.AbstimeExpressionNormalizer.AbstimeExpression;
 import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.AbstimeExpressionNormalizer.LimitedAbstimeExpression;
-import jp.livlog.normalizeNumexp.digitUtility.DigitUtility;
 import jp.livlog.normalizeNumexp.normalizerTemplate.NormalizerTemplate;
-import jp.livlog.normalizeNumexp.normalizerUtility.NormalizerUtility;
-import jp.livlog.normalizeNumexp.normalizerUtility.NormalizerUtility.NumberModifier;
+import jp.livlog.normalizeNumexp.normalizerUtility.LimitedExpressionTemplate;
+import jp.livlog.normalizeNumexp.normalizerUtility.NormalizedExpressionTemplate;
+import jp.livlog.normalizeNumexp.normalizerUtility.NumberModifier;
 import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.NumberNormalizer;
 import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.impl.NumberNormalizerImpl;
 import jp.livlog.normalizeNumexp.share.RefObject;
@@ -16,15 +16,15 @@ import jp.livlog.normalizeNumexp.share.Symbol;
 
 public abstract class AbstimeExpressionNormalizer extends NormalizerTemplate <AbstimeExpression, LimitedAbstimeExpression> {
 
-    public abstract static class AbstimeExpression extends NormalizerUtility.NormalizedExpressionTemplate {
+    public abstract static class AbstimeExpression extends NormalizedExpressionTemplate {
 
-        public AbstimeExpression(DigitUtility.Number number) {
+        public AbstimeExpression(jp.livlog.normalizeNumexp.digitUtility.Number number) {
 
             super(number.originalExpression, number.positionStart, number.positionEnd);
             this.orgValueLowerbound = number.valueLowerbound;
             this.orgValueUpperbound = number.valueUpperbound;
-            this.valueLowerbound = new NormalizerUtility.Time(Symbol.INFINITY);
-            this.valueUpperbound = new NormalizerUtility.Time(-Symbol.INFINITY);
+            this.valueLowerbound = new jp.livlog.normalizeNumexp.normalizerUtility.Time(Symbol.INFINITY);
+            this.valueUpperbound = new jp.livlog.normalizeNumexp.normalizerUtility.Time(-Symbol.INFINITY);
             this.ordinary = false;
         }
 
@@ -32,14 +32,14 @@ public abstract class AbstimeExpressionNormalizer extends NormalizerTemplate <Ab
 
         public double                 orgValueUpperbound;
 
-        public NormalizerUtility.Time valueLowerbound;
+        public jp.livlog.normalizeNumexp.normalizerUtility.Time valueLowerbound;
 
-        public NormalizerUtility.Time valueUpperbound;
+        public jp.livlog.normalizeNumexp.normalizerUtility.Time valueUpperbound;
 
         public boolean                ordinary;
     }
 
-    public abstract static class LimitedAbstimeExpression extends NormalizerUtility.LimitedExpressionTemplate {
+    public abstract static class LimitedAbstimeExpression extends LimitedExpressionTemplate {
 
         public List <String> corresponding_time_position = new ArrayList <>();
 
@@ -59,7 +59,7 @@ public abstract class AbstimeExpressionNormalizer extends NormalizerTemplate <Ab
 
 
     @Override
-    public abstract void normalizeNumber(String text, List <DigitUtility.Number> numbers);
+    public abstract void normalizeNumber(String text, List <jp.livlog.normalizeNumexp.digitUtility.Number> numbers);
 
 
     @Override
