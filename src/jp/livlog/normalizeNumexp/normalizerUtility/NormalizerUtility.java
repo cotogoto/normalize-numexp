@@ -1,12 +1,14 @@
 package jp.livlog.normalizeNumexp.normalizerUtility;
 
 import java.util.List;
+import java.util.NavigableSet;
 
 import org.modelmapper.ModelMapper;
 
 import jp.livlog.normalizeNumexp.share.NNumber;
 import jp.livlog.normalizeNumexp.share.NTime;
 import jp.livlog.normalizeNumexp.share.Pair;
+import jp.livlog.normalizeNumexp.share.RefObject;
 
 public abstract class NormalizerUtility {
 
@@ -16,20 +18,20 @@ public abstract class NormalizerUtility {
     abstract public void extractBeforeString(StringBuilder uTextReplaced, int i, StringBuilder beforeString);
 
 
-    abstract public void prefixSearch(StringBuilder uTextReplaced, List <Pair <String, Integer>> patterns, int matchingPatternId);
+    abstract public void prefixSearch(StringBuilder uTextReplaced, NavigableSet <Pair <String, Integer>> patterns, RefObject<Integer> matchingPatternId);
 
 
-    abstract public void suffixSearch(StringBuilder uTextReplaced, List <Pair <String, Integer>> patternsRev, int matchingPatternId);
+    abstract public void suffixSearch(StringBuilder uTextReplaced, NavigableSet <Pair <String, Integer>> patternsRev, RefObject<Integer> matchingPatternId);
 
 
     abstract public void searchSuffixNumberModifier(StringBuilder uTextReplaced, int expPositionEnd,
-            List <Pair <String, Integer>> suffixNumberModifierPatterns,
-            int matchingPatternId);
+            NavigableSet <Pair <String, Integer>> suffixNumberModifierPatterns,
+            RefObject<Integer> matchingPatternId);
 
 
     abstract public void searchPrefixNumberModifier(StringBuilder uTextReplaced, int expPositionStart,
-            List <Pair <String, Integer>> prefixNumberModifierPatterns,
-            int matchingPatternId);
+            NavigableSet <Pair <String, Integer>> prefixNumberModifierPatterns,
+            RefObject<Integer> matchingPatternId);
 
 
     abstract public void replaceNumbersInText(StringBuilder uText, List <NNumber> numbers,

@@ -5,6 +5,8 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.NavigableSet;
+import java.util.TreeSet;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -19,6 +21,7 @@ import jp.livlog.normalizeNumexp.share.BaseExpressionTemplate;
 import jp.livlog.normalizeNumexp.share.NNumber;
 import jp.livlog.normalizeNumexp.share.NumberModifier;
 import jp.livlog.normalizeNumexp.share.Pair;
+import jp.livlog.normalizeNumexp.share.PairKey0Comp;
 import jp.livlog.normalizeNumexp.share.RefObject;
 
 public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedExpressionTemplate, AnyTypeLimitedExpression extends LimitedExpressionTemplate> {
@@ -80,7 +83,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     }
 
 
-    public <T extends BaseExpressionTemplate> void buildPatternsRev(final List <T> originals, List <Pair <String, Integer>> patterns) {
+    public <T extends BaseExpressionTemplate> void buildPatternsRev(final List <T> originals, NavigableSet <Pair <String, Integer>> patterns) {
 
         // prefixSearchをつかってsuffixSearchを実現するため、uxに格納するパターンを予め前後逆にしておく
         final var kvs = new ArrayList <Pair <String, Integer>>();
@@ -93,7 +96,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     }
 
 
-    public <T extends BaseExpressionTemplate> void buildPatterns(final List <T> originals, List <Pair <String, Integer>> patterns) {
+    public <T extends BaseExpressionTemplate> void buildPatterns(final List <T> originals, NavigableSet <Pair <String, Integer>> patterns) {
 
         final var kvs = new ArrayList <Pair <String, Integer>>();
         for (var i = 0; i < originals.size(); i++) {
@@ -135,7 +138,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
         final var stringAfterExpression = new StringBuilder();
         this.normalizerUtility.extractAfterString(uTextReplaced, anyTypeExpression.positionEnd, stringAfterExpression);
-        this.normalizerUtility.prefixSearch(stringAfterExpression, this.limitedExpressionPatterns, matchingPatternId.argValue);
+        this.normalizerUtility.prefixSearch(stringAfterExpression, this.limitedExpressionPatterns, matchingPatternId);
     }
 
 
@@ -144,7 +147,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
         final var stringBeforeExpression = new StringBuilder();
         this.normalizerUtility.extractBeforeString(uTextReplaced, anyTypeExpression.positionStart, stringBeforeExpression);
-        this.normalizerUtility.suffixSearch(stringBeforeExpression, this.prefixCounterPatterns, matchingPatternId.argValue);
+        this.normalizerUtility.suffixSearch(stringBeforeExpression, this.prefixCounterPatterns, matchingPatternId);
     }
 
 
@@ -182,9 +185,9 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     public void normalizePrefixCounter(final StringBuilder uTextReplaced, AnyTypeExpression anyTypeExpression) {
 
         var matchingPatternId = 0;
-        final var tempRef_matchingPatternId = new RefObject <>(matchingPatternId);
-        this.searchMatchingPrefixCounter(uTextReplaced, anyTypeExpression, tempRef_matchingPatternId);
-        matchingPatternId = tempRef_matchingPatternId.argValue;
+        final var tempRefMatchingPatternId = new RefObject <>(matchingPatternId);
+        this.searchMatchingPrefixCounter(uTextReplaced, anyTypeExpression, tempRefMatchingPatternId);
+        matchingPatternId = tempRefMatchingPatternId.argValue;
         if (matchingPatternId == -1) {
             return;
         }
@@ -195,9 +198,11 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     @SuppressWarnings ("unused")
     public boolean normalizeSuffixNumberModifier(final StringBuilder uTextReplaced, AnyTypeExpression anyTypeExpression) {
 
-        final var matchingPatternId = 0;
+        var matchingPatternId = 0;
+        final var tempRefMatchingPatternId = new RefObject <>(matchingPatternId);
         this.normalizerUtility.searchSuffixNumberModifier(uTextReplaced, anyTypeExpression.positionEnd, this.suffixNumberModifierPatterns,
-                matchingPatternId);
+                tempRefMatchingPatternId);
+        matchingPatternId = tempRefMatchingPatternId.argValue;
         if (matchingPatternId == -1) {
             return false;
         }
@@ -209,9 +214,11 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     @SuppressWarnings ("unused")
     public boolean normalize_prefix_number_modifier(final StringBuilder uTextReplaced, AnyTypeExpression anyTypeExpression) {
 
-        final var matchingPatternId = 0;
+        var matchingPatternId = 0;
+        final var tempRefMatchingPatternId = new RefObject <>(matchingPatternId);
         this.normalizerUtility.searchPrefixNumberModifier(uTextReplaced, anyTypeExpression.positionStart, this.prefixNumberModifierPatterns,
-                matchingPatternId);
+                tempRefMatchingPatternId);
+        matchingPatternId = tempRefMatchingPatternId.argValue;
         if (matchingPatternId == -1) {
             return false;
         }
@@ -306,22 +313,22 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
         this.deleteNotAnyTypeExpression(anyTypeExpressions);
     }
 
-    public List <Pair <String, Integer>>           limitedExpressionPatterns    = new ArrayList <>();
+    public NavigableSet <Pair <String, Integer>>   limitedExpressionPatterns    = new TreeSet <>(new PairKey0Comp<String, Integer>());
 
-    public List <Pair <String, Integer>>           prefixCounterPatterns        = new ArrayList <>();
+    public NavigableSet <Pair <String, Integer>>   prefixCounterPatterns        = new TreeSet <>(new PairKey0Comp<String, Integer>());
 
-    public List <Pair <String, Integer>>           suffixNumberModifierPatterns = new ArrayList <>();
+    public NavigableSet <Pair <String, Integer>>   suffixNumberModifierPatterns = new TreeSet <>(new PairKey0Comp<String, Integer>());
 
-    public List <Pair <String, Integer>>           prefixNumberModifierPatterns = new ArrayList <>();
+    public NavigableSet <Pair <String, Integer>>   prefixNumberModifierPatterns = new TreeSet <>(new PairKey0Comp<String, Integer>());
 
-    public List <AnyTypeLimitedExpression>         limitedExpressions           = new ArrayList <>();
+    public List <AnyTypeLimitedExpression> limitedExpressions           = new ArrayList <>();
 
-    public List <AnyTypeLimitedExpression>         prefixCounters               = new ArrayList <>();
+    public List <AnyTypeLimitedExpression> prefixCounters               = new ArrayList <>();
 
-    public List <NumberModifier> suffixNumberModifier         = new ArrayList <>();
+    public List <NumberModifier>           suffixNumberModifier         = new ArrayList <>();
 
-    public List <NumberModifier> prefixNumberModifier         = new ArrayList <>();
+    public List <NumberModifier>           prefixNumberModifier         = new ArrayList <>();
 
-    public String                                  language;
+    public String                          language;
 
 }

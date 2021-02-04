@@ -1,7 +1,8 @@
 package jp.livlog.normalizeNumexp.normalizerUtility;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.NavigableSet;
+import java.util.TreeSet;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,15 +11,17 @@ import jp.livlog.normalizeNumexp.normalizerUtility.impl.NormalizerUtilityImpl;
 import jp.livlog.normalizeNumexp.share.NNumber;
 import jp.livlog.normalizeNumexp.share.NTime;
 import jp.livlog.normalizeNumexp.share.Pair;
+import jp.livlog.normalizeNumexp.share.PairKey0Comp;
+import jp.livlog.normalizeNumexp.share.RefObject;
 import jp.livlog.normalizeNumexp.share.Symbol;
 
 class NormalizerUtilityTest {
 
-    NormalizerUtility                   normalizerUtility = new NormalizerUtilityImpl();
+    NormalizerUtility                     normalizerUtility = new NormalizerUtilityImpl();
 
-    final List <Pair <String, Integer>> uxm               = new ArrayList <>();
+    NavigableSet <Pair <String, Integer>> uxm               = new TreeSet <>(new PairKey0Comp<String, Integer>());
 
-    final List <Pair <String, Integer>> uxmRev            = new ArrayList <>();
+    NavigableSet <Pair <String, Integer>> uxmRev            = new TreeSet <>(new PairKey0Comp<String, Integer>());
 
     @BeforeEach
     public void initialize() {
@@ -32,9 +35,9 @@ class NormalizerUtilityTest {
         this.uxm.add(new Pair <>("えお", 7));
         this.uxm.add(new Pair <>("いうえおあ", 8));
 
-        for (var i = 0; i < this.uxm.size(); i++) {
-            final var strRev = this.normalizerUtility.reverseString(this.uxm.get(i).first);
-            this.uxmRev.add(new Pair <>(strRev, this.uxm.get(i).second));
+        for (final Pair <String, Integer> pair : this.uxm) {
+            final var strRev = this.normalizerUtility.reverseString(pair.first);
+            this.uxmRev.add(new Pair <>(strRev, pair.second));
         }
     }
 
@@ -45,7 +48,7 @@ class NormalizerUtilityTest {
         final var text = new StringBuilder("それは秒速5センチメートルくらいで進む");
         final var str = new StringBuilder();
         this.normalizerUtility.extractAfterString(text, 6, str);
-        org.junit.Assert.assertEquals("センチメートルくらいで進む", str);
+        org.junit.Assert.assertEquals("センチメートルくらいで進む", str.toString());
     }
 
 
@@ -55,7 +58,7 @@ class NormalizerUtilityTest {
         final var text = new StringBuilder("それは秒速5センチメートルくらいで進む");
         final var str = new StringBuilder();
         this.normalizerUtility.extractBeforeString(text, 5, str);
-        org.junit.Assert.assertEquals("それは秒速", str);
+        org.junit.Assert.assertEquals("それは秒速", str.toString());
     }
 
 
@@ -63,13 +66,14 @@ class NormalizerUtilityTest {
     void testPrefixSearch() {
 
         var ustr = new StringBuilder("あいうえお");
-        final var matchingPatternId = 0;
+        var matchingPatternId = new RefObject <>(0);
         this.normalizerUtility.prefixSearch(ustr, this.uxm, matchingPatternId);
-        org.junit.Assert.assertEquals(3, matchingPatternId); // ("あいう", 3)
+        org.junit.Assert.assertEquals(3, matchingPatternId.argValue.intValue()); // ("あいう", 3)
 
         ustr = new StringBuilder("いうえおあいうえお");
+        matchingPatternId = new RefObject <>(0);
         this.normalizerUtility.prefixSearch(ustr, this.uxm, matchingPatternId);
-        org.junit.Assert.assertEquals(8, matchingPatternId); // ("いうえおあ", 8)
+        org.junit.Assert.assertEquals(8, matchingPatternId.argValue.intValue()); // ("いうえおあ", 8)
     }
 
 
@@ -77,13 +81,14 @@ class NormalizerUtilityTest {
     void testSuffixSearch() {
 
         var ustr = new StringBuilder("あいうえお");
-        final var matchingPatternId = 0;
+        var matchingPatternId = new RefObject <>(0);
         this.normalizerUtility.suffixSearch(ustr, this.uxmRev, matchingPatternId);
-        org.junit.Assert.assertEquals(6, matchingPatternId); // ("うえお", 6)
+        org.junit.Assert.assertEquals(6, matchingPatternId.argValue.intValue()); // ("うえお", 6)
 
         ustr = new StringBuilder("あいうえおあ");
+        matchingPatternId = new RefObject <>(0);
         this.normalizerUtility.suffixSearch(ustr, this.uxmRev, matchingPatternId);
-        org.junit.Assert.assertEquals(8, matchingPatternId); // ("いうえおあ", 8)
+        org.junit.Assert.assertEquals(8, matchingPatternId.argValue.intValue()); // ("いうえおあ", 8)
     }
 
 
@@ -91,9 +96,9 @@ class NormalizerUtilityTest {
     void testSearchSuffixNumberModifier() {
 
         final var text = new StringBuilder("あいうえおあ5あいうえおごごごごご");
-        final var matchingPatternId = 0;
+        final var matchingPatternId = new RefObject <>(0);
         this.normalizerUtility.searchSuffixNumberModifier(text, 7, this.uxm, matchingPatternId);
-        org.junit.Assert.assertEquals(3, matchingPatternId);
+        org.junit.Assert.assertEquals(3, matchingPatternId.argValue.intValue());
     }
 
 
@@ -101,9 +106,9 @@ class NormalizerUtilityTest {
     void testSearchPrefixNumberModifier() {
 
         final var text = new StringBuilder("あいうえおあ5あいうえおごごごごご");
-        final var matchingPatternId = 0;
+        final var matchingPatternId = new RefObject <>(0);
         this.normalizerUtility.searchPrefixNumberModifier(text, 6, this.uxmRev, matchingPatternId);
-        org.junit.Assert.assertEquals(8, matchingPatternId);
+        org.junit.Assert.assertEquals(8, matchingPatternId.argValue.intValue());
     }
 
 
