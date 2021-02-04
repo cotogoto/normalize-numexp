@@ -47,7 +47,7 @@ public abstract class DigitUtility {
     public abstract int convertKansujiKuraiToPowerValue(char uc);
 
 
-    public abstract char getNumberStringCharacter(String numberString, int i);
+    public abstract char getNumberStringCharacter(StringBuilder numberString, int i);
 
 
 

@@ -271,10 +271,10 @@ public class DigitUtilityImpl extends DigitUtility {
 
 
     @Override
-    public char getNumberStringCharacter(String numberString, int i) {
+    public char getNumberStringCharacter(StringBuilder numberString, int i) {
 
         if (numberString.length() > 0) {
-            return numberString.toCharArray()[i];
+            return numberString.toString().toCharArray()[i];
         }
 
         // 例外処理
