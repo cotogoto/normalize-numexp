@@ -1,11 +1,9 @@
 package jp.livlog.normalizeNumexp.numericalExpressionNormalizer.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.NumberNormalizer;
 import jp.livlog.normalizeNumexp.share.NNumber;
-import jp.livlog.normalizeNumexp.share.Pair;
 
 public class NumberNormalizerImpl extends NumberNormalizer {
 
@@ -58,21 +56,7 @@ public class NumberNormalizerImpl extends NumberNormalizer {
     }
 
 
-    private void splitByKansujiKurai(final String numberString, ArrayList <Pair <String, Character>> numberstringSplited) {
 
-        numberstringSplited.clear();
-        var ustr = new StringBuilder();
-        for (var i = 0; i < numberString.length(); i++) {
-            final var uc = numberString.toCharArray()[i];
-            if (this.digitUtility.isKansujiKuraiMan(uc)) {
-                numberstringSplited.add(new Pair <>(ustr.toString(), uc));
-                ustr = new StringBuilder();
-            } else {
-                ustr.append(uc);
-            }
-        }
-        numberstringSplited.add(new Pair <>(ustr.toString(), '　'));
-    }
 
 
     public NumberNormalizerImpl(String language) {

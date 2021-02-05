@@ -177,7 +177,7 @@ public class DigitUtilityImpl extends DigitUtility {
     @Override
     public boolean isKansuji(char uc) {
 
-        return this.isKansuji09(uc);
+        return this.isKansuji09(uc) || this.isKansujiKurai(uc);
     }
 
 

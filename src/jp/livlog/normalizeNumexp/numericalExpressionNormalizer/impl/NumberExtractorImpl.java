@@ -25,10 +25,16 @@ public class NumberExtractorImpl extends NumberExtractor {
         StringBuilder numstr = null;
         NNumber number = null;
         var numFlg = false;
+        var kansujiFlg = false;
         for (var i = 0; i < utext.length(); i++) {
             final var uc = utext.toString().toCharArray()[i];
             if (this.digitUtility.isNumber(uc)) {
-                if (!numFlg) {
+                if (!numFlg || this.digitUtility.isKansuji(uc) != kansujiFlg) {
+                    if (this.digitUtility.isKansuji(uc)) {
+                        kansujiFlg = true;
+                    } else {
+                        kansujiFlg = false;
+                    }
                     numstr = new StringBuilder();
                     number = new NNumber();
                     number.positionStart = i;
@@ -129,22 +135,25 @@ public class NumberExtractorImpl extends NumberExtractor {
 
     private void updateNotationType(final char uc, List <ENotationType> notationType) {
 
+        final List <ENotationType> tempList = new ArrayList <>(notationType);
         if (this.digitUtility.isHankakusuji(uc)) {
             // notationType.argValue |= ENotationType.HANKAKU.getValue();
-            notationType.add(ENotationType.HANKAKU);
+            tempList.add(ENotationType.HANKAKU);
         } else if (this.digitUtility.isZenkakusuji(uc)) {
             // notationType.argValue |= ENotationType.ZENKAKU.getValue();
-            notationType.add(ENotationType.ZENKAKU);
+            tempList.add(ENotationType.ZENKAKU);
         } else if (this.digitUtility.isKansuji09(uc)) {
             // notationType.argValue |= ENotationType.KANSUJI_09.getValue();
-            notationType.add(ENotationType.KANSUJI_09);
+            tempList.add(ENotationType.KANSUJI_09);
         } else if (this.digitUtility.isKansujiKuraiSen(uc)) {
             // notationType.argValue |= ENotationType.KANSUJI_KURAI_SEN.getValue();
-            notationType.add(ENotationType.KANSUJI_KURAI_SEN);
+            tempList.add(ENotationType.KANSUJI_KURAI_SEN);
         } else if (this.digitUtility.isKansujiKuraiMan(uc)) {
             // notationType.argValue |= ENotationType.KANSUJI_KURAI_MAN.getValue();
-            notationType.add(ENotationType.KANSUJI_KURAI_MAN);
+            tempList.add(ENotationType.KANSUJI_KURAI_MAN);
         }
+        notationType.clear();
+        notationType.addAll(tempList.subList(tempList.size() - 2, tempList.size()));
     }
 
 
