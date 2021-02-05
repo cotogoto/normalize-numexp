@@ -15,14 +15,16 @@ import jp.livlog.normalizeNumexp.share.RefObject;
 
 class NumberNormalizerTest {
 
-    NumberExtractor ne = null;
+    DigitUtility    digitUtility = null;
+
+    NumberExtractor ne           = null;
 
     @BeforeEach
     public void initialize() {
 
-        final DigitUtility digitUtility = new DigitUtilityImpl();
-        digitUtility.initKansuji("ja");
-        this.ne = new NumberExtractorImpl(digitUtility);
+        this.digitUtility = new DigitUtilityImpl();
+        this.digitUtility.initKansuji("ja");
+        this.ne = new NumberExtractorImpl(this.digitUtility);
     }
 
 
@@ -63,38 +65,39 @@ class NumberNormalizerTest {
         org.junit.Assert.assertEquals("三", result.get(1).originalExpression);
     }
 
+
     @Test
     void testConvert1() {
 
         final var input = "１，２３４";
-        final NumberConverterTemplate nc = new JapaneseNumberConverterImpl();
+        final NumberConverterTemplate nc = new JapaneseNumberConverterImpl(this.digitUtility);
         final var value = new RefObject <>(0d);
-        final var numberType =  new RefObject <>(0);
+        final var numberType = new RefObject <>(0);
         nc.convertNumber(input, value, numberType);
-        org.junit.Assert.assertEquals(1234.0, value);
+        org.junit.Assert.assertTrue(1234.0 == value.argValue);
     }
+
 
     @Test
     void testConvert2() {
 
-//        final var input = "1989三年前におきたその事件。";
-//        final List <NNumber> result = new ArrayList <>();
-//        this.ne.extractNumber(input, result);
-//        org.junit.Assert.assertEquals(2, result.size());
-//        org.junit.Assert.assertNotEquals("1989三", result.get(0).originalExpression);
-//        org.junit.Assert.assertEquals("1989", result.get(0).originalExpression);
-//        org.junit.Assert.assertEquals("三", result.get(1).originalExpression);
+        final var input = "１，２３４，５６７";
+        final NumberConverterTemplate nc = new JapaneseNumberConverterImpl(this.digitUtility);
+        final var value = new RefObject <>(0d);
+        final var numberType = new RefObject <>(0);
+        nc.convertNumber(input, value, numberType);
+        org.junit.Assert.assertTrue(1234567.0 == value.argValue);
     }
+
 
     @Test
     void testConvert3() {
 
-//        final var input = "1989三年前におきたその事件。";
-//        final List <NNumber> result = new ArrayList <>();
-//        this.ne.extractNumber(input, result);
-//        org.junit.Assert.assertEquals(2, result.size());
-//        org.junit.Assert.assertNotEquals("1989三", result.get(0).originalExpression);
-//        org.junit.Assert.assertEquals("1989", result.get(0).originalExpression);
-//        org.junit.Assert.assertEquals("三", result.get(1).originalExpression);
+        final var input = "一二三四五六七";
+        final NumberConverterTemplate nc = new JapaneseNumberConverterImpl(this.digitUtility);
+        final var value = new RefObject <>(0d);
+        final var numberType = new RefObject <>(0);
+        nc.convertNumber(input, value, numberType);
+        org.junit.Assert.assertTrue(1234567.0 == value.argValue);
     }
 }
