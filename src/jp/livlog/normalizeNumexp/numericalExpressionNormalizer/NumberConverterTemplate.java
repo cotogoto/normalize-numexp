@@ -28,7 +28,7 @@ public abstract class NumberConverterTemplate implements InfNumberConverterTempl
         value.argValue = 0d;
         final var numberStringSplited = new ArrayList <Pair <String, Character>>();
         this.splitByKansujiKurai(numberString, numberStringSplited); // 「億」「万」などの単位で区切る
-        final var  numberConverted = new RefObject <> (0);
+        final var numberConverted = new RefObject <>(0);
         for (var i = 0; i < numberStringSplited.size(); i++) {
             this.convertArabicKansujiMixedOf4digit(numberStringSplited.get(i).first, numberConverted);
             if (numberConverted.argValue == 0 && numberStringSplited.get(i).second != '　') {
@@ -37,12 +37,13 @@ public abstract class NumberConverterTemplate implements InfNumberConverterTempl
                     numberConverted.argValue = 1;
                 } else {
                     // number_converted = value;
-                    //「一億万」など、「億」「万」で区切ったときに前に数字がない場合、とりあえず前までの値を参照する
-                    //TODO : invalidとして扱わないことにした。必要なケースはあるか？
+                    // 「一億万」など、「億」「万」で区切ったときに前に数字がない場合、とりあえず前までの値を参照する
+                    // TODO : invalidとして扱わないことにした。必要なケースはあるか？
                 }
             }
 
-            value.argValue += numberConverted.argValue * Math.pow(10, this.digitUtility.convertKansujiKuraiToPowerValue(numberStringSplited.get(i).second));
+            value.argValue += numberConverted.argValue
+                    * Math.pow(10, this.digitUtility.convertKansujiKuraiToPowerValue(numberStringSplited.get(i).second));
             numberConverted.argValue = 0;
         }
 
@@ -50,8 +51,6 @@ public abstract class NumberConverterTemplate implements InfNumberConverterTempl
 
     // @Override
     // public void convertArabicKansujiMixedOf4digit(StringBuilder numberString, RefObject <Integer> numberConverted) {
-    //
-    // // TODO 自動生成されたメソッド・スタブ
     //
     // }
 
@@ -78,8 +77,6 @@ public abstract class NumberConverterTemplate implements InfNumberConverterTempl
 
     @Override
     public void convertArabicKansujiKuraiManMixed(String numberString, RefObject <Double> value) {
-
-        // TODO 自動生成されたメソッド・スタブ
 
     }
 

@@ -54,10 +54,28 @@ public class NumberNormalizerImpl extends NumberNormalizer {
 
 
     @Override
-    public void processDontFixBySymbol(String input, List <NNumber> output) {
+    public void processDontFixBySymbol(String text, List <NNumber> numbers) {
 
-        // TODO 自動生成されたメソッド・スタブ
+        // 初期化
+        numbers.clear();
 
+        // 入力文inputに含まれる数の表記を抽出
+        this.NE.extractNumber(text, numbers);
+
+        // それぞれの数の表記を、数に変換
+        if (this.language.equals("ja")) {
+            this.NC = new JapaneseNumberConverterImpl(this.digitUtility);
+            this.convertNumber(this.NC, numbers);
+        } else if (this.language.equals("zh")) {
+            this.NC = new ChineseNumberConverterImpl(this.digitUtility);
+            this.convertNumber(this.NC, numbers);
+        } else {
+            this.NC = new ArabicNumberConverterImpl(this.digitUtility);
+            this.convertNumber(this.NC, numbers);
+        }
+
+        // 「京」「万」など単独のものを削除する（ここで処理を行わないと、「数万」などに対応できない）
+        this.removeOnlyKansujiKuraiMan(numbers);
     }
 
 
