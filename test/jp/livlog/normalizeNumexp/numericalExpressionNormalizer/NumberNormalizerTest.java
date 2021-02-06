@@ -153,6 +153,74 @@ class NumberNormalizerTest {
         org.junit.Assert.assertTrue(3244.0 == result.get(0).valueLowerbound);
         org.junit.Assert.assertTrue(3456789.0 == result.get(1).valueLowerbound);
         org.junit.Assert.assertTrue(1234567.0 == result.get(2).valueLowerbound);
+    }
 
+
+    @Test
+    void processTest2DecimalPoint() {
+
+        final var text = "その3,244.15人が３，４５６，７８９．４５６円";
+        final List <NNumber> result = new ArrayList <>();
+        final var language = "ja";
+        this.nn = new NumberNormalizerImpl(language);
+        this.nn.process(text, result);
+        org.junit.Assert.assertEquals(2, result.size());
+        org.junit.Assert.assertTrue(3244.15 == result.get(0).valueLowerbound);
+        org.junit.Assert.assertTrue(3456789.456 == result.get(1).valueLowerbound);
+    }
+
+
+    @Test
+    void processTest2DecimalPoint2() {
+
+        final var text = "131.1ポイントというスコアを叩き出した";
+        final List <NNumber> result = new ArrayList <>();
+        final var language = "ja";
+        this.nn = new NumberNormalizerImpl(language);
+        this.nn.process(text, result);
+        org.junit.Assert.assertEquals(1, result.size());
+        org.junit.Assert.assertTrue(131.1 == result.get(0).valueLowerbound);
+        org.junit.Assert.assertTrue(131.1 == result.get(0).valueUpperbound);
+    }
+
+    @Test
+    void processTest2DecimalPoint3() {
+
+        final var text = "9.3万円も損した";
+        final List <NNumber> result = new ArrayList <>();
+        final var language = "ja";
+        this.nn = new NumberNormalizerImpl(language);
+        this.nn.process(text, result);
+        org.junit.Assert.assertEquals(1, result.size());
+        org.junit.Assert.assertTrue(93000 == result.get(0).valueLowerbound);
+        org.junit.Assert.assertTrue(93000 == result.get(0).valueUpperbound);
+    }
+
+    @Test
+    void processTest3Plus() {
+
+        final var text = "その+3,244人が＋３，４５６，７８９円でプラス百二十三万四千五百六十七円";
+        final List <NNumber> result = new ArrayList <>();
+        final var language = "ja";
+        this.nn = new NumberNormalizerImpl(language);
+        this.nn.process(text, result);
+        org.junit.Assert.assertEquals(3, result.size());
+        org.junit.Assert.assertEquals("+3,244", result.get(0).originalExpression);
+        org.junit.Assert.assertEquals("＋３，４５６，７８９", result.get(1).originalExpression);
+        org.junit.Assert.assertEquals("プラス百二十三万四千五百六十七", result.get(2).originalExpression);
+    }
+
+    @Test
+    void processTest3Minus() {
+
+        final var text = "その-3,244人がー３，４５６，７８９円でマイナス百二十三万四千五百六十七円";
+        final List <NNumber> result = new ArrayList <>();
+        final var language = "ja";
+        this.nn = new NumberNormalizerImpl(language);
+        this.nn.process(text, result);
+        org.junit.Assert.assertEquals(3, result.size());
+        org.junit.Assert.assertTrue(-3244.0 == result.get(0).valueLowerbound);
+        org.junit.Assert.assertTrue(-3456789.0 == result.get(1).valueLowerbound);
+        org.junit.Assert.assertTrue(-1234567.0 == result.get(2).valueLowerbound);
     }
 }

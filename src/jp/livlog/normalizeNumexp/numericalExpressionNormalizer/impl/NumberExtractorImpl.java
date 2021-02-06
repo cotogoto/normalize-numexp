@@ -43,7 +43,7 @@ public class NumberExtractorImpl extends NumberExtractor {
                     number.originalExpression = numstr.toString();
                     numbers.add(number);
                 }
-                number.positionEnd = i;
+                number.positionEnd = i + 1;
 
             } else {
                 numFlg = false;
@@ -99,6 +99,7 @@ public class NumberExtractorImpl extends NumberExtractor {
         // リアルタイム検出するために、変数は呼び出し元と共有し変数をアップデートしていくアルゴリズムになっている
         // （ucは今回対象とする数）
         if (this.digitUtility.isKansujiKuraiMan(uc)) {
+            kansujiKuraiSenStringsForCheckInvalidNotation.setLength(0);
             return this.isInvalidKansujiKuraiOrder(uc, kansujiKuraiManStringsForCheckInvalidNotation);
         } else if (this.digitUtility.isKansujiKuraiSen(uc)) {
             return this.isInvalidKansujiKuraiOrder(uc, kansujiKuraiSenStringsForCheckInvalidNotation);
@@ -114,7 +115,7 @@ public class NumberExtractorImpl extends NumberExtractor {
         notationType.add(ENotationType.NOT_NUMBER);
         final var kansujiKuraiSenStringsForCheckInvalidNotation = new StringBuilder();
         final var kansujiKuraiManStringsForCheckInvalidNotation = new StringBuilder();
-        // numstr.clear();
+        numstr.setLength(0);
         int a = i.argValue;
         for (; a < uText.length(); a++) {
             final var uc = uText.charAt(a);
@@ -124,6 +125,7 @@ public class NumberExtractorImpl extends NumberExtractor {
             this.updateNotationType(uc, notationType);
             if (this.isInvalidNotationType(notationType)
                     || this.isInvalidNotation(uc, kansujiKuraiManStringsForCheckInvalidNotation, kansujiKuraiSenStringsForCheckInvalidNotation)) {
+                // if (this.isInvalidNotationType(notationType)) {
                 a--;
                 return;
             }

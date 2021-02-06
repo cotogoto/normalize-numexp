@@ -86,7 +86,7 @@ public class NumberNormalizerImpl extends NumberNormalizer {
             final var numberType = new RefObject <>(number.notationType.getValue());
 
             NC.convertNumber(number.originalExpression, valueLowerbound, numberType);
-            number.valueUpperbound = valueLowerbound.argValue;
+            number.valueLowerbound = valueLowerbound.argValue;
         }
     }
 
@@ -227,7 +227,9 @@ public class NumberNormalizerImpl extends NumberNormalizer {
 
         // カンマ表記を統合する。カンマは「3,000,000」のように3桁ごとに区切っているカンマしか数のカンマ表記とは認めない（「29,30」のような表記は認めない）
         for (var i = numbers.size() - 1; i > 0; i--) {
-            if (numbers.get(i - 1).positionEnd != numbers.get(i).positionStart - 1) {
+            final var a = numbers.get(i - 1).positionEnd;
+            final var b = numbers.get(i).positionStart - 1;
+            if (a != b) {
                 continue;
             }
             final var ucharIntermediate = text.toCharArray()[numbers.get(i - 1).positionEnd];

@@ -48,18 +48,24 @@ public class SymbolFixerImpl extends SymbolFixer {
     @Override
     protected void fixIntermediateSymbol(StringBuilder uText, List <NNumber> numbers, int i) {
 
-        final var intermediate = uText.substring(numbers.get(i).positionEnd, numbers.get(i + 1).positionStart - numbers.get(i).positionEnd);
+        if (numbers.size() - 1 <= i) {
+            return;
+        }
+
+        final var a = numbers.get(i).positionEnd;
+        final var b = numbers.get(i + 1).positionStart; // - numbers.get(i).positionEnd;
+        final var intermediate = uText.substring(a, b);
         // final String decimal_strings;
         if (numbers.get(i).valueLowerbound == Symbol.INFINITY || numbers.get(i + 1).valueLowerbound == Symbol.INFINITY) {
             return;
         }
 
-        if (this.digitUtility.isDecimalPoint(intermediate.charAt(i))) {
+        if (this.digitUtility.isDecimalPoint(intermediate.charAt(0))) {
             this.fixDecimalPoint(numbers, i, intermediate);
         }
 
-        if (this.digitUtility.isRangeExpression(intermediate.charAt(i))
-                || (this.digitUtility.isComma(intermediate.charAt(i))
+        if (this.digitUtility.isRangeExpression(intermediate.charAt(0))
+                || (this.digitUtility.isComma(intermediate.charAt(0))
                         && intermediate.length() == 1
                         && (numbers.get(i).valueLowerbound == numbers.get(i + 1).valueUpperbound - 1))) { // 範囲表現か、コンマの並列表現のとき
             this.fixRangeExpression(numbers, i, intermediate);
@@ -92,7 +98,7 @@ public class SymbolFixerImpl extends SymbolFixer {
         if (i < 2) {
             return false;
         }
-        str = uText.substring(i - 2, 3);
+        str = uText.substring(i - 2, i + 1);
         if ("プラス".equals(str)) {
             plusStrings.append(str);
             return true;
@@ -118,7 +124,7 @@ public class SymbolFixerImpl extends SymbolFixer {
         if (i < 3) {
             return false;
         }
-        str = uText.substring(i - 3, 4);
+        str = uText.substring(i - 3, i + 1);
         if ("マイナス".equals(str)) {
             minusStrings.append(str);
             return true;

@@ -129,11 +129,12 @@ class DigitUtilityTest {
 //    }
 //
 //
-//    @Test
-//    void testIsDecimalPoint() {
-//
-//        // Assertions.fail('まだ実装されていません');
-//    }
+    @Test
+    void testIsDecimalPoint() {
+
+        // Assertions.fail('まだ実装されていません');
+        org.junit.Assert.assertTrue(this.digitUtility.isDecimalPoint('．'));
+    }
 //
 //
 //    @Test
