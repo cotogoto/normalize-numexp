@@ -4,16 +4,27 @@ import java.util.List;
 
 import jp.livlog.normalizeNumexp.digitUtility.DigitUtility;
 import jp.livlog.normalizeNumexp.digitUtility.impl.DigitUtilityImpl;
+import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.impl.NumberExtractorImpl;
+import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.impl.SymbolFixerImpl;
 import jp.livlog.normalizeNumexp.share.NNumber;
 
 public abstract class NumberNormalizer {
 
-    protected DigitUtility digitUtility = new DigitUtilityImpl();
+    protected DigitUtility               digitUtility = null;
+
+    protected NumberExtractor            NE           = null;
+
+    protected InfNumberConverterTemplate NC           = null;
+
+    protected SymbolFixer                SF           = null;
 
     public NumberNormalizer(String language) {
 
         this.language = language;
+        this.digitUtility = new DigitUtilityImpl();
         this.digitUtility.initKansuji(language);
+        this.NE = new NumberExtractorImpl(this.digitUtility);
+        this.SF = new SymbolFixerImpl();
     }
 
 

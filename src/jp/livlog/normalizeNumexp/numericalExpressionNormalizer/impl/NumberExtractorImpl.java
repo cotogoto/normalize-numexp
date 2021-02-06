@@ -27,7 +27,7 @@ public class NumberExtractorImpl extends NumberExtractor {
         var numFlg = false;
         var kansujiFlg = false;
         for (var i = 0; i < utext.length(); i++) {
-            final var uc = utext.toString().toCharArray()[i];
+            final var uc = utext.charAt(i);
             if (this.digitUtility.isNumber(uc)) {
                 if (!numFlg || this.digitUtility.isKansuji(uc) != kansujiFlg) {
                     if (this.digitUtility.isKansuji(uc)) {
@@ -117,7 +117,7 @@ public class NumberExtractorImpl extends NumberExtractor {
         // numstr.clear();
         int a = i.argValue;
         for (; a < uText.length(); a++) {
-            final var uc = uText.toString().toCharArray()[a];
+            final var uc = uText.charAt(a);
             if (!this.digitUtility.isNumber(uc)) {
                 return;
             }

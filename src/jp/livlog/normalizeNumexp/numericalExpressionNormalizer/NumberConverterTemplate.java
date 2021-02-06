@@ -61,7 +61,7 @@ public abstract class NumberConverterTemplate implements InfNumberConverterTempl
 
         ret.setLength(0);
         for (var i = 0; i < ustr.length(); i++) {
-            final var uc = ustr.toString().toCharArray()[i];
+            final var uc = ustr.charAt(i);
             if (!this.digitUtility.isComma(uc)) {
                 ret.append(uc);
             }
@@ -89,7 +89,7 @@ public abstract class NumberConverterTemplate implements InfNumberConverterTempl
         numberstringSplited.clear();
         var ustr = new StringBuilder();
         for (var i = 0; i < numberString.length(); i++) {
-            final var uc = numberString.toString().toCharArray()[i];
+            final var uc = numberString.charAt(i);
             if (this.digitUtility.isKansujiKuraiMan(uc)) {
                 numberstringSplited.add(new Pair <>(ustr.toString(), uc));
                 ustr = new StringBuilder();

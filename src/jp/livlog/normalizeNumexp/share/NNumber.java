@@ -9,7 +9,7 @@ public class NNumber extends BaseExpressionTemplate {
         this.positionEnd = -1;
         this.valueLowerbound = Symbol.INFINITY;
         this.valueUpperbound = -Symbol.INFINITY;
-        this.notationType = ENotationType.NOT_NUMBER.getValue();
+        this.notationType = ENotationType.NOT_NUMBER;
     }
 
 
@@ -20,7 +20,7 @@ public class NNumber extends BaseExpressionTemplate {
         this.positionEnd = positionEnd;
         this.valueLowerbound = Symbol.INFINITY;
         this.valueUpperbound = -Symbol.INFINITY;
-        this.notationType = ENotationType.NOT_NUMBER.getValue();
+        this.notationType = ENotationType.NOT_NUMBER;
     }
 
     public String originalExpression = null;
@@ -33,5 +33,5 @@ public class NNumber extends BaseExpressionTemplate {
 
     public double valueUpperbound;
 
-    public int    notationType;
+    public ENotationType    notationType;
 }
