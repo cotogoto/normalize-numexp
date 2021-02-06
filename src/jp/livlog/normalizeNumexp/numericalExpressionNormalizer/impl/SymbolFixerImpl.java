@@ -2,80 +2,188 @@ package jp.livlog.normalizeNumexp.numericalExpressionNormalizer.impl;
 
 import java.util.List;
 
+import jp.livlog.normalizeNumexp.digitUtility.DigitUtility;
 import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.SymbolFixer;
 import jp.livlog.normalizeNumexp.share.NNumber;
+import jp.livlog.normalizeNumexp.share.Symbol;
 
 public class SymbolFixerImpl extends SymbolFixer {
+
+    public SymbolFixerImpl(DigitUtility digitUtility) {
+
+        super(digitUtility);
+    }
+
 
     @Override
     public void fixNumbersBySymbol(String text, List <NNumber> numbers) {
 
-        // TODO 自動生成されたメソッド・スタブ
-
+        final var uText = new StringBuilder(text);
+        for (var i = 0; i < numbers.size(); i++) {
+            this.fixPrefixSymbol(uText, numbers, i);
+            this.fixIntermediateSymbol(uText, numbers, i);
+            this.fixSuffixSymbol(uText, numbers, i);
+        }
     }
 
 
     @Override
-    public boolean isPlus(String uText, int i, String plusStrings) {
+    protected void fixPrefixSymbol(StringBuilder uText, List <NNumber> numbers, int i) {
 
-        // TODO 自動生成されたメソッド・スタブ
+        final var plusStrings = new StringBuilder();
+        final var minusStrings = new StringBuilder();
+
+        if (this.isPlus(uText, numbers.get(i).positionStart - 1, plusStrings)) {
+            numbers.get(i).originalExpression = plusStrings + numbers.get(i).originalExpression;
+            numbers.get(i).positionStart--;
+        } else if (this.isMinus(uText, numbers.get(i).positionStart - 1, minusStrings)) {
+            numbers.get(i).valueLowerbound *= -1;
+            numbers.get(i).valueUpperbound *= -1;
+            numbers.get(i).originalExpression = minusStrings + numbers.get(i).originalExpression;
+            numbers.get(i).positionStart--;
+        }
+    }
+
+
+    @Override
+    protected void fixIntermediateSymbol(StringBuilder uText, List <NNumber> numbers, int i) {
+
+        final var intermediate = uText.substring(numbers.get(i).positionEnd, numbers.get(i + 1).positionStart - numbers.get(i).positionEnd);
+        // final String decimal_strings;
+        if (numbers.get(i).valueLowerbound == Symbol.INFINITY || numbers.get(i + 1).valueLowerbound == Symbol.INFINITY) {
+            return;
+        }
+
+        if (this.digitUtility.isDecimalPoint(intermediate.charAt(i))) {
+            this.fixDecimalPoint(numbers, i, intermediate);
+        }
+
+        if (this.digitUtility.isRangeExpression(intermediate.charAt(i))
+                || (this.digitUtility.isComma(intermediate.charAt(i))
+                        && intermediate.length() == 1
+                        && (numbers.get(i).valueLowerbound == numbers.get(i + 1).valueUpperbound - 1))) { // 範囲表現か、コンマの並列表現のとき
+            this.fixRangeExpression(numbers, i, intermediate);
+        }
+    }
+
+
+    @Override
+    protected void fixSuffixSymbol(StringBuilder uText, List <NNumber> numbers, int i) {
+
+        // suffixの処理は特にない
+    }
+
+
+    @Override
+    protected boolean isPlus(StringBuilder uText, int i, StringBuilder plusStrings) {
+
+        plusStrings.setLength(0);
+
+        if (i < 0) {
+            return false;
+        }
+
+        var str = String.valueOf(uText.charAt(i));
+        if ("+".equals(str) || "＋".equals(str)) {
+            plusStrings.append(str);
+            return true;
+        }
+
+        if (i < 2) {
+            return false;
+        }
+        str = uText.substring(i - 2, 3);
+        if ("プラス".equals(str)) {
+            plusStrings.append(str);
+            return true;
+        }
         return false;
     }
 
 
     @Override
-    public boolean isMinus(String uText, int i, String plusStrings) {
+    protected boolean isMinus(StringBuilder uText, int i, StringBuilder minusStrings) {
 
-        // TODO 自動生成されたメソッド・スタブ
+        minusStrings.setLength(0);
+
+        if (i < 0) {
+            return false;
+        }
+        var str = String.valueOf(uText.charAt(i));
+        if ("-".equals(str) || "ー".equals(str) || "－".equals(str)) {
+            minusStrings.append(str);
+            return true;
+        }
+
+        if (i < 3) {
+            return false;
+        }
+        str = uText.substring(i - 3, 4);
+        if ("マイナス".equals(str)) {
+            minusStrings.append(str);
+            return true;
+        }
         return false;
     }
 
 
     @Override
-    public void fixPrefixSymbol(String uText, List <NNumber> numbers, int i) {
+    protected double createDecimalValue(NNumber number) {
 
-        // TODO 自動生成されたメソッド・スタブ
+        double decimal;
+        decimal = number.valueLowerbound;
 
+        // 1より小さくなるまで0.1を乗算する
+        while (decimal >= 1) {
+            decimal *= 0.1;
+        }
+
+        // 「1.001」のような0が含まれる表記のため、先頭のゼロの分、0.1を乗算する
+        var pos = 0;
+        while (true) {
+            final var str = String.valueOf(number.originalExpression.charAt(pos));
+            if (!"0".equals(str) && !"０".equals(str) && !"零".equals(str) && !"〇".equals(str)) {
+                break;
+            }
+            decimal *= 0.1;
+            pos++;
+        }
+
+        return decimal;
     }
 
 
     @Override
-    public double createDecimalValue(NNumber number) {
+    protected void fixDecimalPoint(List <NNumber> numbers, int i, String decimalStrings) {
 
-        // TODO 自動生成されたメソッド・スタブ
-        return 0;
+        // 小数点の処理を行う。「3.14」「9.3万」など。
+        // 「3.14」の場合、小数点以下を10^(-n)乗してから、小数点以上の値に付け加える
+        // 「9.3万」の場合、先に「万」を無視して上と同じ処理を行ってから、最後に「万」分の処理を行う
+        final var decimal = this.createDecimalValue(numbers.get(i + 1));
+        numbers.get(i).valueLowerbound += decimal;
+        final var uc = numbers.get(i + 1).originalExpression.charAt(numbers.get(i + 1).originalExpression.length() - 1);
+        if (this.digitUtility.isKansujiKuraiMan(uc)) {
+            final var powerValue = this.digitUtility.convertKansujiKuraiToPowerValue(uc);
+            numbers.get(i).valueLowerbound *= Math.pow(10, powerValue);
+        }
+
+        numbers.get(i).valueUpperbound = numbers.get(i).valueLowerbound;
+        numbers.get(i).originalExpression += decimalStrings;
+        numbers.get(i).originalExpression += numbers.get(i + 1).originalExpression;
+        numbers.get(i).positionEnd = numbers.get(i + 1).positionEnd;
+        numbers.remove(i + 1);
     }
 
 
     @Override
-    public void fixDecimalPoint(List <NNumber> numbers, int i, String decimalStrings) {
+    protected void fixRangeExpression(List <NNumber> numbers, int i, String rangeStrings) {
 
-        // TODO 自動生成されたメソッド・スタブ
-
-    }
-
-
-    @Override
-    public void fixRangeExpression(List <NNumber> numbers, int i, String rangeStrings) {
-
-        // TODO 自動生成されたメソッド・スタブ
-
-    }
-
-
-    @Override
-    public void fixIntermediateSymbol(String uText, List <NNumber> numbers, int i) {
-
-        // TODO 自動生成されたメソッド・スタブ
-
-    }
-
-
-    @Override
-    public void fixSuffixSymbol(String uText, List <NNumber> numbers, int i) {
-
-        // TODO 自動生成されたメソッド・スタブ
-
+        numbers.get(i).valueUpperbound = numbers.get(i + 1).valueLowerbound;
+        // numbers.get(i).positionEnd = numbers.get(i + 1).positionEnd;
+        numbers.get(i).originalExpression += rangeStrings;
+        numbers.get(i).originalExpression += numbers.get(i + 1).originalExpression;
+        numbers.get(i).positionEnd = numbers.get(i + 1).positionEnd;
+        numbers.remove(i + 1);
     }
 
 }

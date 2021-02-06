@@ -49,8 +49,7 @@ public class NumberNormalizerImpl extends NumberNormalizer {
         this.removeOnlyKansujiKuraiMan(numbers);
 
         // 記号の処理を行う
-        final var SF = new SymbolFixerImpl();
-        SF.fixNumbersBySymbol(text, numbers);
+        this.SF.fixNumbersBySymbol(text, numbers);
     }
 
 

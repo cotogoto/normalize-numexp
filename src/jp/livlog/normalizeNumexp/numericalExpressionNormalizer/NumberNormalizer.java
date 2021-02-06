@@ -24,7 +24,7 @@ public abstract class NumberNormalizer {
         this.digitUtility = new DigitUtilityImpl();
         this.digitUtility.initKansuji(language);
         this.NE = new NumberExtractorImpl(this.digitUtility);
-        this.SF = new SymbolFixerImpl();
+        this.SF = new SymbolFixerImpl(this.digitUtility);
     }
 
 
