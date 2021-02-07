@@ -184,6 +184,7 @@ class NumberNormalizerTest {
         org.junit.Assert.assertTrue(131.1 == result.get(0).valueUpperbound);
     }
 
+
     @Test
     void processTest2DecimalPoint3() {
 
@@ -196,6 +197,7 @@ class NumberNormalizerTest {
         org.junit.Assert.assertTrue(93000 == result.get(0).valueLowerbound);
         org.junit.Assert.assertTrue(93000 == result.get(0).valueUpperbound);
     }
+
 
     @Test
     void processTest3Plus() {
@@ -211,6 +213,7 @@ class NumberNormalizerTest {
         org.junit.Assert.assertEquals("プラス百二十三万四千五百六十七", result.get(2).originalExpression);
     }
 
+
     @Test
     void processTest3Minus() {
 
@@ -224,6 +227,7 @@ class NumberNormalizerTest {
         org.junit.Assert.assertTrue(-3456789.0 == result.get(1).valueLowerbound);
         org.junit.Assert.assertTrue(-1234567.0 == result.get(2).valueLowerbound);
     }
+
 
     @Test
     void processTest4Range() {
@@ -245,6 +249,7 @@ class NumberNormalizerTest {
         org.junit.Assert.assertTrue(17 == result.get(1).positionEnd);
     }
 
+
     @Test
     void donnotHaveNumber1() {
 
@@ -255,6 +260,7 @@ class NumberNormalizerTest {
         this.nn.process(text, result);
         org.junit.Assert.assertEquals(0, result.size());
     }
+
 
     @Test
     void processTestCorner1() {
@@ -267,6 +273,7 @@ class NumberNormalizerTest {
         org.junit.Assert.assertEquals(1, result.size());
         org.junit.Assert.assertTrue(1000.0 == result.get(0).valueLowerbound);
     }
+
 
     @Test
     void plural1() {
@@ -281,6 +288,7 @@ class NumberNormalizerTest {
         org.junit.Assert.assertTrue(14000.0 == result.get(1).valueLowerbound);
     }
 
+
     @Test
     void invalidNotation1() {
 
@@ -293,5 +301,31 @@ class NumberNormalizerTest {
         org.junit.Assert.assertEquals("1千1", result.get(0).originalExpression);
         org.junit.Assert.assertEquals("千1", result.get(1).originalExpression);
         org.junit.Assert.assertEquals("千", result.get(2).originalExpression);
+    }
+
+    @Test
+    void invalidNotationType1() {
+
+        final var text = "２００７20人がきた";
+        final List <NNumber> result = new ArrayList <>();
+        final var language = "ja";
+        this.nn = new NumberNormalizerImpl(language);
+        this.nn.process(text, result);
+        org.junit.Assert.assertEquals(2, result.size());
+        org.junit.Assert.assertEquals("２００７", result.get(0).originalExpression);
+        org.junit.Assert.assertEquals("20", result.get(1).originalExpression);
+    }
+
+    @Test
+    void invalidNotationType2() {
+
+        final var text = "２００７二十人がきた";
+        final List <NNumber> result = new ArrayList <>();
+        final var language = "ja";
+        this.nn = new NumberNormalizerImpl(language);
+        this.nn.process(text, result);
+        org.junit.Assert.assertEquals(2, result.size());
+        org.junit.Assert.assertEquals("２００７", result.get(0).originalExpression);
+        org.junit.Assert.assertEquals("二十", result.get(1).originalExpression);
     }
 }

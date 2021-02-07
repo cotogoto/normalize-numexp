@@ -282,7 +282,7 @@ public class DigitUtilityImpl extends DigitUtility {
 //        } else if (this.isKansuji09(uc)) {
 //            return ENotationType.KANSUJI_09;
         } else if (this.isKansujiKurai(uc)) {
-            return ENotationType.KANSUJI_KURAI;
+            return ENotationType.KANSUJI;
 //        } else if (this.isKansujiKuraiSen(uc)) {
 //            return ENotationType.KANSUJI_KURAI_SEN;
 //        } else if (this.isKansujiKuraiMan(uc)) {

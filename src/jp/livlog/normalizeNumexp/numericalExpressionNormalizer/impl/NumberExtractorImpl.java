@@ -25,20 +25,21 @@ public class NumberExtractorImpl extends NumberExtractor {
         StringBuilder numstr = null;
         NNumber number = null;
         var numFlg = false;
-        var kansujiFlg = false;
         for (var i = 0; i < utext.length(); i++) {
             final var uc = utext.charAt(i);
             if (this.digitUtility.isNumber(uc)) {
-                if (!numFlg || this.digitUtility.isKansuji(uc) != kansujiFlg) {
-                    if (this.digitUtility.isKansuji(uc)) {
-                        kansujiFlg = true;
-                    } else {
-                        kansujiFlg = false;
-                    }
+                final var notationType = this.digitUtility.convertNotationType(uc);
+                ENotationType prevNotationType = null;
+                if (numbers.size() > 0) {
+                    final var prevNotationTypeList = numbers.get(numbers.size() - 1).notationType;
+                    prevNotationType = prevNotationTypeList.get(prevNotationTypeList.size() - 1);
+                }
+
+                if (!numFlg || (prevNotationType != null && notationType.getValue() != prevNotationType.getValue())) {
                     numstr = new StringBuilder();
                     number = new NNumber();
                     number.positionStart = i;
-                    number.notationType.add(this.digitUtility.convertNotationType(uc));
+                    number.notationType.add(notationType);
                     numFlg = true;
                     this.returnLongestNumberStrings(utext, new RefObject <>(i), numstr);
                     number.originalExpression = numstr.toString();
