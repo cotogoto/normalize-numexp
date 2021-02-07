@@ -1,5 +1,8 @@
 package jp.livlog.normalizeNumexp.share;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class NNumber extends BaseExpressionTemplate {
 
     public NNumber() {
@@ -9,7 +12,7 @@ public class NNumber extends BaseExpressionTemplate {
         this.positionEnd = -1;
         this.valueLowerbound = Symbol.INFINITY;
         this.valueUpperbound = -Symbol.INFINITY;
-        this.notationType = ENotationType.NOT_NUMBER;
+        this.notationType = new ArrayList <>();
     }
 
 
@@ -20,18 +23,18 @@ public class NNumber extends BaseExpressionTemplate {
         this.positionEnd = positionEnd;
         this.valueLowerbound = Symbol.INFINITY;
         this.valueUpperbound = -Symbol.INFINITY;
-        this.notationType = ENotationType.NOT_NUMBER;
+        this.notationType = new ArrayList <>();
     }
 
-    public String originalExpression = null;
+    public String               originalExpression = null;
 
-    public int    positionStart;
+    public int                  positionStart;
 
-    public int    positionEnd;
+    public int                  positionEnd;
 
-    public double valueLowerbound;
+    public double               valueLowerbound;
 
-    public double valueUpperbound;
+    public double               valueUpperbound;
 
-    public ENotationType    notationType;
+    public List <ENotationType> notationType;
 }

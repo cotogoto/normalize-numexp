@@ -55,6 +55,10 @@ public class SymbolFixerImpl extends SymbolFixer {
         final var a = numbers.get(i).positionEnd;
         final var b = numbers.get(i + 1).positionStart; // - numbers.get(i).positionEnd;
         final var intermediate = uText.substring(a, b);
+        if (intermediate.length() == 0) {
+            return;
+        }
+
         // final String decimal_strings;
         if (numbers.get(i).valueLowerbound == Symbol.INFINITY || numbers.get(i + 1).valueLowerbound == Symbol.INFINITY) {
             return;

@@ -38,6 +38,7 @@ public class NumberExtractorImpl extends NumberExtractor {
                     numstr = new StringBuilder();
                     number = new NNumber();
                     number.positionStart = i;
+                    number.notationType.add(this.digitUtility.convertNotationType(uc));
                     numFlg = true;
                     this.returnLongestNumberStrings(utext, new RefObject <>(i), numstr);
                     number.originalExpression = numstr.toString();
@@ -79,8 +80,9 @@ public class NumberExtractorImpl extends NumberExtractor {
             return false;
         }
 
-        final var a = this.digitUtility.getNumberStringCharacter(kansujiKuraiStringsForCheckInvalidNotation,
-                kansujiKuraiStringsForCheckInvalidNotation.length() - 1);
+        // final var a = this.digitUtility.getNumberStringCharacter(kansujiKuraiStringsForCheckInvalidNotation,
+        // kansujiKuraiStringsForCheckInvalidNotation.length() - 1);
+        final var a = kansujiKuraiStringsForCheckInvalidNotation.charAt(kansujiKuraiStringsForCheckInvalidNotation.length() - 1);
         final var prev = this.digitUtility.convertKansujiKuraiToPowerValue(a);
         final var cur = this.digitUtility.convertKansujiKuraiToPowerValue(uc);
         if (cur < prev) {

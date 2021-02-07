@@ -1,10 +1,13 @@
 package jp.livlog.normalizeNumexp.numericalExpressionNormalizer;
 
+import java.util.List;
+
+import jp.livlog.normalizeNumexp.share.ENotationType;
 import jp.livlog.normalizeNumexp.share.RefObject;
 
 public interface InfNumberConverterTemplate {
 
-    void convertNumber(String numberStringOrg, RefObject <Double> value, RefObject <Integer> numberType);
+    void convertNumber(String numberStringOrg, RefObject <Double> value, List <ENotationType> notationType);
 
 
     void convertArabicKansujiMixedOf4digit(String numberString, RefObject <Integer> numberConverted);

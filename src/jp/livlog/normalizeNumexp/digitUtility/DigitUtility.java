@@ -1,5 +1,7 @@
 package jp.livlog.normalizeNumexp.digitUtility;
 
+import jp.livlog.normalizeNumexp.share.ENotationType;
+
 public abstract class DigitUtility {
 
     public abstract void initKansuji(String language);
@@ -47,7 +49,9 @@ public abstract class DigitUtility {
     public abstract int convertKansujiKuraiToPowerValue(char uc);
 
 
-    public abstract char getNumberStringCharacter(StringBuilder numberString, int i);
+    public abstract ENotationType convertNotationType(char uc);
+
+//    public abstract char getNumberStringCharacter(StringBuilder numberString, int i);
 
 
 

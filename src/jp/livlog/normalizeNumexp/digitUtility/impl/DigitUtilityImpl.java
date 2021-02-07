@@ -271,14 +271,36 @@ public class DigitUtilityImpl extends DigitUtility {
 
 
     @Override
-    public char getNumberStringCharacter(StringBuilder numberString, int i) {
+    public ENotationType convertNotationType(char uc) {
 
-        if (numberString.length() > 0) {
-            return numberString.toString().toCharArray()[i];
+        if (this.isHankakusuji(uc)) {
+            return ENotationType.HANKAKU;
+        } else if (this.isZenkakusuji(uc)) {
+            return ENotationType.ZENKAKU;
+        } else if (this.isKansuji(uc)) {
+            return ENotationType.KANSUJI;
+//        } else if (this.isKansuji09(uc)) {
+//            return ENotationType.KANSUJI_09;
+        } else if (this.isKansujiKurai(uc)) {
+            return ENotationType.KANSUJI_KURAI;
+//        } else if (this.isKansujiKuraiSen(uc)) {
+//            return ENotationType.KANSUJI_KURAI_SEN;
+//        } else if (this.isKansujiKuraiMan(uc)) {
+//            return ENotationType.KANSUJI_KURAI_MAN;
         }
 
-        // 例外処理
-        throw new NullPointerException("Exception : is not number string");
+        return ENotationType.NOT_NUMBER;
     }
+
+    // @Override
+    // public char getNumberStringCharacter(StringBuilder numberString, int i) {
+    //
+    // if (numberString.length() > 0) {
+    // return numberString.toString().toCharArray()[i];
+    // }
+    //
+    // // 例外処理
+    // throw new NullPointerException("Exception : is not number string");
+    // }
 
 }

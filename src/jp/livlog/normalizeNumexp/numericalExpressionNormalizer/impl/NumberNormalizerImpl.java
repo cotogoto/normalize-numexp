@@ -1,5 +1,6 @@
 package jp.livlog.normalizeNumexp.numericalExpressionNormalizer.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.InfNumberConverterTemplate;
@@ -50,6 +51,9 @@ public class NumberNormalizerImpl extends NumberNormalizer {
 
         // 記号の処理を行う
         this.SF.fixNumbersBySymbol(text, numbers);
+
+        // 不要なデータ除外
+        this.removeUnnecessaryData(text, numbers);
     }
 
 
@@ -76,6 +80,9 @@ public class NumberNormalizerImpl extends NumberNormalizer {
 
         // 「京」「万」など単独のものを削除する（ここで処理を行わないと、「数万」などに対応できない）
         this.removeOnlyKansujiKuraiMan(numbers);
+
+        // 不要なデータ除外
+        this.removeUnnecessaryData(text, numbers);
     }
 
 
@@ -83,10 +90,11 @@ public class NumberNormalizerImpl extends NumberNormalizer {
 
         for (final NNumber number : numbers) {
             final var valueLowerbound = new RefObject <>(number.valueLowerbound);
-            final var numberType = new RefObject <>(number.notationType.getValue());
+            // final var numberType = new RefObject <>(number.notationType.getValue());
 
-            NC.convertNumber(number.originalExpression, valueLowerbound, numberType);
+            NC.convertNumber(number.originalExpression, valueLowerbound, number.notationType);
             number.valueLowerbound = valueLowerbound.argValue;
+            number.valueUpperbound = valueLowerbound.argValue;
         }
     }
 
@@ -112,13 +120,30 @@ public class NumberNormalizerImpl extends NumberNormalizer {
     }
 
 
-    private void fixPrefixSu(final StringBuilder utext, List <NNumber> numbers, int i) {
+    private void removeUnnecessaryData(String text, List <NNumber> numbers) {
+
+        final var temp = new StringBuilder(text);
+        final List <NNumber> wkNumbers = new ArrayList <>();
+        for (final NNumber number : numbers) {
+            final var a = temp.indexOf(number.originalExpression);
+            if (a > -1) {
+                final var b = a + number.originalExpression.length();
+                temp.delete(a, b);
+                wkNumbers.add(number);
+            }
+        }
+        numbers.clear();
+        numbers.addAll(wkNumbers);
+    }
+
+
+    private void fixPrefixSu(final StringBuilder uText, List <NNumber> numbers, int i) {
 
         // 「数十万円」「数万円」「数十円」といった表現の処理を行う。
         if (numbers.get(i).positionStart == 0) {
             return;
         }
-        if (utext.charAt(numbers.get(i).positionStart - 1) != '数') {
+        if (uText.charAt(numbers.get(i).positionStart - 1) != '数') {
             return;
         }
 
@@ -131,7 +156,7 @@ public class NumberNormalizerImpl extends NumberNormalizer {
     }
 
 
-    private void fixIntermediateSu(final StringBuilder utext, List <NNumber> numbers, int i) {
+    private void fixIntermediateSu(final StringBuilder uText, List <NNumber> numbers, int i) {
 
         // 「十数万円」といった表現の処理を行う
         if (numbers.size() - 1 <= i) {
@@ -140,7 +165,7 @@ public class NumberNormalizerImpl extends NumberNormalizer {
         if (numbers.get(i).positionEnd != numbers.get(i + 1).positionStart - 1) {
             return;
         }
-        if (utext.charAt(numbers.get(i).positionEnd) != '数') {
+        if (uText.charAt(numbers.get(i).positionEnd) != '数') {
             return;
         }
 
@@ -171,13 +196,13 @@ public class NumberNormalizerImpl extends NumberNormalizer {
     }
 
 
-    private void fixSuffixSu(final StringBuilder utext, List <NNumber> numbers, int i) {
+    private void fixSuffixSu(final StringBuilder uText, List <NNumber> numbers, int i) {
 
         // 「十数円」の処理を行う（これ以外に、suffixに数がくるケースはない。
-        if (numbers.get(i).positionEnd == utext.length()) {
+        if (numbers.get(i).positionEnd == uText.length()) {
             return;
         }
-        if (utext.charAt(i) != '数') {
+        if (uText.charAt(i) != '数') {
             return;
         }
         numbers.get(i).valueUpperbound += 9;
@@ -189,11 +214,11 @@ public class NumberNormalizerImpl extends NumberNormalizer {
 
     private void fixNumbersBySu(final String text, List <NNumber> numbers) {
 
-        final var utext = new StringBuilder(text);
+        final var uText = new StringBuilder(text);
         for (var i = 0; i < numbers.size(); i++) {
-            this.fixPrefixSu(utext, numbers, i);
-            this.fixIntermediateSu(utext, numbers, i);
-            this.fixSuffixSu(utext, numbers, i);
+            this.fixPrefixSu(uText, numbers, i);
+            this.fixIntermediateSu(uText, numbers, i);
+            this.fixSuffixSu(uText, numbers, i);
         }
     }
 
@@ -201,16 +226,16 @@ public class NumberNormalizerImpl extends NumberNormalizer {
     private boolean suffixIsArabic(final StringBuilder numberString) {
 
         return numberString.length() > 0
-                && this.digitUtility.isArabic(this.digitUtility.getNumberStringCharacter(numberString, numberString.length() - 1));
+                && this.digitUtility.isArabic(numberString.charAt(numberString.length() - 1));
     }
 
 
     private boolean prefix3digitIsArabic(final StringBuilder numberString) {
 
         return numberString.length() > 2
-                && this.digitUtility.isArabic(this.digitUtility.getNumberStringCharacter(numberString, 0))
-                && this.digitUtility.isArabic(this.digitUtility.getNumberStringCharacter(numberString, 1))
-                && this.digitUtility.isArabic(this.digitUtility.getNumberStringCharacter(numberString, 2));
+                && this.digitUtility.isArabic(numberString.charAt(0))
+                && this.digitUtility.isArabic(numberString.charAt(1))
+                && this.digitUtility.isArabic(numberString.charAt(2));
     }
 
 
@@ -219,7 +244,7 @@ public class NumberNormalizerImpl extends NumberNormalizer {
         return this.suffixIsArabic(numberString1)
                 && this.prefix3digitIsArabic(numberString2)
                 && (numberString2.length() == 3
-                        || !this.digitUtility.isArabic(this.digitUtility.getNumberStringCharacter(numberString2, 3)));
+                        || !this.digitUtility.isArabic(numberString2.charAt(3)));
     }
 
 

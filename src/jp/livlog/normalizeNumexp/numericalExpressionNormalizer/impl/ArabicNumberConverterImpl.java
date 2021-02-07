@@ -1,9 +1,11 @@
 package jp.livlog.normalizeNumexp.numericalExpressionNormalizer.impl;
 
 import java.text.Normalizer;
+import java.util.List;
 
 import jp.livlog.normalizeNumexp.digitUtility.DigitUtility;
 import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.NumberConverterTemplate;
+import jp.livlog.normalizeNumexp.share.ENotationType;
 import jp.livlog.normalizeNumexp.share.RefObject;
 
 public class ArabicNumberConverterImpl extends NumberConverterTemplate {
@@ -15,7 +17,7 @@ public class ArabicNumberConverterImpl extends NumberConverterTemplate {
 
 
     @Override
-    public void convertNumber(String numberStringOrg, RefObject <Double> value, RefObject <Integer> numberType) {
+    public void convertNumber(String numberStringOrg, RefObject <Double> value, List <ENotationType> notationType) {
 
 
         //日本語、中国語以外では漢数字がでてこないので、アラビア数字を値として認識する処理のみを行う

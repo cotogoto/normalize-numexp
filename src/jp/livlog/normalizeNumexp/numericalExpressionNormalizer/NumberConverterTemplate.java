@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.livlog.normalizeNumexp.digitUtility.DigitUtility;
+import jp.livlog.normalizeNumexp.share.ENotationType;
 import jp.livlog.normalizeNumexp.share.Pair;
 import jp.livlog.normalizeNumexp.share.RefObject;
 
@@ -19,7 +20,7 @@ public abstract class NumberConverterTemplate implements InfNumberConverterTempl
 
 
     @Override
-    public void convertNumber(String numberStringOrg, RefObject <Double> value, RefObject <Integer> numberType) {
+    public void convertNumber(String numberStringOrg, RefObject <Double> value, List <ENotationType> notationType) {
 
         var numberString = new StringBuilder();
         this.deleteComma(numberStringOrg, numberString);
@@ -36,7 +37,7 @@ public abstract class NumberConverterTemplate implements InfNumberConverterTempl
                     // 「万」「億」など単体で出てくるとき。「数万」などの処理のため、これも規格化しておく
                     numberConverted.argValue = 1;
                 } else {
-                    // number_converted = value;
+                    // numberConverted.argValue = (int) value.argValue;
                     // 「一億万」など、「億」「万」で区切ったときに前に数字がない場合、とりあえず前までの値を参照する
                     // TODO : invalidとして扱わないことにした。必要なケースはあるか？
                 }
