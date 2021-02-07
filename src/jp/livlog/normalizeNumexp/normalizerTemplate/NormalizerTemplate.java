@@ -31,7 +31,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     public abstract void init();
 
 
-    public abstract void normalizeNumber(final StringBuilder uText, List <NNumber> numbers);
+    public abstract void normalizeNumber(StringBuilder uText, List <NNumber> numbers);
 
 
     public abstract void reviseAnyTypeExpressionByMatchingLimitedExpression(List <AnyTypeExpression> anyTypeExpressions,
@@ -39,20 +39,20 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
 
     public abstract void reviseAnyTypeExpressionByMatchingPrefixCounter(AnyTypeExpression anyTypeExpressions,
-            final AnyTypeLimitedExpression matchingLimitedExpression);
+            AnyTypeLimitedExpression matchingLimitedExpression);
 
 
     public abstract void reviseAnyTypeExpressionByNumberModifier(AnyTypeExpression anyTypeExpressions,
-            final NumberModifier numberModifier);
+            NumberModifier numberModifier);
 
 
     public abstract void deleteNotAnyTypeExpression(List <AnyTypeExpression> anyTypeExpressions);
 
 
-    public abstract void fixByRangeExpression(final StringBuilder uText, List <AnyTypeExpression> anyTypeExpressions);
+    public abstract void fixByRangeExpression(StringBuilder uText, List <AnyTypeExpression> anyTypeExpressions);
 
 
-    public final void buildLimitedExpressionPatternsFromLimitedExpressions() {
+    public void buildLimitedExpressionPatternsFromLimitedExpressions() {
 
         // limited_expressionのpatternでprefixSearchするために、patternをキーとするトライ木を生成する。
         final var limitedExpressionPatternTable = new ArrayList <Pair <String, Integer>>();
@@ -63,7 +63,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     }
 
 
-    public <T extends BaseExpressionTemplate> void loadJsonFromFile(final String filepath, List <T> list) {
+    public <T extends BaseExpressionTemplate> void loadJsonFromFile(String filepath, List <T> list) {
 
         final Reader reader = new InputStreamReader(
                 DigitUtilityImpl.class.getResourceAsStream(filepath));
@@ -75,7 +75,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     }
 
 
-    public <T extends BaseExpressionTemplate> void loadFromDictionary(final String dictionaryPath, List <T> loadTarget) {
+    public <T extends BaseExpressionTemplate> void loadFromDictionary(String dictionaryPath, List <T> loadTarget) {
 
         loadTarget.clear();
 
@@ -83,7 +83,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     }
 
 
-    public <T extends BaseExpressionTemplate> void buildPatternsRev(final List <T> originals, NavigableSet <Pair <String, Integer>> patterns) {
+    public <T extends BaseExpressionTemplate> void buildPatternsRev(List <T> originals, NavigableSet <Pair <String, Integer>> patterns) {
 
         // prefixSearchをつかってsuffixSearchを実現するため、uxに格納するパターンを予め前後逆にしておく
         final var kvs = new ArrayList <Pair <String, Integer>>();
@@ -96,7 +96,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     }
 
 
-    public <T extends BaseExpressionTemplate> void buildPatterns(final List <T> originals, NavigableSet <Pair <String, Integer>> patterns) {
+    public <T extends BaseExpressionTemplate> void buildPatterns(List <T> originals, NavigableSet <Pair <String, Integer>> patterns) {
 
         final var kvs = new ArrayList <Pair <String, Integer>>();
         for (var i = 0; i < originals.size(); i++) {
@@ -106,16 +106,16 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     }
 
 
-    public void load_from_dictionaries(final String limited_expression_dictionary, final String prefix_counter_dictionary,
-            final String prefix_number_modifier_dictionary, final String suffix_number_modifier_dictionary) {
+    public void loadFromDictionaries(String limitedExpressionDictionary, String prefixCounterDictionary,
+            String prefixNumberModifierDictionary, String suffixNumberModifierDictionary) {
 
         var dictionaryPath = DictionaryDirpath.DICTIONARY_DIRPATH;
         dictionaryPath += this.language;
         dictionaryPath += "/";
-        this.loadFromDictionary(dictionaryPath + limited_expression_dictionary, this.limitedExpressions);
-        this.loadFromDictionary(dictionaryPath + prefix_counter_dictionary, this.prefixCounters);
-        this.loadFromDictionary(dictionaryPath + suffix_number_modifier_dictionary, this.suffixNumberModifier);
-        this.loadFromDictionary(dictionaryPath + prefix_number_modifier_dictionary, this.prefixNumberModifier);
+        this.loadFromDictionary(dictionaryPath + limitedExpressionDictionary, this.limitedExpressions);
+        this.loadFromDictionary(dictionaryPath + prefixCounterDictionary, this.prefixCounters);
+        this.loadFromDictionary(dictionaryPath + suffixNumberModifierDictionary, this.suffixNumberModifier);
+        this.loadFromDictionary(dictionaryPath + prefixNumberModifierDictionary, this.prefixNumberModifier);
 
         this.buildPatterns(this.limitedExpressions, this.limitedExpressionPatterns);
         this.buildPatternsRev(this.prefixCounters, this.prefixCounterPatterns);
@@ -127,13 +127,12 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
                 final var limitedExpression = (LimitedExpressionTemplate) this.limitedExpressions.get(i);
                 limitedExpression.setTotalNumberOfPlaceHolder();
                 limitedExpression.setLengthOfStringsAfterFinalPlaceHolder();
-
             }
         }
     }
 
 
-    public void searchMatchingLimitedExpression(final StringBuilder uTextReplaced, final AnyTypeExpression anyTypeExpression,
+    public void searchMatchingLimitedExpression(StringBuilder uTextReplaced, AnyTypeExpression anyTypeExpression,
             RefObject <Integer> matchingPatternId) {
 
         final var stringAfterExpression = new StringBuilder();
@@ -142,7 +141,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     }
 
 
-    public void searchMatchingPrefixCounter(final StringBuilder uTextReplaced, final AnyTypeExpression anyTypeExpression,
+    public void searchMatchingPrefixCounter(StringBuilder uTextReplaced, AnyTypeExpression anyTypeExpression,
             RefObject <Integer> matchingPatternId) {
 
         final var stringBeforeExpression = new StringBuilder();
@@ -152,7 +151,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
 
     public void reviseAnyTypeExpressionByMatchingPrefixNumberModifier(AnyTypeExpression anyTypeExpression,
-            final NumberModifier numberModifier) {
+            NumberModifier numberModifier) {
 
         anyTypeExpression.positionStart -= numberModifier.pattern.length();
         this.reviseAnyTypeExpressionByNumberModifier(anyTypeExpression, numberModifier);
@@ -160,14 +159,14 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
 
     public void reviseAnyTypeExpressionByMatchingSuffixNumberModifier(AnyTypeExpression anyTypeExpression,
-            final NumberModifier numberModifier) {
+            NumberModifier numberModifier) {
 
         anyTypeExpression.positionEnd += numberModifier.pattern.length();
         this.reviseAnyTypeExpressionByNumberModifier(anyTypeExpression, numberModifier);
     }
 
 
-    public boolean normalizeLimitedExpression(final StringBuilder uTextReplaced, List <AnyTypeExpression> anyTypeExpressions,
+    public boolean normalizeLimitedExpression(StringBuilder uTextReplaced, List <AnyTypeExpression> anyTypeExpressions,
             RefObject <Integer> i) {
 
         var matchingPatternId = 0;
@@ -182,7 +181,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     }
 
 
-    public void normalizePrefixCounter(final StringBuilder uTextReplaced, AnyTypeExpression anyTypeExpression) {
+    public void normalizePrefixCounter(StringBuilder uTextReplaced, AnyTypeExpression anyTypeExpression) {
 
         var matchingPatternId = 0;
         final var tempRefMatchingPatternId = new RefObject <>(matchingPatternId);
@@ -196,7 +195,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
 
     @SuppressWarnings ("unused")
-    public boolean normalizeSuffixNumberModifier(final StringBuilder uTextReplaced, AnyTypeExpression anyTypeExpression) {
+    public boolean normalizeSuffixNumberModifier(StringBuilder uTextReplaced, AnyTypeExpression anyTypeExpression) {
 
         var matchingPatternId = 0;
         final var tempRefMatchingPatternId = new RefObject <>(matchingPatternId);
@@ -212,7 +211,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
 
     @SuppressWarnings ("unused")
-    public boolean normalize_prefix_number_modifier(final StringBuilder uTextReplaced, AnyTypeExpression anyTypeExpression) {
+    public boolean normalize_prefix_number_modifier(StringBuilder uTextReplaced, AnyTypeExpression anyTypeExpression) {
 
         var matchingPatternId = 0;
         final var tempRefMatchingPatternId = new RefObject <>(matchingPatternId);
@@ -228,7 +227,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
 
     @SuppressWarnings ("unchecked")
-    public void convertNumbersToAnyTypeExpressions(final List <NNumber> numbers,
+    public void convertNumbersToAnyTypeExpressions(List <NNumber> numbers,
             List <AnyTypeExpression> anyTypeExpressions) {
 
         for (final NNumber number : numbers) {
@@ -242,14 +241,14 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     }
 
 
-    public boolean haveKaraPrefix(final List <String> options) {
+    public boolean haveKaraPrefix(List <String> options) {
 
         // return find(options.iterator(), options.end(), "kara_prefix") != options.end();
         return options.contains("kara_prefix");
     }
 
 
-    public boolean haveKaraSuffix(final List <String> options) {
+    public boolean haveKaraSuffix(List <String> options) {
 
         // return find(options.iterator(), options.end(), "kara_suffix") != options.end();
         return options.contains("kara_suffix");
@@ -275,7 +274,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     }
 
 
-    public void process(final String text, List <AnyTypeExpression> anyTypeExpressions) {
+    public void process(String text, List <AnyTypeExpression> anyTypeExpressions) {
 
         anyTypeExpressions.clear();
         final var uText = new StringBuilder(text);
@@ -313,22 +312,22 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
         this.deleteNotAnyTypeExpression(anyTypeExpressions);
     }
 
-    public NavigableSet <Pair <String, Integer>>   limitedExpressionPatterns    = new TreeSet <>(new PairKey0Comp<String, Integer>());
+    public NavigableSet <Pair <String, Integer>> limitedExpressionPatterns    = new TreeSet <>(new PairKey0Comp <String, Integer>());
 
-    public NavigableSet <Pair <String, Integer>>   prefixCounterPatterns        = new TreeSet <>(new PairKey0Comp<String, Integer>());
+    public NavigableSet <Pair <String, Integer>> prefixCounterPatterns        = new TreeSet <>(new PairKey0Comp <String, Integer>());
 
-    public NavigableSet <Pair <String, Integer>>   suffixNumberModifierPatterns = new TreeSet <>(new PairKey0Comp<String, Integer>());
+    public NavigableSet <Pair <String, Integer>> suffixNumberModifierPatterns = new TreeSet <>(new PairKey0Comp <String, Integer>());
 
-    public NavigableSet <Pair <String, Integer>>   prefixNumberModifierPatterns = new TreeSet <>(new PairKey0Comp<String, Integer>());
+    public NavigableSet <Pair <String, Integer>> prefixNumberModifierPatterns = new TreeSet <>(new PairKey0Comp <String, Integer>());
 
-    public List <AnyTypeLimitedExpression> limitedExpressions           = new ArrayList <>();
+    public List <AnyTypeLimitedExpression>       limitedExpressions           = new ArrayList <>();
 
-    public List <AnyTypeLimitedExpression> prefixCounters               = new ArrayList <>();
+    public List <AnyTypeLimitedExpression>       prefixCounters               = new ArrayList <>();
 
-    public List <NumberModifier>           suffixNumberModifier         = new ArrayList <>();
+    public List <NumberModifier>                 suffixNumberModifier         = new ArrayList <>();
 
-    public List <NumberModifier>           prefixNumberModifier         = new ArrayList <>();
+    public List <NumberModifier>                 prefixNumberModifier         = new ArrayList <>();
 
-    public String                          language;
+    public String                                language;
 
 }

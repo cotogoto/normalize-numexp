@@ -3,8 +3,6 @@ package jp.livlog.normalizeNumexp.normalizerUtility;
 import java.util.List;
 import java.util.NavigableSet;
 
-import org.modelmapper.ModelMapper;
-
 import jp.livlog.normalizeNumexp.share.NNumber;
 import jp.livlog.normalizeNumexp.share.NTime;
 import jp.livlog.normalizeNumexp.share.Pair;
@@ -56,12 +54,12 @@ public abstract class NormalizerUtility {
     abstract public String reverseString(String str);
 
 
-    @SuppressWarnings ("unchecked")
-    public <T1, T2> void cast(final T1 a, T2 b) {
-
-        final var modelMapper = new ModelMapper();
-        b = (T2) modelMapper.map(a, b.getClass());
-    }
+//    @SuppressWarnings ("unchecked")
+//    public <T1, T2> void cast(final T1 a, T2 b) {
+//
+//        final var modelMapper = new ModelMapper();
+//        b = (T2) modelMapper.map(a, b.getClass());
+//    }
 
     // LATIN LETTER ALVEOLAR CLICK
     public static final char PLACE_HOLDER = 'ǂ';

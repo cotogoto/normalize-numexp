@@ -9,4 +9,8 @@ public class BaseExpressionTemplate {
     public int    positionEnd;
 
     public String pattern;
+
+    public double valueLowerbound;
+
+    public double valueUpperbound;
 }
