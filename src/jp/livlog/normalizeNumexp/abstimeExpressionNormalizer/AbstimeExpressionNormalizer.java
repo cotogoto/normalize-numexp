@@ -22,7 +22,6 @@ public abstract class AbstimeExpressionNormalizer extends NormalizerTemplate <Ab
     @Override
     public abstract void init();
 
-
     @Override
     public abstract void normalizeNumber(StringBuilder uText, List <NNumber> numbers);
 

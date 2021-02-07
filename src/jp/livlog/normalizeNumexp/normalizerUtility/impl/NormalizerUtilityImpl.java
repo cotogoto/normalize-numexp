@@ -17,8 +17,10 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
     @Override
     public String reverseString(String str) {
 
-        final var sb = new StringBuilder(str);
-        str = sb.reverse().toString();
+        if (str != null) {
+            final var sb = new StringBuilder(str);
+            str = sb.reverse().toString();
+        }
 
         return str;
     }

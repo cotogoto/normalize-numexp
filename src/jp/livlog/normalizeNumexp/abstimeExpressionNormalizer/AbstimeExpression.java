@@ -26,4 +26,5 @@ public abstract class AbstimeExpression extends NormalizedExpressionTemplate {
     public NTime   valueUpperbound;
 
     public boolean ordinary;
+
 }

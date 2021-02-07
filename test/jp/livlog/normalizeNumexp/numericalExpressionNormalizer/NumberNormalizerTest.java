@@ -19,16 +19,16 @@ class NumberNormalizerTest {
 
     DigitUtility     digitUtility = null;
 
-    NumberExtractor  ne           = null;
+    NumberExtractor  NE           = null;
 
-    NumberNormalizer nn           = null;
+    NumberNormalizer NN           = null;
 
     @BeforeEach
     public void initialize() {
 
         this.digitUtility = new DigitUtilityImpl();
         this.digitUtility.initKansuji("ja");
-        this.ne = new NumberExtractorImpl(this.digitUtility);
+        this.NE = new NumberExtractorImpl(this.digitUtility);
     }
 
 
@@ -37,7 +37,7 @@ class NumberNormalizerTest {
 
         final var input = "それは三十二年前の出来事";
         final List <NNumber> result = new ArrayList <>();
-        this.ne.extractNumber(input, result);
+        this.NE.extractNumber(input, result);
         org.junit.Assert.assertEquals(1, result.size());
         org.junit.Assert.assertEquals("三十二", result.get(0).originalExpression);
     }
@@ -48,7 +48,7 @@ class NumberNormalizerTest {
 
         final var input = "三年前に１２３４５円が奪われたのは123,456円の";
         final List <NNumber> result = new ArrayList <>();
-        this.ne.extractNumber(input, result);
+        this.NE.extractNumber(input, result);
         org.junit.Assert.assertEquals(4, result.size());
         org.junit.Assert.assertEquals("三", result.get(0).originalExpression);
         org.junit.Assert.assertEquals("１２３４５", result.get(1).originalExpression);
@@ -62,7 +62,7 @@ class NumberNormalizerTest {
 
         final var input = "1989三年前におきたその事件。";
         final List <NNumber> result = new ArrayList <>();
-        this.ne.extractNumber(input, result);
+        this.NE.extractNumber(input, result);
         org.junit.Assert.assertEquals(2, result.size());
         org.junit.Assert.assertNotEquals("1989三", result.get(0).originalExpression);
         org.junit.Assert.assertEquals("1989", result.get(0).originalExpression);
@@ -148,8 +148,8 @@ class NumberNormalizerTest {
         final var text = "その3,244人が３，４５６，７８９円で百二十三万四千五百六十七円";
         final List <NNumber> result = new ArrayList <>();
         final var language = "ja";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(3, result.size());
         org.junit.Assert.assertTrue(3244.0 == result.get(0).valueLowerbound);
         org.junit.Assert.assertTrue(3456789.0 == result.get(1).valueLowerbound);
@@ -163,8 +163,8 @@ class NumberNormalizerTest {
         final var text = "その3,244.15人が３，４５６，７８９．４５６円";
         final List <NNumber> result = new ArrayList <>();
         final var language = "ja";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(2, result.size());
         org.junit.Assert.assertTrue(3244.15 == result.get(0).valueLowerbound);
         org.junit.Assert.assertTrue(3456789.456 == result.get(1).valueLowerbound);
@@ -177,8 +177,8 @@ class NumberNormalizerTest {
         final var text = "131.1ポイントというスコアを叩き出した";
         final List <NNumber> result = new ArrayList <>();
         final var language = "ja";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(1, result.size());
         org.junit.Assert.assertTrue(131.1 == result.get(0).valueLowerbound);
         org.junit.Assert.assertTrue(131.1 == result.get(0).valueUpperbound);
@@ -191,8 +191,8 @@ class NumberNormalizerTest {
         final var text = "9.3万円も損した";
         final List <NNumber> result = new ArrayList <>();
         final var language = "ja";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(1, result.size());
         org.junit.Assert.assertTrue(93000 == result.get(0).valueLowerbound);
         org.junit.Assert.assertTrue(93000 == result.get(0).valueUpperbound);
@@ -205,8 +205,8 @@ class NumberNormalizerTest {
         final var text = "その+3,244人が＋３，４５６，７８９円でプラス百二十三万四千五百六十七円";
         final List <NNumber> result = new ArrayList <>();
         final var language = "ja";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(3, result.size());
         org.junit.Assert.assertEquals("+3,244", result.get(0).originalExpression);
         org.junit.Assert.assertEquals("＋３，４５６，７８９", result.get(1).originalExpression);
@@ -220,8 +220,8 @@ class NumberNormalizerTest {
         final var text = "その-3,244人がー３，４５６，７８９円でマイナス百二十三万四千五百六十七円";
         final List <NNumber> result = new ArrayList <>();
         final var language = "ja";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(3, result.size());
         org.junit.Assert.assertTrue(-3244.0 == result.get(0).valueLowerbound);
         org.junit.Assert.assertTrue(-3456789.0 == result.get(1).valueLowerbound);
@@ -235,8 +235,8 @@ class NumberNormalizerTest {
         final var text = "その10~20人が、１００〜２００円で";
         final List <NNumber> result = new ArrayList <>();
         final var language = "ja";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(2, result.size());
         org.junit.Assert.assertEquals(2, result.size());
         org.junit.Assert.assertTrue(10.0 == result.get(0).valueLowerbound);
@@ -256,8 +256,8 @@ class NumberNormalizerTest {
         final var text = "メロスは激怒した。必ず、かの邪智暴虐の王を除かなければならぬと決意した。メロスには政治がわからぬ。メロスは、村の牧人である。笛を吹き、羊と遊んで暮して来た。";
         final List <NNumber> result = new ArrayList <>();
         final var language = "ja";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(0, result.size());
     }
 
@@ -268,8 +268,8 @@ class NumberNormalizerTest {
         final var text = "千円札";
         final List <NNumber> result = new ArrayList <>();
         final var language = "ja";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(1, result.size());
         org.junit.Assert.assertTrue(1000.0 == result.get(0).valueLowerbound);
     }
@@ -281,8 +281,8 @@ class NumberNormalizerTest {
         final var text = "話をしよう。あれは今から36万年前………いや、1万4000年前だったか。";
         final List <NNumber> result = new ArrayList <>();
         final var language = "ja";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(2, result.size());
         org.junit.Assert.assertTrue(360000.0 == result.get(0).valueLowerbound);
         org.junit.Assert.assertTrue(14000.0 == result.get(1).valueLowerbound);
@@ -295,8 +295,8 @@ class NumberNormalizerTest {
         final var text = "1千1千1千";
         final List <NNumber> result = new ArrayList <>();
         final var language = "ja";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(3, result.size());
         org.junit.Assert.assertEquals("1千1", result.get(0).originalExpression);
         org.junit.Assert.assertEquals("千1", result.get(1).originalExpression);
@@ -310,8 +310,8 @@ class NumberNormalizerTest {
         final var text = "２００７20人がきた";
         final List <NNumber> result = new ArrayList <>();
         final var language = "ja";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(2, result.size());
         org.junit.Assert.assertEquals("２００７", result.get(0).originalExpression);
         org.junit.Assert.assertEquals("20", result.get(1).originalExpression);
@@ -324,8 +324,8 @@ class NumberNormalizerTest {
         final var text = "２００７二十人がきた";
         final List <NNumber> result = new ArrayList <>();
         final var language = "ja";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(2, result.size());
         org.junit.Assert.assertEquals("２００７", result.get(0).originalExpression);
         org.junit.Assert.assertEquals("二十", result.get(1).originalExpression);
@@ -338,8 +338,8 @@ class NumberNormalizerTest {
         final var text = "1,2個";
         final List <NNumber> result = new ArrayList <>();
         final var language = "ja";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(1, result.size());
         org.junit.Assert.assertEquals("1,2", result.get(0).originalExpression);
     }
@@ -351,8 +351,8 @@ class NumberNormalizerTest {
         final var text = "京・京";
         final List <NNumber> result = new ArrayList <>();
         final var language = "ja";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(0, result.size());
     }
 
@@ -363,8 +363,8 @@ class NumberNormalizerTest {
         final var text = "七〇〇万";
         final List <NNumber> result = new ArrayList <>();
         final var language = "ja";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(1, result.size());
         org.junit.Assert.assertEquals("七〇〇万", result.get(0).originalExpression);
         org.junit.Assert.assertTrue(7000000.0 == result.get(0).valueLowerbound);
@@ -377,8 +377,8 @@ class NumberNormalizerTest {
         final var text = "7000千人";
         final List <NNumber> result = new ArrayList <>();
         final var language = "ja";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(1, result.size());
         org.junit.Assert.assertEquals("7000千", result.get(0).originalExpression);
         org.junit.Assert.assertTrue(7000000.0 == result.get(0).valueLowerbound);
@@ -391,8 +391,8 @@ class NumberNormalizerTest {
         final var text = "京京億億万万京億万";
         final List <NNumber> result = new ArrayList <>();
         final var language = "ja";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(0, result.size());
     }
 
@@ -403,8 +403,8 @@ class NumberNormalizerTest {
         final var text = "そうだ、京都いこう";
         final List <NNumber> result = new ArrayList <>();
         final var language = "ja";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(0, result.size());
     }
 
@@ -415,8 +415,8 @@ class NumberNormalizerTest {
         final var text = "その数十人が、数万人で、十数人で、百数十人で、一万数千人で、十数万人で、";
         final List <NNumber> result = new ArrayList <>();
         final var language = "ja";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals("数十", result.get(0).originalExpression);
         org.junit.Assert.assertEquals("数万", result.get(1).originalExpression);
         org.junit.Assert.assertEquals("十数", result.get(2).originalExpression);
@@ -444,8 +444,8 @@ class NumberNormalizerTest {
         final var text = "0数万人";
         final List <NNumber> result = new ArrayList <>();
         final var language = "ja";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals("0", result.get(0).originalExpression);
         org.junit.Assert.assertTrue(0 == result.get(0).valueLowerbound);
         org.junit.Assert.assertTrue(0 == result.get(0).valueUpperbound);
@@ -460,8 +460,8 @@ class NumberNormalizerTest {
         final var text = "千二百三";
         final List <NNumber> result = new ArrayList <>();
         final var language = "zh";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(1, result.size());
         org.junit.Assert.assertEquals(text, result.get(0).originalExpression);
         org.junit.Assert.assertTrue(1230 == result.get(0).valueUpperbound);
@@ -474,8 +474,8 @@ class NumberNormalizerTest {
         final var text = "1230";
         final List <NNumber> result = new ArrayList <>();
         final var language = "zh";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(1, result.size());
         org.junit.Assert.assertEquals(text, result.get(0).originalExpression);
         org.junit.Assert.assertTrue(1230 == result.get(0).valueUpperbound);
@@ -488,8 +488,8 @@ class NumberNormalizerTest {
         final var text = "1万2300";
         final List <NNumber> result = new ArrayList <>();
         final var language = "zh";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(1, result.size());
         org.junit.Assert.assertEquals(text, result.get(0).originalExpression);
         org.junit.Assert.assertTrue(12300 == result.get(0).valueUpperbound);
@@ -502,8 +502,8 @@ class NumberNormalizerTest {
         final var text = "一百一";
         final List <NNumber> result = new ArrayList <>();
         final var language = "zh";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(1, result.size());
         org.junit.Assert.assertEquals(text, result.get(0).originalExpression);
         org.junit.Assert.assertTrue(110 == result.get(0).valueUpperbound);
@@ -516,8 +516,8 @@ class NumberNormalizerTest {
         final var text = "一千零一十";
         final List <NNumber> result = new ArrayList <>();
         final var language = "zh";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(1, result.size());
         org.junit.Assert.assertEquals(text, result.get(0).originalExpression);
         org.junit.Assert.assertTrue(1010 == result.get(0).valueUpperbound);
@@ -530,8 +530,8 @@ class NumberNormalizerTest {
         final var text = "两千";
         final List <NNumber> result = new ArrayList <>();
         final var language = "zh";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(1, result.size());
         org.junit.Assert.assertEquals(text, result.get(0).originalExpression);
         org.junit.Assert.assertTrue(2000 == result.get(0).valueUpperbound);
@@ -544,8 +544,8 @@ class NumberNormalizerTest {
         final var text = "一亿";
         final List <NNumber> result = new ArrayList <>();
         final var language = "zh";
-        this.nn = new NumberNormalizerImpl(language);
-        this.nn.process(text, result);
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(1, result.size());
         org.junit.Assert.assertEquals(text, result.get(0).originalExpression);
         org.junit.Assert.assertTrue(100000000 == result.get(0).valueUpperbound);

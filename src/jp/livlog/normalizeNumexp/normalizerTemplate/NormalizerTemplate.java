@@ -1,18 +1,11 @@
 package jp.livlog.normalizeNumexp.normalizerTemplate;
 
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.NavigableSet;
 import java.util.TreeSet;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import jp.livlog.normalizeNumexp.dictionaryDirpath.DictionaryDirpath;
-import jp.livlog.normalizeNumexp.digitUtility.impl.DigitUtilityImpl;
 import jp.livlog.normalizeNumexp.normalizerUtility.LimitedExpressionTemplate;
 import jp.livlog.normalizeNumexp.normalizerUtility.NormalizedExpressionTemplate;
 import jp.livlog.normalizeNumexp.normalizerUtility.NormalizerUtility;
@@ -63,24 +56,10 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     }
 
 
-    public <T extends BaseExpressionTemplate> void loadJsonFromFile(String filepath, List <T> list) {
-
-        final Reader reader = new InputStreamReader(
-                DigitUtilityImpl.class.getResourceAsStream(filepath));
-
-        final var gson = new Gson();
-        final var collectionType = new TypeToken <Collection <T>>() {
-        }.getType();
-        list = gson.fromJson(reader, collectionType);
-    }
+    public abstract void loadFromDictionary1(String dictionaryPath, List <AnyTypeLimitedExpression> loadTarget);
 
 
-    public <T extends BaseExpressionTemplate> void loadFromDictionary(String dictionaryPath, List <T> loadTarget) {
-
-        loadTarget.clear();
-
-        this.loadJsonFromFile(dictionaryPath, loadTarget);
-    }
+    public abstract void loadFromDictionary2(String dictionaryPath, List <NumberModifier> loadTarget);
 
 
     public <T extends BaseExpressionTemplate> void buildPatternsRev(List <T> originals, NavigableSet <Pair <String, Integer>> patterns) {
@@ -106,16 +85,19 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     }
 
 
-    public void loadFromDictionaries(String limitedExpressionDictionary, String prefixCounterDictionary,
-            String prefixNumberModifierDictionary, String suffixNumberModifierDictionary) {
+    public void loadFromDictionaries(
+            String limitedExpressionDictionary,
+            String prefixCounterDictionary,
+            String prefixNumberModifierDictionary,
+            String suffixNumberModifierDictionary) {
 
         var dictionaryPath = DictionaryDirpath.DICTIONARY_DIRPATH;
         dictionaryPath += this.language;
         dictionaryPath += "/";
-        this.loadFromDictionary(dictionaryPath + limitedExpressionDictionary, this.limitedExpressions);
-        this.loadFromDictionary(dictionaryPath + prefixCounterDictionary, this.prefixCounters);
-        this.loadFromDictionary(dictionaryPath + suffixNumberModifierDictionary, this.suffixNumberModifier);
-        this.loadFromDictionary(dictionaryPath + prefixNumberModifierDictionary, this.prefixNumberModifier);
+        this.loadFromDictionary1(dictionaryPath + limitedExpressionDictionary, this.limitedExpressions);
+        this.loadFromDictionary1(dictionaryPath + prefixCounterDictionary, this.prefixCounters);
+        this.loadFromDictionary2(dictionaryPath + suffixNumberModifierDictionary, this.suffixNumberModifier);
+        this.loadFromDictionary2(dictionaryPath + prefixNumberModifierDictionary, this.prefixNumberModifier);
 
         this.buildPatterns(this.limitedExpressions, this.limitedExpressionPatterns);
         this.buildPatternsRev(this.prefixCounters, this.prefixCounterPatterns);
@@ -226,9 +208,8 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     }
 
 
-    @SuppressWarnings ("unchecked")
     public void convertNumbersToAnyTypeExpressions(List <NNumber> numbers,
-            List <AnyTypeExpression> anyTypeExpressions) {
+            List <BaseExpressionTemplate> anyTypeExpressions) {
 
         for (final NNumber number : numbers) {
 
@@ -236,7 +217,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
             baseExpressionTemplate.originalExpression = number.originalExpression;
             baseExpressionTemplate.positionStart = number.positionStart;
             baseExpressionTemplate.positionEnd = number.positionEnd;
-            anyTypeExpressions.add((AnyTypeExpression) baseExpressionTemplate);
+            anyTypeExpressions.add(baseExpressionTemplate);
         }
     }
 

@@ -15,7 +15,9 @@ import com.google.gson.annotations.SerializedName;
 import jp.livlog.normalizeNumexp.dictionaryDirpath.DictionaryDirpath;
 import jp.livlog.normalizeNumexp.digitUtility.DigitUtility;
 import jp.livlog.normalizeNumexp.share.ENotationType;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class DigitUtilityImpl extends DigitUtility {
 
     public TreeMap <String, ENotationType> stringToNotationType     = new TreeMap <>();
@@ -46,29 +48,24 @@ public class DigitUtilityImpl extends DigitUtility {
         public final String  notationType;
     }
 
-    void loadJsonFromFile(final String filepath, List <ChineseCharacter> list) {
+
+    void loadFromDictionary(final String dictionaryPath, List <ChineseCharacter> loadTarget) {
+
+        loadTarget.clear();
 
         final Reader reader = new InputStreamReader(
-                DigitUtilityImpl.class.getResourceAsStream(filepath));
+                DigitUtilityImpl.class.getResourceAsStream(dictionaryPath));
 
         final var gson = new Gson();
         try (var br = new BufferedReader(reader)) {
             String line;
             while ((line = br.readLine()) != null) {
                 final var chineseCharacter = gson.fromJson(line, ChineseCharacter.class);
-                list.add(chineseCharacter);
+                loadTarget.add(chineseCharacter);
             }
         } catch (final IOException e) {
-            e.printStackTrace();
+            DigitUtilityImpl.log.error(e.getMessage(), e);
         }
-    }
-
-
-    void loadFromDictionary(final String dictionaryPath, List <ChineseCharacter> loadTarget) {
-
-        loadTarget.clear();
-
-        this.loadJsonFromFile(dictionaryPath, loadTarget);
     }
 
 
@@ -279,14 +276,14 @@ public class DigitUtilityImpl extends DigitUtility {
             return ENotationType.ZENKAKU;
         } else if (this.isKansuji(uc)) {
             return ENotationType.KANSUJI;
-//        } else if (this.isKansuji09(uc)) {
-//            return ENotationType.KANSUJI_09;
+            // } else if (this.isKansuji09(uc)) {
+            // return ENotationType.KANSUJI_09;
         } else if (this.isKansujiKurai(uc)) {
             return ENotationType.KANSUJI;
-//        } else if (this.isKansujiKuraiSen(uc)) {
-//            return ENotationType.KANSUJI_KURAI_SEN;
-//        } else if (this.isKansujiKuraiMan(uc)) {
-//            return ENotationType.KANSUJI_KURAI_MAN;
+            // } else if (this.isKansujiKuraiSen(uc)) {
+            // return ENotationType.KANSUJI_KURAI_SEN;
+            // } else if (this.isKansujiKuraiMan(uc)) {
+            // return ENotationType.KANSUJI_KURAI_MAN;
         }
 
         return ENotationType.NOT_NUMBER;

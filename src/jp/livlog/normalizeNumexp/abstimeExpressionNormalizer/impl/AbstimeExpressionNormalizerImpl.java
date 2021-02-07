@@ -1,16 +1,27 @@
 package jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.impl;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.HashMap;
 import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.AbstimeExpression;
 import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.AbstimeExpressionNormalizer;
 import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.LimitedAbstimeExpression;
+import jp.livlog.normalizeNumexp.digitUtility.impl.DigitUtilityImpl;
 import jp.livlog.normalizeNumexp.share.NNumber;
 import jp.livlog.normalizeNumexp.share.NTime;
 import jp.livlog.normalizeNumexp.share.NumberModifier;
 import jp.livlog.normalizeNumexp.share.RefObject;
 import jp.livlog.normalizeNumexp.share.Symbol;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer {
 
     public AbstimeExpressionNormalizerImpl(String language) {
@@ -31,6 +42,63 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
     public void normalizeNumber(StringBuilder uText, List <NNumber> numbers) {
 
         this.NN.processDontFixBySymbol(uText.toString(), numbers);
+    }
+
+
+    @SuppressWarnings ("unchecked")
+    @Override
+    public void loadFromDictionary1(String dictionaryPath, List <LimitedAbstimeExpression> loadTarget) {
+
+        loadTarget.clear();
+
+        final Reader reader = new InputStreamReader(
+                DigitUtilityImpl.class.getResourceAsStream(dictionaryPath));
+
+        final var gson = new Gson();
+        final var listType = new TypeToken <HashMap <String, Object>>() {
+        }.getType();
+        LimitedAbstimeExpression expression = null;
+        try (var br = new BufferedReader(reader)) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                final var map = (HashMap <String, Object>) gson.fromJson(line, listType);
+                expression = new LimitedAbstimeExpressionImpl();
+                expression.pattern = (String) map.get("pattern");
+                expression.correspondingTimePosition = (List <String>) map.get("corresponding_time_position");
+                expression.processType = (List <String>) map.get("process_type");
+                expression.ordinary = (Boolean) map.get("ordinary");
+                expression.option = (String) map.get("option");
+                loadTarget.add(expression);
+            }
+        } catch (final IOException e) {
+            AbstimeExpressionNormalizerImpl.log.error(e.getMessage(), e);
+        }
+    }
+
+
+    @Override
+    public void loadFromDictionary2(String dictionaryPath, List <NumberModifier> loadTarget) {
+
+        loadTarget.clear();
+
+        final Reader reader = new InputStreamReader(
+                DigitUtilityImpl.class.getResourceAsStream(dictionaryPath));
+
+        final var gson = new Gson();
+        final var listType = new TypeToken <HashMap <String, String>>() {
+        }.getType();
+        NumberModifier numberModifier = null;
+        try (var br = new BufferedReader(reader)) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                @SuppressWarnings ("unchecked")
+                final var map = (HashMap <String, String>) gson.fromJson(line, listType);
+                numberModifier = new NumberModifier(map.get("pattern"), map.get("process_type"));
+                loadTarget.add(numberModifier);
+            }
+        } catch (final IOException e) {
+            AbstimeExpressionNormalizerImpl.log.error(e.getMessage(), e);
+        }
     }
 
 
@@ -451,4 +519,5 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
             this.setTime(abstime2, target_time_position, tmp_abstimeexp);
         }
     }
+
 }
