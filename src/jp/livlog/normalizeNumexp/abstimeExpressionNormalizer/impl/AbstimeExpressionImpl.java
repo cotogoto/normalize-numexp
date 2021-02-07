@@ -1,19 +1,31 @@
 package jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.impl;
 
-import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.AbstimeExpression;
-import jp.livlog.normalizeNumexp.share.BaseExpressionTemplate;
+import jp.livlog.normalizeNumexp.normalizerUtility.impl.NormalizedExpressionTemplateImpl;
+import jp.livlog.normalizeNumexp.share.NNumber;
+import jp.livlog.normalizeNumexp.share.NTime;
+import jp.livlog.normalizeNumexp.share.Symbol;
+import lombok.ToString;
 
-public class AbstimeExpressionImpl extends AbstimeExpression {
+@ToString
+public class AbstimeExpressionImpl extends NormalizedExpressionTemplateImpl {
 
-    public AbstimeExpressionImpl(BaseExpressionTemplate number) {
+    public AbstimeExpressionImpl(NNumber number) {
 
-        super(number);
+        super(number.originalExpression, number.positionStart, number.positionEnd);
+        this.orgValueLowerbound = number.valueLowerbound;
+        this.orgValueUpperbound = number.valueUpperbound;
+        this.valueLowerbound = new NTime(Symbol.INFINITY);
+        this.valueUpperbound = new NTime(-Symbol.INFINITY);
+        this.ordinary = false;
     }
 
+    public double  orgValueLowerbound;
 
-    @Override
-    public void setOriginalExpressionFromPosition(StringBuilder uText) {
+    public double  orgValueUpperbound;
 
-    }
+    public NTime   valueLowerbound;
 
+    public NTime   valueUpperbound;
+
+    public boolean ordinary;
 }

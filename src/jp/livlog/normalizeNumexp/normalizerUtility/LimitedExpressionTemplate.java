@@ -9,7 +9,7 @@ public abstract class LimitedExpressionTemplate extends BaseExpressionTemplate {
 
     abstract public void setLengthOfStringsAfterFinalPlaceHolder();
 
-    public String  pattern;
+
 
     public boolean ordinary;
 

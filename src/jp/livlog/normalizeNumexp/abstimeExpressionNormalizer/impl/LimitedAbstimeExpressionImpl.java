@@ -1,17 +1,15 @@
 package jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.impl;
 
-import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.LimitedAbstimeExpression;
+import java.util.ArrayList;
+import java.util.List;
 
-public class LimitedAbstimeExpressionImpl extends LimitedAbstimeExpression {
+import jp.livlog.normalizeNumexp.normalizerUtility.impl.LimitedExpressionTemplateImpl;
+import lombok.ToString;
 
-    @Override
-    public void setTotalNumberOfPlaceHolder() {
+@ToString
+public class LimitedAbstimeExpressionImpl extends LimitedExpressionTemplateImpl {
 
-    }
+    public List <String> correspondingTimePosition = new ArrayList <>();
 
-    @Override
-    public void setLengthOfStringsAfterFinalPlaceHolder() {
-
-    }
-
+    public List <String> processType               = new ArrayList <>();
 }

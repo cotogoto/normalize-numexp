@@ -3,6 +3,9 @@ package jp.livlog.normalizeNumexp.share;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.ToString;
+
+@ToString
 public class NNumber extends BaseExpressionTemplate {
 
     public NNumber() {

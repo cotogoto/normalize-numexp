@@ -2,9 +2,10 @@ package jp.livlog.normalizeNumexp.normalizerUtility.impl;
 
 import jp.livlog.normalizeNumexp.normalizerUtility.LimitedExpressionTemplate;
 import jp.livlog.normalizeNumexp.normalizerUtility.NormalizerUtility;
+import lombok.ToString;
 
+@ToString
 public class LimitedExpressionTemplateImpl extends LimitedExpressionTemplate {
-
 
     private final NormalizerUtility normalizerUtility = new NormalizerUtilityImpl();
 
@@ -29,7 +30,9 @@ public class LimitedExpressionTemplateImpl extends LimitedExpressionTemplate {
         this.lengthOfStringsAfterFinalPlaceHolder = 0;
 
         final var a = this.pattern.lastIndexOf(String.valueOf(NormalizerUtility.PLACE_HOLDER));
-        final var str = this.pattern.substring(a);
-        this.lengthOfStringsAfterFinalPlaceHolder = str.length();
+        if (a > -1) {
+            final var str = this.pattern.substring(a);
+            this.lengthOfStringsAfterFinalPlaceHolder = str.length();
+        }
     }
 }

@@ -176,7 +176,6 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     }
 
 
-    @SuppressWarnings ("unused")
     public boolean normalizeSuffixNumberModifier(StringBuilder uTextReplaced, AnyTypeExpression anyTypeExpression) {
 
         var matchingPatternId = 0;
@@ -192,7 +191,6 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     }
 
 
-    @SuppressWarnings ("unused")
     public boolean normalize_prefix_number_modifier(StringBuilder uTextReplaced, AnyTypeExpression anyTypeExpression) {
 
         var matchingPatternId = 0;
@@ -208,19 +206,8 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     }
 
 
-    public void convertNumbersToAnyTypeExpressions(List <NNumber> numbers,
-            List <BaseExpressionTemplate> anyTypeExpressions) {
-
-        for (final NNumber number : numbers) {
-
-            final var baseExpressionTemplate = new BaseExpressionTemplate();
-            baseExpressionTemplate.originalExpression = number.originalExpression;
-            baseExpressionTemplate.positionStart = number.positionStart;
-            baseExpressionTemplate.positionEnd = number.positionEnd;
-            anyTypeExpressions.add(baseExpressionTemplate);
-        }
-    }
-
+    public abstract void convertNumbersToAnyTypeExpressions(List <NNumber> numbers,
+            List <AnyTypeExpression> anyTypeExpressions);
 
     public boolean haveKaraPrefix(List <String> options) {
 

@@ -1,5 +1,8 @@
 package jp.livlog.normalizeNumexp.share;
 
+import lombok.ToString;
+
+@ToString
 public  class NTime {
 
     public NTime(final double value) {
