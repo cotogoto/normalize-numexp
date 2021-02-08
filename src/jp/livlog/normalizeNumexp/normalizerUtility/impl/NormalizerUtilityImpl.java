@@ -45,7 +45,7 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
             return;
         }
 
-        final var value = text.substring(0, i - 1);
+        final var value = text.substring(0, i);
         beforeString.append(value);
     }
 
