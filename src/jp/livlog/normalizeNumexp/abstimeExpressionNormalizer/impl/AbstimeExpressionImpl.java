@@ -23,9 +23,4 @@ public class AbstimeExpressionImpl extends NormalizedExpressionTemplateImpl {
 
     public double  orgValueUpperbound;
 
-    public NTime   valueLowerbound;
-
-    public NTime   valueUpperbound;
-
-    public boolean ordinary;
 }

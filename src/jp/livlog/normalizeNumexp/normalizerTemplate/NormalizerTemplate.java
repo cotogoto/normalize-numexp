@@ -45,6 +45,49 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     public abstract void fixByRangeExpression(StringBuilder uText, List <AnyTypeExpression> anyTypeExpressions);
 
 
+    public void process(String text, List <AnyTypeExpression> anyTypeExpressions) {
+
+        anyTypeExpressions.clear();
+        final var uText = new StringBuilder(text);
+
+        // numbersの作成
+        final List <NNumber> numbers = new ArrayList <>();
+        this.normalizeNumber(uText, numbers);
+
+        // numbersを変換して、ベースとなるany_type_expressionsを作成
+        this.convertNumbersToAnyTypeExpressions(numbers, anyTypeExpressions);
+
+        // searchするために、text中の数を*に置換しておく
+        final var uTextReplaced = new StringBuilder();
+        this.normalizerUtility.replaceNumbersInText(uText, numbers, uTextReplaced);
+
+        // 単位の探索、規格化
+        for (var i = 0; i < anyTypeExpressions.size(); i++) {
+            final var no = new RefObject <>(i);
+            if (!this.normalizeLimitedExpression(uTextReplaced, anyTypeExpressions, no)) {
+                // TODO : 単位が存在しなかった場合の処理をどうするか、相談して決める
+            }
+            i = no.argValue;
+            this.normalizePrefixCounter(uTextReplaced, anyTypeExpressions.get(i));
+            if (this.normalizeSuffixNumberModifier(uTextReplaced, anyTypeExpressions.get(i))) {
+                this.normalizeSuffixNumberModifier(uTextReplaced, anyTypeExpressions.get(i)); // TODO : 2回以上の繰り返しを本当に含めて良いのか？
+            }
+            if (this.normalize_prefix_number_modifier(uTextReplaced, anyTypeExpressions.get(i))) {
+                this.normalizePrefixCounter(uTextReplaced, anyTypeExpressions.get(i));
+            }
+            anyTypeExpressions.get(i).setOriginalExpressionFromPosition(uText);
+        }
+
+
+
+        // TODO : 範囲表現の処理
+        this.fixByRangeExpression(uText, anyTypeExpressions);
+
+        // 規格化されなかったnumberを削除
+        this.deleteNotAnyTypeExpression(anyTypeExpressions);
+    }
+
+
     public void buildLimitedExpressionPatternsFromLimitedExpressions() {
 
         // limited_expressionのpatternでprefixSearchするために、patternをキーとするトライ木を生成する。
@@ -209,6 +252,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     public abstract void convertNumbersToAnyTypeExpressions(List <NNumber> numbers,
             List <AnyTypeExpression> anyTypeExpressions);
 
+
     public boolean haveKaraPrefix(List <String> options) {
 
         // return find(options.iterator(), options.end(), "kara_prefix") != options.end();
@@ -239,45 +283,6 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
             }
             options1.add(options2.get(i));
         }
-    }
-
-
-    public void process(String text, List <AnyTypeExpression> anyTypeExpressions) {
-
-        anyTypeExpressions.clear();
-        final var uText = new StringBuilder(text);
-
-        // numbersの作成
-        final List <NNumber> numbers = new ArrayList <>();
-        this.normalizeNumber(uText, numbers);
-
-        // numbersを変換して、ベースとなるany_type_expressionsを作成
-        this.convertNumbersToAnyTypeExpressions(numbers, anyTypeExpressions);
-
-        // searchするために、text中の数を*に置換しておく
-        final var uTextReplaced = new StringBuilder();
-        this.normalizerUtility.replaceNumbersInText(uText, numbers, uTextReplaced);
-
-        // 単位の探索、規格化
-        for (var i = 0; i < anyTypeExpressions.size(); i++) {
-            if (!this.normalizeLimitedExpression(uTextReplaced, anyTypeExpressions, new RefObject <>(i))) {
-                // TODO : 単位が存在しなかった場合の処理をどうするか、相談して決める
-            }
-            this.normalizePrefixCounter(uTextReplaced, anyTypeExpressions.get(i));
-            if (this.normalizeSuffixNumberModifier(uTextReplaced, anyTypeExpressions.get(i))) {
-                this.normalizeSuffixNumberModifier(uTextReplaced, anyTypeExpressions.get(i)); // TODO : 2回以上の繰り返しを本当に含めて良いのか？
-            }
-            if (this.normalize_prefix_number_modifier(uTextReplaced, anyTypeExpressions.get(i))) {
-                this.normalizePrefixCounter(uTextReplaced, anyTypeExpressions.get(i));
-            }
-            anyTypeExpressions.get(i).setOriginalExpressionFromPosition(uText);
-        }
-
-        // TODO : 範囲表現の処理
-        this.fixByRangeExpression(uText, anyTypeExpressions);
-
-        // 規格化されなかったnumberを削除
-        this.deleteNotAnyTypeExpression(anyTypeExpressions);
     }
 
     public NavigableSet <Pair <String, Integer>> limitedExpressionPatterns    = new TreeSet <>(new PairKey0Comp <String, Integer>());

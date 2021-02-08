@@ -11,8 +11,13 @@ public class NormalizedExpressionTemplateImpl extends NormalizedExpressionTempla
         super(originalExpression, positionStart, positionEnd);
     }
 
+
     @Override
     public void setOriginalExpressionFromPosition(StringBuilder text) {
+
+        if (text.length() < this.positionEnd) {
+            return;
+        }
 
         this.originalExpression = text.substring(this.positionStart, this.positionEnd);
     }

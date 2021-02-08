@@ -108,20 +108,34 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
 
         // 一致したパターンに応じて、規格化を行う
         final var finalIntegratedAbstimeexpId = expressionId.argValue + matchingLimitedAbstimeExpressionImpl.totalNumberOfPlaceHolder;
-        abstimeexps.get(finalIntegratedAbstimeexpId).positionEnd = abstimeexps.get(finalIntegratedAbstimeexpId).positionEnd
+        abstimeexps.get(expressionId.argValue).positionEnd = abstimeexps.get(finalIntegratedAbstimeexpId).positionEnd
                 + matchingLimitedAbstimeExpressionImpl.lengthOfStringsAfterFinalPlaceHolder;
+
         for (var i = 0; i < matchingLimitedAbstimeExpressionImpl.correspondingTimePosition.size(); i++) {
             this.setTime(abstimeexps.get(expressionId.argValue),
                     matchingLimitedAbstimeExpressionImpl.correspondingTimePosition.get(i),
                     abstimeexps.get(expressionId.argValue + i));
         }
         for (var i = 0; i < matchingLimitedAbstimeExpressionImpl.processType.size(); i++) {
-            this.revise_abstimeexp_by_process_type(abstimeexps.get(expressionId.argValue), matchingLimitedAbstimeExpressionImpl.processType.get(i));
+            this.reviseAbstimeexpByProcessType(abstimeexps.get(expressionId.argValue), matchingLimitedAbstimeExpressionImpl.processType.get(i));
         }
         abstimeexps.get(expressionId.argValue).ordinary = matchingLimitedAbstimeExpressionImpl.ordinary;
         abstimeexps.get(expressionId.argValue).options.add(matchingLimitedAbstimeExpressionImpl.option);
-        for (var i = expressionId.argValue + 1; i < expressionId.argValue + 1 + matchingLimitedAbstimeExpressionImpl.totalNumberOfPlaceHolder; i++) {
-            abstimeexps.remove(1);// 一致した部分のnumberを削除
+        // for (var i = expressionId.argValue + 1; i < expressionId.argValue + 1 + matchingLimitedAbstimeExpressionImpl.totalNumberOfPlaceHolder; i++)
+        // {
+        // abstimeexps.remove(1);// 一致した部分のnumberを削除
+        // }
+
+        var i = 0;
+        final var min = expressionId.argValue + 1;
+        final var max = expressionId.argValue + matchingLimitedAbstimeExpressionImpl.totalNumberOfPlaceHolder;
+        final var it = abstimeexps.iterator();
+        while (it.hasNext()) {
+            it.next();
+            if (min <= i && i <= max) {
+                it.remove();
+            }
+            i++;
         }
     }
 
@@ -208,7 +222,8 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
     public void fixByRangeExpression(StringBuilder uText, List <AbstimeExpressionImpl> abstimeexps) {
 
         for (var i = 0; i < abstimeexps.size() - 1; i++) {
-            if (this.haveKaraSuffix(abstimeexps.get(i).options) && this.haveKaraPrefix(abstimeexps.get(i + 1).options)
+            if (this.haveKaraSuffix(abstimeexps.get(i).options)
+                    && this.haveKaraPrefix(abstimeexps.get(i + 1).options)
                     && abstimeexps.get(i).positionEnd + 2 >= abstimeexps.get(i + 1).positionStart) {
                 // 「4~12月」「4月3~4日」の場合、前者（後者）がそもそも時間表現として認識されてないので、時間表現として設定する。
                 this.setAbstimeInformationToNullAbstime(abstimeexps.get(i), abstimeexps.get(i + 1));
@@ -255,7 +270,7 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
     }
 
 
-    private void revise_abstimeexp_by_process_type(AbstimeExpressionImpl abstimeexp, String processType) {
+    private void reviseAbstimeexpByProcessType(AbstimeExpressionImpl abstimeexp, String processType) {
 
         // 修飾語でない、パターンに含まれるprocess_typeによる規格化表現の補正処理。
         if (processType.equals("gozen")) {

@@ -16,20 +16,22 @@ public abstract class NormalizerUtility {
     abstract public void extractBeforeString(StringBuilder uTextReplaced, int i, StringBuilder beforeString);
 
 
-    abstract public void prefixSearch(StringBuilder uTextReplaced, NavigableSet <Pair <String, Integer>> patterns, RefObject<Integer> matchingPatternId);
+    abstract public void prefixSearch(StringBuilder uTextReplaced, NavigableSet <Pair <String, Integer>> patterns,
+            RefObject <Integer> matchingPatternId);
 
 
-    abstract public void suffixSearch(StringBuilder uTextReplaced, NavigableSet <Pair <String, Integer>> patternsRev, RefObject<Integer> matchingPatternId);
+    abstract public void suffixSearch(StringBuilder uTextReplaced, NavigableSet <Pair <String, Integer>> patternsRev,
+            RefObject <Integer> matchingPatternId);
 
 
     abstract public void searchSuffixNumberModifier(StringBuilder uTextReplaced, int expPositionEnd,
             NavigableSet <Pair <String, Integer>> suffixNumberModifierPatterns,
-            RefObject<Integer> matchingPatternId);
+            RefObject <Integer> matchingPatternId);
 
 
     abstract public void searchPrefixNumberModifier(StringBuilder uTextReplaced, int expPositionStart,
             NavigableSet <Pair <String, Integer>> prefixNumberModifierPatterns,
-            RefObject<Integer> matchingPatternId);
+            RefObject <Integer> matchingPatternId);
 
 
     abstract public void replaceNumbersInText(StringBuilder uText, List <NNumber> numbers,
@@ -53,13 +55,12 @@ public abstract class NormalizerUtility {
 
     abstract public String reverseString(String str);
 
-
-//    @SuppressWarnings ("unchecked")
-//    public <T1, T2> void cast(final T1 a, T2 b) {
-//
-//        final var modelMapper = new ModelMapper();
-//        b = (T2) modelMapper.map(a, b.getClass());
-//    }
+    // @SuppressWarnings ("unchecked")
+    // public <T1, T2> void cast(final T1 a, T2 b) {
+    //
+    // final var modelMapper = new ModelMapper();
+    // b = (T2) modelMapper.map(a, b.getClass());
+    // }
 
     // LATIN LETTER ALVEOLAR CLICK
     public static final char PLACE_HOLDER = 'ǂ';

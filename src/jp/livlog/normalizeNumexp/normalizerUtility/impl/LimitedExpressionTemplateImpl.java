@@ -31,7 +31,7 @@ public class LimitedExpressionTemplateImpl extends LimitedExpressionTemplate {
 
         final var a = this.pattern.lastIndexOf(String.valueOf(NormalizerUtility.PLACE_HOLDER));
         if (a > -1) {
-            final var str = this.pattern.substring(a);
+            final var str = this.pattern.substring(a + 1);
             this.lengthOfStringsAfterFinalPlaceHolder = str.length();
         }
     }

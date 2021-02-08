@@ -13,7 +13,7 @@ public class BaseExpressionTemplate {
 
     public String pattern;
 
-    public double valueLowerbound;
+    public NTime  valueLowerbound;
 
-    public double valueUpperbound;
+    public NTime  valueUpperbound;
 }

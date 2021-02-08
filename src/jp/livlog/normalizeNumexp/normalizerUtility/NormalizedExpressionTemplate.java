@@ -24,12 +24,6 @@ public abstract class NormalizedExpressionTemplate extends BaseExpressionTemplat
 
     abstract public void setOriginalExpressionFromPosition(StringBuilder uText);
 
-    public String             originalExpression;
-
-    public int                positionStart;
-
-    public int                positionEnd;
-
     public ENotationType      numberNotationType;
 
     public boolean            includeLowerbound;

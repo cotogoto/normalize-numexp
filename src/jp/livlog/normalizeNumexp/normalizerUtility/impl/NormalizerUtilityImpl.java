@@ -29,6 +29,10 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
     @Override
     public void extractAfterString(StringBuilder text, int i, StringBuilder afterString) {
 
+        if (text.length() < i) {
+            return;
+        }
+
         final var value = text.substring(i);
         afterString.append(value);
     }
@@ -37,7 +41,11 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
     @Override
     public void extractBeforeString(StringBuilder text, int i, StringBuilder beforeString) {
 
-        final var value = text.substring(0, i);
+        if (i > -1) {
+            return;
+        }
+
+        final var value = text.substring(0, i - 1);
         beforeString.append(value);
     }
 
