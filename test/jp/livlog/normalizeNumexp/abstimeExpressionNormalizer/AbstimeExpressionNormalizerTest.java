@@ -1,4 +1,4 @@
-package jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.impl;
+package jp.livlog.normalizeNumexp.abstimeExpressionNormalizer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,11 +6,12 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.AbstimeExpressionNormalizer;
+import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.impl.AbstimeExpressionImpl;
+import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.impl.AbstimeExpressionNormalizerImpl;
 import jp.livlog.normalizeNumexp.share.NTime;
 import jp.livlog.normalizeNumexp.share.Symbol;
 
-class AbstimeExpressionNormalizerImplTest {
+class AbstimeExpressionNormalizerTest {
 
     AbstimeExpressionNormalizer AEN = null;
 
