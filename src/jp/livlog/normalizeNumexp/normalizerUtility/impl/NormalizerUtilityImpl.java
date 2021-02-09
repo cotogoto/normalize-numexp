@@ -41,7 +41,7 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
     @Override
     public void extractBeforeString(StringBuilder text, int i, StringBuilder beforeString) {
 
-        if (i > -1) {
+        if (text.length() < i) {
             return;
         }
 
@@ -51,7 +51,7 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
 
 
     @Override
-    public void prefixSearch(StringBuilder ustr, NavigableSet <Pair <String, Integer>> patterns, RefObject <Integer> matchingPatternId) {
+    public Pair <String, Integer> prefixSearch(StringBuilder ustr, NavigableSet <Pair <String, Integer>> patterns, RefObject <Integer> matchingPatternId) {
 
         /*
          * patternsの中から、ustrのprefixになっているものを探索（複数ある場合は最長のもの）
@@ -78,16 +78,18 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
             }
             if (fix != null) {
                 matchingPatternId.argValue = fix.second;
-                return;
+                return fix;
             }
         }
 
         matchingPatternId.argValue = -1;
+
+        return null;
     }
 
 
     @Override
-    public void suffixSearch(StringBuilder stringBeforeExpression, NavigableSet <Pair <String, Integer>> patternsRev,
+    public Pair <String, Integer> suffixSearch(StringBuilder stringBeforeExpression, NavigableSet <Pair <String, Integer>> patternsRev,
             RefObject <Integer> matchingPatternId) {
 
         /*
@@ -116,11 +118,13 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
             }
             if (fix != null) {
                 matchingPatternId.argValue = fix.second;
-                return;
+                return fix;
             }
         }
 
         matchingPatternId.argValue = -1;
+
+        return null;
     }
 
 

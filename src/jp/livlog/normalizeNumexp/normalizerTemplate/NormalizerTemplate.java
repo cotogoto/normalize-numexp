@@ -72,13 +72,11 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
             if (this.normalizeSuffixNumberModifier(uTextReplaced, anyTypeExpressions.get(i))) {
                 this.normalizeSuffixNumberModifier(uTextReplaced, anyTypeExpressions.get(i)); // TODO : 2回以上の繰り返しを本当に含めて良いのか？
             }
-            if (this.normalize_prefix_number_modifier(uTextReplaced, anyTypeExpressions.get(i))) {
+            if (this.normalizePrefixNumberModifier(uTextReplaced, anyTypeExpressions.get(i))) {
                 this.normalizePrefixCounter(uTextReplaced, anyTypeExpressions.get(i));
             }
             anyTypeExpressions.get(i).setOriginalExpressionFromPosition(uText);
         }
-
-
 
         // TODO : 範囲表現の処理
         this.fixByRangeExpression(uText, anyTypeExpressions);
@@ -162,7 +160,10 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
         final var stringAfterExpression = new StringBuilder();
         this.normalizerUtility.extractAfterString(uTextReplaced, anyTypeExpression.positionEnd, stringAfterExpression);
-        this.normalizerUtility.prefixSearch(stringAfterExpression, this.limitedExpressionPatterns, matchingPatternId);
+        final var ret = this.normalizerUtility.prefixSearch(stringAfterExpression, this.limitedExpressionPatterns, matchingPatternId);
+        if (ret != null) {
+            anyTypeExpression.positionEnd += ret.first.length();
+        }
     }
 
 
@@ -234,7 +235,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     }
 
 
-    public boolean normalize_prefix_number_modifier(StringBuilder uTextReplaced, AnyTypeExpression anyTypeExpression) {
+    public boolean normalizePrefixNumberModifier(StringBuilder uTextReplaced, AnyTypeExpression anyTypeExpression) {
 
         var matchingPatternId = 0;
         final var tempRefMatchingPatternId = new RefObject <>(matchingPatternId);

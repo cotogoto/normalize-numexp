@@ -30,6 +30,24 @@ class AbstimeExpressionNormalizerImplTest {
 
 
     @Test
+    void simple0() {
+
+        final var text = "午後3時";
+        final List <AbstimeExpressionImpl> abstimeexps = new ArrayList <>();
+        final var language = "ja";
+        this.AEN = new AbstimeExpressionNormalizerImpl(language);
+        this.AEN.process(text, abstimeexps);
+        System.out.println(abstimeexps.get(0).valueLowerbound.toDurationString(true));
+        org.junit.Assert.assertEquals(1, abstimeexps.size());
+        final var ex2Lower = new NTime(Symbol.INFINITY,Symbol.INFINITY,Symbol.INFINITY, 15, Symbol.INFINITY, Symbol.INFINITY);
+        final var ex2Upper = new NTime(-Symbol.INFINITY,-Symbol.INFINITY,-Symbol.INFINITY, 15, -Symbol.INFINITY, -Symbol.INFINITY);
+        org.junit.Assert.assertEquals("午後3時",abstimeexps.get(0).originalExpression);
+        org.junit.Assert.assertTrue(this.isSameTime(ex2Lower, abstimeexps.get(0).valueLowerbound));
+        org.junit.Assert.assertTrue(this.isSameTime(ex2Upper, abstimeexps.get(0).valueUpperbound));
+    }
+
+
+    @Test
     void simple1() {
 
         final var text = "あの人は1989年7月21日午前3時に生まれた";

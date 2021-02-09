@@ -16,11 +16,11 @@ public abstract class NormalizerUtility {
     abstract public void extractBeforeString(StringBuilder uTextReplaced, int i, StringBuilder beforeString);
 
 
-    abstract public void prefixSearch(StringBuilder uTextReplaced, NavigableSet <Pair <String, Integer>> patterns,
+    abstract public Pair <String, Integer> prefixSearch(StringBuilder uTextReplaced, NavigableSet <Pair <String, Integer>> patterns,
             RefObject <Integer> matchingPatternId);
 
 
-    abstract public void suffixSearch(StringBuilder uTextReplaced, NavigableSet <Pair <String, Integer>> patternsRev,
+    abstract public Pair <String, Integer> suffixSearch(StringBuilder uTextReplaced, NavigableSet <Pair <String, Integer>> patternsRev,
             RefObject <Integer> matchingPatternId);
 
 
