@@ -1,4 +1,4 @@
-package jp.livlog.normalizeNumexp.numericalExpressionNormalizer;
+package jp.livlog.normalizeNumexp.numberNormalizer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,9 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import jp.livlog.normalizeNumexp.digitUtility.DigitUtility;
 import jp.livlog.normalizeNumexp.digitUtility.impl.DigitUtilityImpl;
-import jp.livlog.normalizeNumexp.numberNormalizer.NumberConverterTemplate;
-import jp.livlog.normalizeNumexp.numberNormalizer.NumberExtractor;
-import jp.livlog.normalizeNumexp.numberNormalizer.NumberNormalizer;
 import jp.livlog.normalizeNumexp.numberNormalizer.impl.JapaneseNumberConverterImpl;
 import jp.livlog.normalizeNumexp.numberNormalizer.impl.NumberExtractorImpl;
 import jp.livlog.normalizeNumexp.numberNormalizer.impl.NumberNormalizerImpl;

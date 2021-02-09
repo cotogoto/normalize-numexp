@@ -1,4 +1,4 @@
-package jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.impl;
+package jp.livlog.normalizeNumexp.abstimeExpressionNormalizer;
 
 import jp.livlog.normalizeNumexp.normalizerUtility.impl.NormalizedExpressionTemplateImpl;
 import jp.livlog.normalizeNumexp.share.NNumber;
@@ -7,9 +7,9 @@ import jp.livlog.normalizeNumexp.share.Symbol;
 import lombok.ToString;
 
 @ToString
-public class AbstimeExpressionImpl extends NormalizedExpressionTemplateImpl {
+public class AbstimeExpression extends NormalizedExpressionTemplateImpl {
 
-    public AbstimeExpressionImpl(NNumber number) {
+    public AbstimeExpression(NNumber number) {
 
         super(number.originalExpression, number.positionStart, number.positionEnd);
         this.orgValueLowerbound = number.valueLowerbound;

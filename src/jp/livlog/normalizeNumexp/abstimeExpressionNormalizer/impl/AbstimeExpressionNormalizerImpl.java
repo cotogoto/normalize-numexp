@@ -10,7 +10,9 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.AbstimeExpression;
 import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.AbstimeExpressionNormalizer;
+import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.LimitedAbstimeExpression;
 import jp.livlog.normalizeNumexp.digitUtility.impl.DigitUtilityImpl;
 import jp.livlog.normalizeNumexp.share.NNumber;
 import jp.livlog.normalizeNumexp.share.NTime;
@@ -45,7 +47,7 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
 
     @SuppressWarnings ("unchecked")
     @Override
-    public void loadFromDictionary1(String dictionaryPath, List <LimitedAbstimeExpressionImpl> loadTarget) {
+    public void loadFromDictionary1(String dictionaryPath, List <LimitedAbstimeExpression> loadTarget) {
 
         loadTarget.clear();
 
@@ -55,12 +57,12 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
         final var gson = new Gson();
         final var listType = new TypeToken <HashMap <String, Object>>() {
         }.getType();
-        LimitedAbstimeExpressionImpl expression = null;
+        LimitedAbstimeExpression expression = null;
         try (var br = new BufferedReader(reader)) {
             String line;
             while ((line = br.readLine()) != null) {
                 final var map = (HashMap <String, Object>) gson.fromJson(line, listType);
-                expression = new LimitedAbstimeExpressionImpl();
+                expression = new LimitedAbstimeExpression();
                 expression.pattern = (String) map.get("pattern");
                 expression.correspondingTimePosition = (List <String>) map.get("corresponding_time_position");
                 expression.processType = (List <String>) map.get("process_type");
@@ -102,9 +104,9 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
 
     @Override
     public void reviseAnyTypeExpressionByMatchingLimitedExpression(
-            List <AbstimeExpressionImpl> abstimeexps,
+            List <AbstimeExpression> abstimeexps,
             RefObject <Integer> expressionId,
-            LimitedAbstimeExpressionImpl matchingLimitedAbstimeExpressionImpl) {
+            LimitedAbstimeExpression matchingLimitedAbstimeExpressionImpl) {
 
         // 一致したパターンに応じて、規格化を行う
         final var finalIntegratedAbstimeexpId = expressionId.argValue + matchingLimitedAbstimeExpressionImpl.totalNumberOfPlaceHolder;
@@ -142,8 +144,8 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
 
     @Override
     public void reviseAnyTypeExpressionByMatchingPrefixCounter(
-            AbstimeExpressionImpl anyTypeExpression,
-            LimitedAbstimeExpressionImpl matchingLimitedExpression) {
+            AbstimeExpression anyTypeExpression,
+            LimitedAbstimeExpression matchingLimitedExpression) {
 
         // 一致したパターンに応じて、規格化を行う（数字の前側に単位等が来る場合。絶対時間表現の場合「西暦」など）
         if (matchingLimitedExpression.option.equals("seireki")) {
@@ -163,7 +165,7 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
 
 
     @Override
-    public void reviseAnyTypeExpressionByNumberModifier(AbstimeExpressionImpl abstimeexp, NumberModifier numberModifier) {
+    public void reviseAnyTypeExpressionByNumberModifier(AbstimeExpression abstimeexp, NumberModifier numberModifier) {
 
         final var processType = numberModifier.processType;
         if (processType.equals("or_over")) {
@@ -206,7 +208,7 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
 
 
     @Override
-    public void deleteNotAnyTypeExpression(List <AbstimeExpressionImpl> abstimeexps) {
+    public void deleteNotAnyTypeExpression(List <AbstimeExpression> abstimeexps) {
 
         for (var i = 0; i < abstimeexps.size(); i++) {
             if (this.normalizerUtility.isNullTime(abstimeexps.get(i).valueLowerbound)
@@ -219,7 +221,7 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
 
 
     @Override
-    public void fixByRangeExpression(StringBuilder uText, List <AbstimeExpressionImpl> abstimeexps) {
+    public void fixByRangeExpression(StringBuilder uText, List <AbstimeExpression> abstimeexps) {
 
         for (var i = 0; i < abstimeexps.size() - 1; i++) {
             if (this.haveKaraSuffix(abstimeexps.get(i).options)
@@ -243,7 +245,7 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
     }
 
 
-    private void setTime(AbstimeExpressionImpl abstimeexp, String correspondingTimePosition, AbstimeExpressionImpl integrateAbstimeexp) {
+    private void setTime(AbstimeExpression abstimeexp, String correspondingTimePosition, AbstimeExpression integrateAbstimeexp) {
 
         if (correspondingTimePosition.equals("y")) {
             abstimeexp.valueLowerbound.year = integrateAbstimeexp.orgValueLowerbound;
@@ -270,7 +272,7 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
     }
 
 
-    private void reviseAbstimeexpByProcessType(AbstimeExpressionImpl abstimeexp, String processType) {
+    private void reviseAbstimeexpByProcessType(AbstimeExpression abstimeexp, String processType) {
 
         // 修飾語でない、パターンに含まれるprocess_typeによる規格化表現の補正処理。
         if (processType.equals("gozen")) {
@@ -307,7 +309,7 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
     /*
      *修飾語による規格化表現の補正処理。
      */
-    private void doTimeAbout(AbstimeExpressionImpl abstimeexp) {
+    private void doTimeAbout(AbstimeExpression abstimeexp) {
 
         final var tvl = abstimeexp.valueLowerbound;
         final var tvu = abstimeexp.valueUpperbound;
@@ -336,7 +338,7 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
 
 
     // ~~他の処理も同様
-    private void doTimeZenhan(AbstimeExpressionImpl abstimeexp) {
+    private void doTimeZenhan(AbstimeExpression abstimeexp) {
 
         // 「18世紀前半」「1989年前半」「7月前半」「3日朝」など。
         // TODO : 「18世紀はじめ」などもzenhanに括ってしまっている。より細かく分類が行いたい場合は、hajime関数などを書いて処理
@@ -366,7 +368,7 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
     }
 
 
-    private void doTimeKouhan(AbstimeExpressionImpl abstimeexp) {
+    private void doTimeKouhan(AbstimeExpression abstimeexp) {
 
         // 「18世紀後半」「1989年後半」「7月後半」など。
         // TODO : 「18世紀末」「3日夜」などもkouhanに括ってしまっている。
@@ -396,7 +398,7 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
     }
 
 
-    private void doTimeNakaba(AbstimeExpressionImpl abstimeexp) {
+    private void doTimeNakaba(AbstimeExpression abstimeexp) {
 
         // 「18世紀中盤」「1989年中盤」「7月中盤」など。
         // TODO : 「18世紀なかば」「3日昼」などもnakabaに括ってしまっている。
@@ -428,7 +430,7 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
     }
 
 
-    private void doTimeJoujun(AbstimeExpressionImpl abstimeexp) {
+    private void doTimeJoujun(AbstimeExpression abstimeexp) {
 
         final var tvl = abstimeexp.valueLowerbound;
         final var tvu = abstimeexp.valueUpperbound;
@@ -440,7 +442,7 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
     }
 
 
-    private void doTimeTyujun(AbstimeExpressionImpl abstimeexp) {
+    private void doTimeTyujun(AbstimeExpression abstimeexp) {
 
         final var tvl = abstimeexp.valueLowerbound;
         final var tvu = abstimeexp.valueUpperbound;
@@ -452,7 +454,7 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
     }
 
 
-    private void doTimeGejun(AbstimeExpressionImpl abstimeexp) {
+    private void doTimeGejun(AbstimeExpression abstimeexp) {
 
         final var tvl = abstimeexp.valueLowerbound;
         final var tvu = abstimeexp.valueUpperbound;
@@ -490,7 +492,7 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
     }
 
 
-    private void supplementAbstimeInformation(AbstimeExpressionImpl abstime1, AbstimeExpressionImpl abstime2) {
+    private void supplementAbstimeInformation(AbstimeExpression abstime1, AbstimeExpression abstime2) {
 
         // this.supplementAbstimeInformationSpecificType(
         // abstime1.valueLowerbound.year,
@@ -605,7 +607,7 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
     }
 
 
-    private void setAbstimeInformationToNullAbstime(AbstimeExpressionImpl abstime1, AbstimeExpressionImpl abstime2) {
+    private void setAbstimeInformationToNullAbstime(AbstimeExpression abstime1, AbstimeExpression abstime2) {
 
         if (abstime1.valueLowerbound.equalsTo(new NTime(Symbol.INFINITY))) {
             // lower_boundが空 = 時間として認識されていない場合（例：「4~12月」の「4~」）、lower_boundを設定
@@ -627,11 +629,11 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
 
 
     @Override
-    public void convertNumbersToAnyTypeExpressions(List <NNumber> numbers, List <AbstimeExpressionImpl> anyTypeExpressions) {
+    public void convertNumbersToAnyTypeExpressions(List <NNumber> numbers, List <AbstimeExpression> anyTypeExpressions) {
 
         for (final NNumber number : numbers) {
 
-            final var baseExpressionTemplate = new AbstimeExpressionImpl(number);
+            final var baseExpressionTemplate = new AbstimeExpression(number);
             baseExpressionTemplate.originalExpression = number.originalExpression;
             baseExpressionTemplate.positionStart = number.positionStart;
             baseExpressionTemplate.positionEnd = number.positionEnd;

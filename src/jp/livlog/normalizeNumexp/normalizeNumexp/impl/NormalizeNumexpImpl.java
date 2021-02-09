@@ -3,7 +3,7 @@ package jp.livlog.normalizeNumexp.normalizeNumexp.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.impl.AbstimeExpressionImpl;
+import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.AbstimeExpression;
 import jp.livlog.normalizeNumexp.normalizeNumexp.NormalizeNumexp;
 
 public class NormalizeNumexpImpl extends NormalizeNumexp {
@@ -12,7 +12,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
     public void normalizeEachTypeExpressions(
             final String text,
             // ArrayList<numerical_expression_normalizer.NumericalExpression> numexps,
-            List <AbstimeExpressionImpl> abstimeexps
+            List <AbstimeExpression> abstimeexps
     // ArrayList<reltime_expression_normalizer.ReltimeExpression> reltimeexps,
     // ArrayList<duration_expression_normalizer.DurationExpression> durationexps
     ) {
@@ -41,7 +41,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
         result.clear();
         // final ArrayList<numerical_expression_normalizer.NumericalExpression> numexps = new
         // ArrayList<numerical_expression_normalizer.NumericalExpression>();
-        final List <AbstimeExpressionImpl> abstimeexps = new ArrayList <>();
+        final List <AbstimeExpression> abstimeexps = new ArrayList <>();
         // final ArrayList<reltime_expression_normalizer.ReltimeExpression> reltimeexps = new
         // ArrayList<reltime_expression_normalizer.ReltimeExpression>();
         // final ArrayList<duration_expression_normalizer.DurationExpression> durationexps = new

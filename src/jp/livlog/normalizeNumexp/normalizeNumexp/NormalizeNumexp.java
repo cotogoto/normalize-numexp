@@ -2,8 +2,8 @@ package jp.livlog.normalizeNumexp.normalizeNumexp;
 
 import java.util.List;
 
+import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.AbstimeExpression;
 import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.AbstimeExpressionNormalizer;
-import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.impl.AbstimeExpressionImpl;
 import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.impl.AbstimeExpressionNormalizerImpl;
 
 public abstract class NormalizeNumexp {
@@ -19,7 +19,7 @@ public abstract class NormalizeNumexp {
 
     protected abstract void normalizeEachTypeExpressions(final String text,
             // List<numerical_expression_normalizer::NumericalExpression> numexps,
-            List <AbstimeExpressionImpl> abstimeexps
+            List <AbstimeExpression> abstimeexps
     // List<reltime_expression_normalizer::ReltimeExpression> reltimeexps,
     // List<duration_expression_normalizer::DurationExpression> durationexps
 

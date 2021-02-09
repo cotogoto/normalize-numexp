@@ -1,4 +1,4 @@
-package jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.impl;
+package jp.livlog.normalizeNumexp.abstimeExpressionNormalizer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import jp.livlog.normalizeNumexp.normalizerUtility.impl.LimitedExpressionTemplat
 import lombok.ToString;
 
 @ToString
-public class LimitedAbstimeExpressionImpl extends LimitedExpressionTemplateImpl {
+public class LimitedAbstimeExpression extends LimitedExpressionTemplateImpl {
 
     public List <String> correspondingTimePosition = new ArrayList <>();
 
