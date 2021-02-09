@@ -167,14 +167,14 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
 
         final var processType = numberModifier.processType;
         if (processType.equals("or_over")) {
-            abstimeexp.valueUpperbound = new NTime(Symbol.INFINITY);
+            abstimeexp.valueUpperbound = new NTime(-Symbol.INFINITY);
         } else if (processType.equals("or_less")) {
-            abstimeexp.valueLowerbound = new NTime(-Symbol.INFINITY);
+            abstimeexp.valueLowerbound = new NTime(Symbol.INFINITY);
         } else if (processType.equals("over")) {
-            abstimeexp.valueUpperbound = new NTime(Symbol.INFINITY);
+            abstimeexp.valueUpperbound = new NTime(-Symbol.INFINITY);
             abstimeexp.includeLowerbound = false;
         } else if (processType.equals("less")) {
-            abstimeexp.valueLowerbound = new NTime(-Symbol.INFINITY);
+            abstimeexp.valueLowerbound = new NTime(Symbol.INFINITY);
             abstimeexp.includeUpperbound = false;
         } else if (processType.equals("none")) {
 
@@ -195,7 +195,7 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
         } else if (processType.equals("made")) {
             if (abstimeexp.valueUpperbound == abstimeexp.valueLowerbound) {
                 // 「3時までに来て下さい」の場合
-                abstimeexp.valueLowerbound = new NTime(-Symbol.INFINITY);
+                abstimeexp.valueLowerbound = new NTime(Symbol.INFINITY);
             } else {
                 // 「2時~3時までに来て下さい」の場合
             }

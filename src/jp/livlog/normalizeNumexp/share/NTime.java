@@ -56,7 +56,7 @@ public  class NTime {
         if (this.isNullTimeElement(t, isUpperbound)) {
             return nullString + kugiri;
         } else {
-            ss.append(String.format("%04d", t));
+            ss.append(String.format("%04d", (int) t));
             ss.append(kugiri);
             ret = ss.toString();
             return ret;
