@@ -145,4 +145,38 @@ class AbstimeExpressionNormalizerImplTest {
         org.junit.Assert.assertTrue(this.isSameTime(ex2Lower, abstimeexps.get(0).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex2Upper, abstimeexps.get(0).valueUpperbound));
     }
+
+
+    @Test
+    void seiki() {
+
+        final var text = "あの人は18世紀に生まれた。";
+        final List <AbstimeExpressionImpl> abstimeexps = new ArrayList <>();
+        final var language = "ja";
+        this.AEN = new AbstimeExpressionNormalizerImpl(language);
+        this.AEN.process(text, abstimeexps);
+        System.out.println(abstimeexps.get(0).valueLowerbound.toDurationString(true));
+        org.junit.Assert.assertEquals(1, abstimeexps.size());
+        final var ex2Lower = new NTime(1701, Symbol.INFINITY, Symbol.INFINITY,  Symbol.INFINITY,  Symbol.INFINITY, Symbol.INFINITY);
+        final var ex2Upper = new NTime(1800, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
+        org.junit.Assert.assertEquals("18世紀", abstimeexps.get(0).originalExpression);
+        org.junit.Assert.assertTrue(this.isSameTime(ex2Lower, abstimeexps.get(0).valueLowerbound));
+        org.junit.Assert.assertTrue(this.isSameTime(ex2Upper, abstimeexps.get(0).valueUpperbound));
+    }
+
+    @Test
+    void about1() {
+
+        final var text = "あの人は1989年7月21日ごろに生まれた";
+        final List <AbstimeExpressionImpl> abstimeexps = new ArrayList <>();
+        final var language = "ja";
+        this.AEN = new AbstimeExpressionNormalizerImpl(language);
+        this.AEN.process(text, abstimeexps);
+        System.out.println(abstimeexps.get(0).valueLowerbound.toDurationString(true));
+        final var ex1Lower = new NTime(1989, 7, 20, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
+        final var ex1Upper = new NTime(1989, 7, 22, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
+        org.junit.Assert.assertEquals("1989年7月21日ごろ", abstimeexps.get(0).originalExpression);
+        org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
+        org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));
+    }
 }
