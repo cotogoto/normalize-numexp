@@ -8,9 +8,12 @@ import org.junit.jupiter.api.Test;
 
 import jp.livlog.normalizeNumexp.digitUtility.DigitUtility;
 import jp.livlog.normalizeNumexp.digitUtility.impl.DigitUtilityImpl;
-import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.impl.JapaneseNumberConverterImpl;
-import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.impl.NumberExtractorImpl;
-import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.impl.NumberNormalizerImpl;
+import jp.livlog.normalizeNumexp.numberNormalizer.NumberConverterTemplate;
+import jp.livlog.normalizeNumexp.numberNormalizer.NumberExtractor;
+import jp.livlog.normalizeNumexp.numberNormalizer.NumberNormalizer;
+import jp.livlog.normalizeNumexp.numberNormalizer.impl.JapaneseNumberConverterImpl;
+import jp.livlog.normalizeNumexp.numberNormalizer.impl.NumberExtractorImpl;
+import jp.livlog.normalizeNumexp.numberNormalizer.impl.NumberNormalizerImpl;
 import jp.livlog.normalizeNumexp.share.ENotationType;
 import jp.livlog.normalizeNumexp.share.NNumber;
 import jp.livlog.normalizeNumexp.share.RefObject;

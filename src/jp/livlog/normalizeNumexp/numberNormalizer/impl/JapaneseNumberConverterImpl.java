@@ -1,7 +1,7 @@
-package jp.livlog.normalizeNumexp.numericalExpressionNormalizer.impl;
+package jp.livlog.normalizeNumexp.numberNormalizer.impl;
 
 import jp.livlog.normalizeNumexp.digitUtility.DigitUtility;
-import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.NumberConverterTemplate;
+import jp.livlog.normalizeNumexp.numberNormalizer.NumberConverterTemplate;
 import jp.livlog.normalizeNumexp.share.RefObject;
 
 public class JapaneseNumberConverterImpl extends NumberConverterTemplate {

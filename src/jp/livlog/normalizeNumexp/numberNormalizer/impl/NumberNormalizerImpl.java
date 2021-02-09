@@ -1,10 +1,10 @@
-package jp.livlog.normalizeNumexp.numericalExpressionNormalizer.impl;
+package jp.livlog.normalizeNumexp.numberNormalizer.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.InfNumberConverterTemplate;
-import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.NumberNormalizer;
+import jp.livlog.normalizeNumexp.numberNormalizer.InfNumberConverterTemplate;
+import jp.livlog.normalizeNumexp.numberNormalizer.NumberNormalizer;
 import jp.livlog.normalizeNumexp.share.NNumber;
 import jp.livlog.normalizeNumexp.share.RefObject;
 

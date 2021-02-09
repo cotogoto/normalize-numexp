@@ -1,11 +1,11 @@
-package jp.livlog.normalizeNumexp.numericalExpressionNormalizer;
+package jp.livlog.normalizeNumexp.numberNormalizer;
 
 import java.util.List;
 
 import jp.livlog.normalizeNumexp.digitUtility.DigitUtility;
 import jp.livlog.normalizeNumexp.digitUtility.impl.DigitUtilityImpl;
-import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.impl.NumberExtractorImpl;
-import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.impl.SymbolFixerImpl;
+import jp.livlog.normalizeNumexp.numberNormalizer.impl.NumberExtractorImpl;
+import jp.livlog.normalizeNumexp.numberNormalizer.impl.SymbolFixerImpl;
 import jp.livlog.normalizeNumexp.share.NNumber;
 
 public abstract class NumberNormalizer {

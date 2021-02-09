@@ -1,9 +1,9 @@
-package jp.livlog.normalizeNumexp.numericalExpressionNormalizer.impl;
+package jp.livlog.normalizeNumexp.numberNormalizer.impl;
 
 import java.util.List;
 
 import jp.livlog.normalizeNumexp.digitUtility.DigitUtility;
-import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.SymbolFixer;
+import jp.livlog.normalizeNumexp.numberNormalizer.SymbolFixer;
 import jp.livlog.normalizeNumexp.share.NNumber;
 import jp.livlog.normalizeNumexp.share.Symbol;
 

@@ -1,4 +1,4 @@
-package jp.livlog.normalizeNumexp.numericalExpressionNormalizer;
+package jp.livlog.normalizeNumexp.numberNormalizer;
 
 import java.util.List;
 
