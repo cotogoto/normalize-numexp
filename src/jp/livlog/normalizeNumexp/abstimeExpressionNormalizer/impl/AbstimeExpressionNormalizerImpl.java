@@ -303,11 +303,10 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
         }
     }
 
+
     /*
-    　修飾語による規格化表現の補正処理。
-    */
-
-
+     *修飾語による規格化表現の補正処理。
+     */
     private void doTimeAbout(AbstimeExpressionImpl abstimeexp) {
 
         final var tvl = abstimeexp.valueLowerbound;
@@ -464,52 +463,145 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
         }
     }
 
+    // private void supplementAbstimeInformationSpecificType(
+    // double timeElement1Lowerbound,
+    // double timeElement1Upperbound,
+    // double timeElement2Lowerbound,
+    // double timeElement2Upperbound) {
+    //
+    // if (timeElement1Lowerbound == Symbol.INFINITY
+    // && timeElement1Upperbound == -Symbol.INFINITY) {
+    // // 1がセットされていなければ、2に合わせる
+    // timeElement1Lowerbound = timeElement2Lowerbound;
+    // timeElement1Upperbound = timeElement2Upperbound;
+    // } else {
+    //
+    // }
+    // }
 
-    private void supplementAbstimeInformationSpecificType(
-            double timeElement1Lowerbound,
-            double timeElement1Upperbound,
-            double timeElement2Lowerbound,
-            double timeElement2Upperbound) {
+
+    private boolean isSupplementAbstimeInformationSpecificType(double timeElement1Lowerbound, double timeElement1Upperbound) {
 
         if (timeElement1Lowerbound == Symbol.INFINITY
                 && timeElement1Upperbound == -Symbol.INFINITY) {
-            // 1がセットされていなければ、2に合わせる
-            timeElement1Lowerbound = timeElement2Lowerbound;
-            timeElement1Upperbound = timeElement2Upperbound;
+            return true;
         }
+        return false;
     }
 
 
     private void supplementAbstimeInformation(AbstimeExpressionImpl abstime1, AbstimeExpressionImpl abstime2) {
 
-        this.supplementAbstimeInformationSpecificType(abstime1.valueLowerbound.year, abstime1.valueUpperbound.year, abstime2.valueLowerbound.year,
-                abstime2.valueUpperbound.year);
-        this.supplementAbstimeInformationSpecificType(abstime2.valueLowerbound.year, abstime2.valueUpperbound.year, abstime1.valueLowerbound.year,
-                abstime1.valueUpperbound.year);
-        this.supplementAbstimeInformationSpecificType(abstime1.valueLowerbound.month, abstime1.valueUpperbound.month, abstime2.valueLowerbound.month,
-                abstime2.valueUpperbound.month);
-        this.supplementAbstimeInformationSpecificType(abstime2.valueLowerbound.month, abstime2.valueUpperbound.month, abstime1.valueLowerbound.month,
-                abstime1.valueUpperbound.month);
-        this.supplementAbstimeInformationSpecificType(abstime1.valueLowerbound.day, abstime1.valueUpperbound.day, abstime2.valueLowerbound.day,
-                abstime2.valueUpperbound.day);
-        this.supplementAbstimeInformationSpecificType(abstime2.valueLowerbound.day, abstime2.valueUpperbound.day, abstime1.valueLowerbound.day,
-                abstime1.valueUpperbound.day);
-        this.supplementAbstimeInformationSpecificType(abstime1.valueLowerbound.hour, abstime1.valueUpperbound.hour, abstime2.valueLowerbound.hour,
-                abstime2.valueUpperbound.hour);
-        this.supplementAbstimeInformationSpecificType(abstime2.valueLowerbound.hour, abstime2.valueUpperbound.hour, abstime1.valueLowerbound.hour,
-                abstime1.valueUpperbound.hour);
-        this.supplementAbstimeInformationSpecificType(abstime1.valueLowerbound.minute, abstime1.valueUpperbound.minute,
-                abstime2.valueLowerbound.minute,
-                abstime2.valueUpperbound.minute);
-        this.supplementAbstimeInformationSpecificType(abstime2.valueLowerbound.minute, abstime2.valueUpperbound.minute,
-                abstime1.valueLowerbound.minute,
-                abstime1.valueUpperbound.minute);
-        this.supplementAbstimeInformationSpecificType(abstime1.valueLowerbound.second, abstime1.valueUpperbound.second,
-                abstime2.valueLowerbound.second,
-                abstime2.valueUpperbound.second);
-        this.supplementAbstimeInformationSpecificType(abstime2.valueLowerbound.second, abstime2.valueUpperbound.second,
-                abstime1.valueLowerbound.second,
-                abstime1.valueUpperbound.second);
+        // this.supplementAbstimeInformationSpecificType(
+        // abstime1.valueLowerbound.year,
+        // abstime1.valueUpperbound.year,
+        // abstime2.valueLowerbound.year,
+        // abstime2.valueUpperbound.year);
+        // this.supplementAbstimeInformationSpecificType(
+        // abstime2.valueLowerbound.year,
+        // abstime2.valueUpperbound.year,
+        // abstime1.valueLowerbound.year,
+        // abstime1.valueUpperbound.year);
+        // this.supplementAbstimeInformationSpecificType(
+        // abstime1.valueLowerbound.month,
+        // abstime1.valueUpperbound.month,
+        // abstime2.valueLowerbound.month,
+        // abstime2.valueUpperbound.month);
+        // this.supplementAbstimeInformationSpecificType(
+        // abstime2.valueLowerbound.month,
+        // abstime2.valueUpperbound.month,
+        // abstime1.valueLowerbound.month,
+        // abstime1.valueUpperbound.month);
+        // this.supplementAbstimeInformationSpecificType(
+        // abstime1.valueLowerbound.day,
+        // abstime1.valueUpperbound.day,
+        // abstime2.valueLowerbound.day,
+        // abstime2.valueUpperbound.day);
+        // this.supplementAbstimeInformationSpecificType(
+        // abstime2.valueLowerbound.day,
+        // abstime2.valueUpperbound.day,
+        // abstime1.valueLowerbound.day,
+        // abstime1.valueUpperbound.day);
+        // this.supplementAbstimeInformationSpecificType(
+        // abstime1.valueLowerbound.hour,
+        // abstime1.valueUpperbound.hour,
+        // abstime2.valueLowerbound.hour,
+        // abstime2.valueUpperbound.hour);
+        // this.supplementAbstimeInformationSpecificType(
+        // abstime2.valueLowerbound.hour,
+        // abstime2.valueUpperbound.hour,
+        // abstime1.valueLowerbound.hour,
+        // abstime1.valueUpperbound.hour);
+        // this.supplementAbstimeInformationSpecificType(
+        // abstime1.valueLowerbound.minute,
+        // abstime1.valueUpperbound.minute,
+        // abstime2.valueLowerbound.minute,
+        // abstime2.valueUpperbound.minute);
+        // this.supplementAbstimeInformationSpecificType(
+        // abstime2.valueLowerbound.minute,
+        // abstime2.valueUpperbound.minute,
+        // abstime1.valueLowerbound.minute,
+        // abstime1.valueUpperbound.minute);
+        // this.supplementAbstimeInformationSpecificType(
+        // abstime1.valueLowerbound.second,
+        // abstime1.valueUpperbound.second,
+        // abstime2.valueLowerbound.second,
+        // abstime2.valueUpperbound.second);
+        // this.supplementAbstimeInformationSpecificType(
+        // abstime2.valueLowerbound.second,
+        // abstime2.valueUpperbound.second,
+        // abstime1.valueLowerbound.second,
+        // abstime1.valueUpperbound.second);
+
+        if (this.isSupplementAbstimeInformationSpecificType(abstime1.valueLowerbound.year, abstime1.valueUpperbound.year)) {
+            abstime1.valueLowerbound.year = abstime2.valueLowerbound.year;
+            abstime1.valueUpperbound.year = abstime2.valueUpperbound.year;
+        }
+        if (this.isSupplementAbstimeInformationSpecificType(abstime2.valueLowerbound.year, abstime2.valueUpperbound.year)) {
+            abstime2.valueLowerbound.year = abstime1.valueLowerbound.year;
+            abstime2.valueUpperbound.year = abstime1.valueUpperbound.year;
+        }
+        if (this.isSupplementAbstimeInformationSpecificType(abstime1.valueLowerbound.month, abstime1.valueUpperbound.month)) {
+            abstime1.valueLowerbound.month = abstime2.valueLowerbound.month;
+            abstime1.valueUpperbound.month = abstime2.valueUpperbound.month;
+        }
+        if (this.isSupplementAbstimeInformationSpecificType(abstime2.valueLowerbound.month, abstime2.valueUpperbound.month)) {
+            abstime2.valueLowerbound.month = abstime1.valueLowerbound.month;
+            abstime2.valueUpperbound.month = abstime1.valueUpperbound.month;
+        }
+        if (this.isSupplementAbstimeInformationSpecificType(abstime1.valueLowerbound.day, abstime1.valueUpperbound.day)) {
+            abstime1.valueLowerbound.day = abstime2.valueLowerbound.day;
+            abstime1.valueUpperbound.day = abstime2.valueUpperbound.day;
+        }
+        if (this.isSupplementAbstimeInformationSpecificType(abstime2.valueLowerbound.day, abstime2.valueUpperbound.day)) {
+            abstime2.valueLowerbound.day = abstime1.valueLowerbound.day;
+            abstime2.valueUpperbound.day = abstime1.valueUpperbound.day;
+        }
+        if (this.isSupplementAbstimeInformationSpecificType(abstime1.valueLowerbound.hour, abstime1.valueUpperbound.hour)) {
+            abstime1.valueLowerbound.hour = abstime2.valueLowerbound.hour;
+            abstime1.valueUpperbound.hour = abstime2.valueUpperbound.hour;
+        }
+        if (this.isSupplementAbstimeInformationSpecificType(abstime2.valueLowerbound.hour, abstime2.valueUpperbound.hour)) {
+            abstime2.valueLowerbound.hour = abstime1.valueLowerbound.hour;
+            abstime2.valueUpperbound.hour = abstime1.valueUpperbound.hour;
+        }
+        if (this.isSupplementAbstimeInformationSpecificType(abstime1.valueLowerbound.minute, abstime1.valueUpperbound.minute)) {
+            abstime1.valueLowerbound.minute = abstime2.valueLowerbound.minute;
+            abstime1.valueUpperbound.minute = abstime2.valueUpperbound.minute;
+        }
+        if (this.isSupplementAbstimeInformationSpecificType(abstime2.valueLowerbound.minute, abstime2.valueUpperbound.minute)) {
+            abstime2.valueLowerbound.minute = abstime1.valueLowerbound.minute;
+            abstime2.valueUpperbound.minute = abstime1.valueUpperbound.minute;
+        }
+        if (this.isSupplementAbstimeInformationSpecificType(abstime1.valueLowerbound.minute, abstime1.valueUpperbound.second)) {
+            abstime1.valueLowerbound.second = abstime2.valueLowerbound.second;
+            abstime1.valueUpperbound.second = abstime2.valueUpperbound.second;
+        }
+        if (this.isSupplementAbstimeInformationSpecificType(abstime2.valueLowerbound.minute, abstime2.valueUpperbound.second)) {
+            abstime2.valueLowerbound.second = abstime1.valueLowerbound.second;
+            abstime2.valueUpperbound.second = abstime1.valueUpperbound.second;
+        }
+
     }
 
 

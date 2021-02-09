@@ -322,4 +322,122 @@ class AbstimeExpressionNormalizerImplTest {
         org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));
     }
+
+
+    @Test
+    void range1() {
+
+        final var text = "15時〜18時の間に、";
+        final List <AbstimeExpressionImpl> abstimeexps = new ArrayList <>();
+        final var language = "ja";
+        this.AEN = new AbstimeExpressionNormalizerImpl(language);
+        this.AEN.process(text, abstimeexps);
+        System.out.println(abstimeexps.get(0).valueLowerbound.toDateString(true) + " " + abstimeexps.get(0).valueLowerbound.toTimeString(true));
+        final var ex1Lower = new NTime(Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, 15, Symbol.INFINITY, Symbol.INFINITY);
+        final var ex1Upper = new NTime(-Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, 18, -Symbol.INFINITY, -Symbol.INFINITY);
+        org.junit.Assert.assertEquals("15時〜18時", abstimeexps.get(0).originalExpression);
+        org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
+        org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));
+    }
+
+
+    @Test
+    void range2() {
+
+        final var text = "15:00から18:00の間に、";
+        final List <AbstimeExpressionImpl> abstimeexps = new ArrayList <>();
+        final var language = "ja";
+        this.AEN = new AbstimeExpressionNormalizerImpl(language);
+        this.AEN.process(text, abstimeexps);
+        System.out.println(abstimeexps.get(0).valueLowerbound.toDateString(true) + " " + abstimeexps.get(0).valueLowerbound.toTimeString(true));
+        final var ex1Lower = new NTime(Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, 15, 0, Symbol.INFINITY);
+        final var ex1Upper = new NTime(-Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, 18, 0, -Symbol.INFINITY);
+        org.junit.Assert.assertEquals("15:00から18:00", abstimeexps.get(0).originalExpression);
+        org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
+        org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));
+    }
+
+
+    @Test
+    void range3() {
+
+        final var text = "15~18時の間に、";
+        final List <AbstimeExpressionImpl> abstimeexps = new ArrayList <>();
+        final var language = "ja";
+        this.AEN = new AbstimeExpressionNormalizerImpl(language);
+        this.AEN.process(text, abstimeexps);
+        System.out.println(abstimeexps.get(0).valueLowerbound.toDateString(true) + " " + abstimeexps.get(0).valueLowerbound.toTimeString(true));
+        final var ex1Lower = new NTime(Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, 15, Symbol.INFINITY, Symbol.INFINITY);
+        final var ex1Upper = new NTime(-Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, 18, -Symbol.INFINITY, -Symbol.INFINITY);
+        org.junit.Assert.assertEquals("15~18時", abstimeexps.get(0).originalExpression);
+        org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
+        org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));
+    }
+
+
+    @Test
+    void range4() {
+
+        final var text = "2012/3/8~3/10の間に、";
+        final List <AbstimeExpressionImpl> abstimeexps = new ArrayList <>();
+        final var language = "ja";
+        this.AEN = new AbstimeExpressionNormalizerImpl(language);
+        this.AEN.process(text, abstimeexps);
+        System.out.println(abstimeexps.get(0).valueLowerbound.toDateString(true) + " " + abstimeexps.get(0).valueLowerbound.toTimeString(true));
+        final var ex1Lower = new NTime(2012, 3, 8, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
+        final var ex1Upper = new NTime(2012, 3, 10, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
+        org.junit.Assert.assertEquals("2012/3/8~3/10", abstimeexps.get(0).originalExpression);
+        org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
+        org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));
+    }
+
+
+    @Test
+    void ambiguous1() {
+
+        final var text = "2011.3";
+        final List <AbstimeExpressionImpl> abstimeexps = new ArrayList <>();
+        final var language = "ja";
+        this.AEN = new AbstimeExpressionNormalizerImpl(language);
+        this.AEN.process(text, abstimeexps);
+        System.out.println(abstimeexps.get(0).valueLowerbound.toDateString(true) + " " + abstimeexps.get(0).valueLowerbound.toTimeString(true));
+        final var ex1Lower = new NTime(2011, 3, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
+        final var ex1Upper = new NTime(2011, 3, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
+        org.junit.Assert.assertEquals("2011.3", abstimeexps.get(0).originalExpression);
+        org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
+        org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));
+    }
+
+
+    @Test
+    void ambiguous2() {
+
+        final var text = "3.11";
+        final List <AbstimeExpressionImpl> abstimeexps = new ArrayList <>();
+        final var language = "ja";
+        this.AEN = new AbstimeExpressionNormalizerImpl(language);
+        this.AEN.process(text, abstimeexps);
+        System.out.println(abstimeexps.get(0).valueLowerbound.toDateString(true) + " " + abstimeexps.get(0).valueLowerbound.toTimeString(true));
+        final var ex1Lower = new NTime(Symbol.INFINITY, 3, 11, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
+        final var ex1Upper = new NTime(-Symbol.INFINITY, 3, 11, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
+        org.junit.Assert.assertEquals("3.11", abstimeexps.get(0).originalExpression);
+        org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
+        org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));
+    }
+
+    // @Test
+    // void chinese1() {
+    //
+    // final var text = "我生于1989年7月21日";
+    // final List <AbstimeExpressionImpl> abstimeexps = new ArrayList <>();
+    // final var language = "zh";
+    // this.AEN = new AbstimeExpressionNormalizerImpl(language);
+    // this.AEN.process(text, abstimeexps);
+    // System.out.println(abstimeexps.get(0).valueLowerbound.toDateString(true) + " " + abstimeexps.get(0).valueLowerbound.toTimeString(true));
+    // final var ex1Lower = new NTime(1989, 7, 21, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
+    // final var ex1Upper = new NTime(1989, 7, 21, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
+    // org.junit.Assert.assertEquals("1989年7月21日", abstimeexps.get(0).originalExpression);
+    // org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
+    // org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));
+    // }
 }
