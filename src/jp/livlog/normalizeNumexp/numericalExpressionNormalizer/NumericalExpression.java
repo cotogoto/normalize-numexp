@@ -7,12 +7,12 @@ import lombok.ToString;
 @ToString
 public class NumericalExpression extends NormalizedExpressionTemplateImpl {
 
-    public NumericalExpression(final String original_expression, final int position_start, final int position_end, final double value_lowerbound,
-            final double value_upperbound) {
+    public NumericalExpression(final String originalExpression, final int positionStart, final int positionEnd, final double valueLowerbound,
+            final double valueUpperbound) {
 
-        super(original_expression, position_start, position_end);
-        this.value_lowerbound = value_lowerbound;
-        this.value_upperbound = value_upperbound;
+        super(originalExpression, positionStart, positionEnd);
+        this.valueLowerbound = valueLowerbound;
+        this.valueUpperbound = valueUpperbound;
         this.counter = "";
         this.ordinary = false;
     }
@@ -21,15 +21,15 @@ public class NumericalExpression extends NormalizedExpressionTemplateImpl {
     public NumericalExpression(NNumber number) {
 
         super(number.originalExpression, number.positionStart, number.positionEnd);
-        this.value_lowerbound = number.valueLowerbound;
-        this.value_upperbound = number.valueUpperbound;
+        this.valueLowerbound = number.valueLowerbound;
+        this.valueUpperbound = number.valueUpperbound;
         this.counter = "";
         this.ordinary = false;
     }
 
-    public double  value_lowerbound;
+    public double  valueLowerbound;
 
-    public double  value_upperbound;
+    public double  valueUpperbound;
 
     public String  counter = new String();
 

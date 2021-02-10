@@ -5,13 +5,14 @@ import java.util.List;
 
 import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.AbstimeExpression;
 import jp.livlog.normalizeNumexp.normalizeNumexp.NormalizeNumexp;
+import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.NumericalExpression;
 
 public class NormalizeNumexpImpl extends NormalizeNumexp {
 
     @Override
     public void normalizeEachTypeExpressions(
             final String text,
-            // ArrayList<numerical_expression_normalizer.NumericalExpression> numexps,
+            List <NumericalExpression> numexps,
             List <AbstimeExpression> abstimeexps
     // ArrayList<reltime_expression_normalizer.ReltimeExpression> reltimeexps,
     // ArrayList<duration_expression_normalizer.DurationExpression> durationexps
@@ -39,16 +40,15 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
     public void normalize(final String text, List <String> result) {
 
         result.clear();
-        // final ArrayList<numerical_expression_normalizer.NumericalExpression> numexps = new
-        // ArrayList<numerical_expression_normalizer.NumericalExpression>();
-        final List <AbstimeExpression> abstimeexps = new ArrayList <>();
+        final var numexps = new ArrayList <NumericalExpression>();
+        final var abstimeexps = new ArrayList <AbstimeExpression>();
         // final ArrayList<reltime_expression_normalizer.ReltimeExpression> reltimeexps = new
         // ArrayList<reltime_expression_normalizer.ReltimeExpression>();
         // final ArrayList<duration_expression_normalizer.DurationExpression> durationexps = new
         // ArrayList<duration_expression_normalizer.DurationExpression>();
         //
         // 4つのnormalizerで処理を行う
-        this.normalizeEachTypeExpressions(text, abstimeexps);
+        this.normalizeEachTypeExpressions(text, numexps, abstimeexps);
         //
         // //それぞれの結果より、不適当な抽出を削除
         // IER.remove_inappropriate_extraction(text, numexps, abstimeexps, reltimeexps, durationexps);

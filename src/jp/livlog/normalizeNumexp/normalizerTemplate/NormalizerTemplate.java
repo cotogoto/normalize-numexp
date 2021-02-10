@@ -1,11 +1,20 @@
 package jp.livlog.normalizeNumexp.normalizerTemplate;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.NavigableSet;
 import java.util.TreeSet;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import jp.livlog.normalizeNumexp.dictionaryDirpath.DictionaryDirpath;
+import jp.livlog.normalizeNumexp.digitUtility.impl.DigitUtilityImpl;
 import jp.livlog.normalizeNumexp.normalizerUtility.LimitedExpressionTemplate;
 import jp.livlog.normalizeNumexp.normalizerUtility.NormalizedExpressionTemplate;
 import jp.livlog.normalizeNumexp.normalizerUtility.NormalizerUtility;
@@ -16,7 +25,9 @@ import jp.livlog.normalizeNumexp.share.NumberModifier;
 import jp.livlog.normalizeNumexp.share.Pair;
 import jp.livlog.normalizeNumexp.share.PairKey0Comp;
 import jp.livlog.normalizeNumexp.share.RefObject;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedExpressionTemplate, AnyTypeLimitedExpression extends LimitedExpressionTemplate> {
 
     protected NormalizerUtility normalizerUtility = new NormalizerUtilityImpl();
@@ -100,7 +111,32 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
     public abstract void loadFromDictionary1(String dictionaryPath, List <AnyTypeLimitedExpression> loadTarget);
 
 
-    public abstract void loadFromDictionary2(String dictionaryPath, List <NumberModifier> loadTarget);
+//    public abstract void loadFromDictionary2(String dictionaryPath, List <NumberModifier> loadTarget);
+
+
+    public void loadFromDictionary2(String dictionaryPath, List <NumberModifier> loadTarget) {
+
+        loadTarget.clear();
+
+        final Reader reader = new InputStreamReader(
+                DigitUtilityImpl.class.getResourceAsStream(dictionaryPath));
+
+        final var gson = new Gson();
+        final var listType = new TypeToken <HashMap <String, String>>() {
+        }.getType();
+        NumberModifier numberModifier = null;
+        try (var br = new BufferedReader(reader)) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                @SuppressWarnings ("unchecked")
+                final var map = (HashMap <String, String>) gson.fromJson(line, listType);
+                numberModifier = new NumberModifier(map.get("pattern"), map.get("process_type"));
+                loadTarget.add(numberModifier);
+            }
+        } catch (final IOException e) {
+            NormalizerTemplate.log.error(e.getMessage(), e);
+        }
+    }
 
 
     public <T extends BaseExpressionTemplate> void buildPatternsRev(List <T> originals, NavigableSet <Pair <String, Integer>> patterns) {
@@ -252,6 +288,8 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
     public abstract void convertNumbersToAnyTypeExpressions(List <NNumber> numbers,
             List <AnyTypeExpression> anyTypeExpressions);
+
+
 
 
     public boolean haveKaraPrefix(List <String> options) {

@@ -1,6 +1,7 @@
 package jp.livlog.normalizeNumexp.normalizerUtility;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import jp.livlog.normalizeNumexp.share.BaseExpressionTemplate;
 import jp.livlog.normalizeNumexp.share.ENotationType;
@@ -36,5 +37,5 @@ public abstract class NormalizedExpressionTemplate extends BaseExpressionTemplat
 
     public boolean            ordinary;
 
-    public ArrayList <String> options = new ArrayList <>();
+    public List <String> options = new ArrayList <>();
 }

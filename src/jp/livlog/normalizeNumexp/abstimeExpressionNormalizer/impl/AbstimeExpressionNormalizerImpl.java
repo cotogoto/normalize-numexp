@@ -77,32 +77,6 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
 
 
     @Override
-    public void loadFromDictionary2(String dictionaryPath, List <NumberModifier> loadTarget) {
-
-        loadTarget.clear();
-
-        final Reader reader = new InputStreamReader(
-                DigitUtilityImpl.class.getResourceAsStream(dictionaryPath));
-
-        final var gson = new Gson();
-        final var listType = new TypeToken <HashMap <String, String>>() {
-        }.getType();
-        NumberModifier numberModifier = null;
-        try (var br = new BufferedReader(reader)) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                @SuppressWarnings ("unchecked")
-                final var map = (HashMap <String, String>) gson.fromJson(line, listType);
-                numberModifier = new NumberModifier(map.get("pattern"), map.get("process_type"));
-                loadTarget.add(numberModifier);
-            }
-        } catch (final IOException e) {
-            AbstimeExpressionNormalizerImpl.log.error(e.getMessage(), e);
-        }
-    }
-
-
-    @Override
     public void reviseAnyTypeExpressionByMatchingLimitedExpression(
             List <AbstimeExpression> abstimeexps,
             RefObject <Integer> expressionId,
@@ -633,12 +607,11 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
 
         for (final NNumber number : numbers) {
 
-            final var baseExpressionTemplate = new AbstimeExpression(number);
-            baseExpressionTemplate.originalExpression = number.originalExpression;
-            baseExpressionTemplate.positionStart = number.positionStart;
-            baseExpressionTemplate.positionEnd = number.positionEnd;
-            anyTypeExpressions.add(baseExpressionTemplate);
+            final var anyTypeExpression = new AbstimeExpression(number);
+            anyTypeExpression.originalExpression = number.originalExpression;
+            anyTypeExpression.positionStart = number.positionStart;
+            anyTypeExpression.positionEnd = number.positionEnd;
+            anyTypeExpressions.add(anyTypeExpression);
         }
     }
-
 }

@@ -1,33 +1,51 @@
 package jp.livlog.normalizeNumexp.numericalExpressionNormalizer;
 
+import java.util.List;
+
 import jp.livlog.normalizeNumexp.normalizerTemplate.NormalizerTemplate;
 import jp.livlog.normalizeNumexp.numberNormalizer.NumberNormalizer;
 import jp.livlog.normalizeNumexp.numberNormalizer.impl.NumberNormalizerImpl;
+import jp.livlog.normalizeNumexp.share.NNumber;
+import jp.livlog.normalizeNumexp.share.NumberModifier;
+import jp.livlog.normalizeNumexp.share.RefObject;
 
 public abstract class NumericalExpressionNormalizer extends NormalizerTemplate <NumericalExpression, Counter> {
 
-    public NumericalExpressionNormalizer(final String language) {
+    public NumericalExpressionNormalizer(String language) {
 
         this.NN = new NumberNormalizerImpl(language);
         this.language = language;
         this.init();
     }
 
-    // C++ TO JAVA CONVERTER TODO TASK: The implementation of the following method could not be found:
-    // void init();
-    // C++ TO JAVA CONVERTER TODO TASK: The implementation of the following method could not be found:
-    // void normalize_number(final String text, java.util.ArrayList<digit_utility::Number> numbers);
-    // C++ TO JAVA CONVERTER TODO TASK: The implementation of the following method could not be found:
-    // void revise_any_type_expression_by_matching_limited_expression(java.util.ArrayList<NumericalExpression> numexps, tangible.RefObject<int>
-    // expression_id, Counter matching_limited_expression);
-    // C++ TO JAVA CONVERTER TODO TASK: The implementation of the following method could not be found:
-    // void revise_any_type_expression_by_matching_prefix_counter(NumericalExpression numexps, final Counter matching_limited_expression);
-    // C++ TO JAVA CONVERTER TODO TASK: The implementation of the following method could not be found:
-    // void revise_any_type_expression_by_number_modifier(NumericalExpression numexp, final normalizer_utility::NumberModifier number_modifier);
-    // C++ TO JAVA CONVERTER TODO TASK: The implementation of the following method could not be found:
-    // void delete_not_any_type_expression(java.util.ArrayList<NumericalExpression> numexps);
-    // C++ TO JAVA CONVERTER TODO TASK: The implementation of the following method could not be found:
-    // void fix_by_range_expression(final pfi::data::string::ustring utext, java.util.ArrayList<NumericalExpression> numexps);
+
+    @Override
+    public abstract void init();
+
+
+    @Override
+    public abstract void normalizeNumber(StringBuilder uText, List <NNumber> numbers);
+
+
+    @Override
+    public abstract void reviseAnyTypeExpressionByMatchingLimitedExpression(List <NumericalExpression> numexps, RefObject <Integer> expressionId,
+            Counter matchingLimitedExpression);
+
+
+    @Override
+    public abstract void reviseAnyTypeExpressionByMatchingPrefixCounter(NumericalExpression numexps, Counter matchingLimitedExpression);
+
+
+    @Override
+    public abstract void reviseAnyTypeExpressionByNumberModifier(NumericalExpression numexp, NumberModifier numberModifier);
+
+
+    @Override
+    public abstract void deleteNotAnyTypeExpression(List <NumericalExpression> numexps);
+
+
+    @Override
+    public abstract void fixByRangeExpression(StringBuilder uText, List <NumericalExpression> numexps);
 
     public NumberNormalizer NN;
 }

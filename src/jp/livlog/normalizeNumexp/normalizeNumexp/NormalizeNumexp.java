@@ -5,11 +5,15 @@ import java.util.List;
 import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.AbstimeExpression;
 import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.AbstimeExpressionNormalizer;
 import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.impl.AbstimeExpressionNormalizerImpl;
+import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.NumericalExpression;
+import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.NumericalExpressionNormalizer;
+import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.impl.NumericalExpressionNormalizerImpl;
 
 public abstract class NormalizeNumexp {
 
     public NormalizeNumexp(final String language) {
 
+        this.NEN = new NumericalExpressionNormalizerImpl(language);
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
     }
 
@@ -18,16 +22,16 @@ public abstract class NormalizeNumexp {
 
 
     protected abstract void normalizeEachTypeExpressions(final String text,
-            // List<numerical_expression_normalizer::NumericalExpression> numexps,
+            List <NumericalExpression> numexps,
             List <AbstimeExpression> abstimeexps
     // List<reltime_expression_normalizer::ReltimeExpression> reltimeexps,
     // List<duration_expression_normalizer::DurationExpression> durationexps
 
     );
 
-    // private final NumericalExpressionNormalizer NEN = new NumericalExpressionNormalizer();
+    protected NumericalExpressionNormalizer NEN = null;
 
-    protected AbstimeExpressionNormalizer AEN = null;
+    protected AbstimeExpressionNormalizer   AEN = null;
 
     // private final ReltimeExpressionNormalizer REN = new ReltimeExpressionNormalizer();
     //
