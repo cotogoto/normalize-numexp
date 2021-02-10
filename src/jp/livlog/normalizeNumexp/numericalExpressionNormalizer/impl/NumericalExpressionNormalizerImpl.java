@@ -47,7 +47,6 @@ public class NumericalExpressionNormalizerImpl extends NumericalExpressionNormal
     @Override
     public void loadFromDictionary1(String dictionaryPath, List <Counter> loadTarget) {
 
-        // TODO 自動生成されたメソッド・スタブ
         loadTarget.clear();
 
         final Reader reader = new InputStreamReader(
