@@ -167,14 +167,14 @@ public class NumericalExpressionNormalizerImpl extends NumericalExpressionNormal
          * 「約」などのNumberModifierの処理を行う。
          */
         if (processType.equals("or_over")) {
-            numexp.valueUpperbound = -Symbol.INFINITY;
+            numexp.valueUpperbound = Symbol.INFINITY;
         } else if (processType.equals("or_less")) {
-            numexp.valueLowerbound = Symbol.INFINITY;
+            numexp.valueLowerbound = -Symbol.INFINITY;
         } else if (processType.equals("over")) {
-            numexp.valueUpperbound = -Symbol.INFINITY;
+            numexp.valueUpperbound = Symbol.INFINITY;
             numexp.includeLowerbound = false;
         } else if (processType.equals("less")) {
-            numexp.valueLowerbound = Symbol.INFINITY;
+            numexp.valueLowerbound = -Symbol.INFINITY;
             numexp.includeUpperbound = false;
         } else if (processType.equals("dai")) {
             // TODO : どんな処理をするか未定。。 該当する事例は「30代」「9秒台」のみ？
@@ -198,7 +198,7 @@ public class NumericalExpressionNormalizerImpl extends NumericalExpressionNormal
             numexp.valueLowerbound *= 0.5;
         } else if (processType.equals("made")) {
             if (numexp.valueLowerbound == numexp.valueUpperbound) {
-                numexp.valueLowerbound = Symbol.INFINITY;
+                numexp.valueLowerbound = -Symbol.INFINITY;
             } else {
 
             }
