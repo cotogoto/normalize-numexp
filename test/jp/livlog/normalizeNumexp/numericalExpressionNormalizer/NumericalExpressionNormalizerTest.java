@@ -462,7 +462,6 @@ class NumericalExpressionNormalizerTest {
     }
 
 
-
     @Test
     void range9() {
 
@@ -482,17 +481,6 @@ class NumericalExpressionNormalizerTest {
         org.junit.Assert.assertTrue(this.isSameNumexp(ex, numexps.get(0)));
     }
 
-    // TEST_F(NumexpNormalizerTest, chinese1) {
-    // NumericalExpressionNormalizer NEN("zh");
-    // std::string text("日本政府受清廷壓力，以千二百三元請孫中山離開日本。");
-    // std::vector<NumericalExpression> numexps;
-    // NEN.process(text, numexps);
-    // ASSERT_EQ(1u, numexps.size());
-    // NumericalExpression ex(string_to_ustring("千二百三元"), 11, 16, 1230, 1230);
-    // ex.counter = string_to_ustring("元");
-    // EXPECT_TRUE(is_same_numexp(ex, numexps[0]));
-    //
-    // }
 
     @Test
     void chinese1() {
