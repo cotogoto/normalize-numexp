@@ -110,8 +110,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
     public abstract void loadFromDictionary1(String dictionaryPath, List <AnyTypeLimitedExpression> loadTarget);
 
-
-//    public abstract void loadFromDictionary2(String dictionaryPath, List <NumberModifier> loadTarget);
+    // public abstract void loadFromDictionary2(String dictionaryPath, List <NumberModifier> loadTarget);
 
 
     public void loadFromDictionary2(String dictionaryPath, List <NumberModifier> loadTarget) {
@@ -168,13 +167,13 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
             String prefixNumberModifierDictionary,
             String suffixNumberModifierDictionary) {
 
-        var dictionaryPath = DictionaryDirpath.DICTIONARY_DIRPATH;
-        dictionaryPath += this.language;
-        dictionaryPath += "/";
-        this.loadFromDictionary1(dictionaryPath + limitedExpressionDictionary, this.limitedExpressions);
-        this.loadFromDictionary1(dictionaryPath + prefixCounterDictionary, this.prefixCounters);
-        this.loadFromDictionary2(dictionaryPath + suffixNumberModifierDictionary, this.suffixNumberModifier);
-        this.loadFromDictionary2(dictionaryPath + prefixNumberModifierDictionary, this.prefixNumberModifier);
+        final var dictionaryPath = DictionaryDirpath.DICTIONARY_DIRPATH;
+        // dictionaryPath += this.language;
+        // dictionaryPath += "/";
+        this.loadFromDictionary1(dictionaryPath + this.language + "/" + limitedExpressionDictionary, this.limitedExpressions);
+        this.loadFromDictionary1(dictionaryPath + "ja/" + prefixCounterDictionary, this.prefixCounters);
+        this.loadFromDictionary2(dictionaryPath + "ja/" + suffixNumberModifierDictionary, this.suffixNumberModifier);
+        this.loadFromDictionary2(dictionaryPath + "ja/" + prefixNumberModifierDictionary, this.prefixNumberModifier);
 
         this.buildPatterns(this.limitedExpressions, this.limitedExpressionPatterns);
         this.buildPatternsRev(this.prefixCounters, this.prefixCounterPatterns);
@@ -285,8 +284,6 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
     public abstract void convertNumbersToAnyTypeExpressions(List <NNumber> numbers,
             List <AnyTypeExpression> anyTypeExpressions);
-
-
 
 
     public boolean haveKaraPrefix(List <String> options) {

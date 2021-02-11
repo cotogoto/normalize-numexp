@@ -3,7 +3,7 @@ package jp.livlog.normalizeNumexp.share;
 import lombok.ToString;
 
 @ToString
-public  class NTime {
+public class NTime {
 
     public NTime(final double value) {
 
@@ -56,7 +56,7 @@ public  class NTime {
         if (this.isNullTimeElement(t, isUpperbound)) {
             return nullString + kugiri;
         } else {
-            ss.append(String.format("%04d", (int) t));
+            ss.append(String.format("%0" + width + "d", (int) t));
             ss.append(kugiri);
             ret = ss.toString();
             return ret;
@@ -71,7 +71,7 @@ public  class NTime {
         if (this.isNullTimeElement(t, isUpperbound)) {
             return "";
         } else {
-            ss.append(t);
+            ss.append((int) t);
             ss.append(timePosition);
             ret = ss.toString();
             return ret;
@@ -113,7 +113,7 @@ public  class NTime {
 
         final var ss = new StringBuilder();
         String ret;
-        if (this.isInfinityTimeElement(this.year, isUpperbound)) {
+        if (this.isInfinityTimeElement(this.hour, isUpperbound)) {
             if (isUpperbound) {
                 return "INF";
             } else {
