@@ -27,6 +27,23 @@ import jp.livlog.normalizeNumexp.share.PairKey0Comp;
 import jp.livlog.normalizeNumexp.share.RefObject;
 import lombok.extern.slf4j.Slf4j;
 
+/*
+ * 数量表現（「三人」「約1000円」などといった表現）や時間表現（「1989年3月」「3:30」「百年後」などといった表現）は以下のように構成される
+ *
+ * 【接頭辞 + 前置助数詞 + 数量表現or時間表現の基本パターン + 接尾辞】
+ * 　・接頭辞：「約」「およそ」など
+ * 　・前置助数詞：数量表現における「時速」「￥」や、絶対時間表現における年号など（本来はパターンに含めたいところだが、基本パターンをprefixSearchで探索している都合上、今回は別の構成要素として考える）
+ * 　・基本パターン：「*人」「*円」「*年*月」「*:*」などの正規表現パターン。
+ * 　・接尾辞：「以降」「くらい」など
+ *
+ * この構成性に着目し、この規格化モジュールでは、文中の数の周囲を正規表現でマッチングさせ、表現を認識させる。
+ * （「数」 -> 「数」＋「助数詞」 -> 「前置助数詞」＋「数」＋「助数詞」 -> 「前置助数詞」＋「数」＋「助数詞」＋「接尾辞」 -> 「接頭辞」＋「前置助数詞」＋「数」＋「助数詞」　と認識範囲を増やしていく）
+ * 認識した際には、認識したパターンに対応する処理を、辞書を参照して実行し、規格化表現を作成していく。
+ *
+ * この基底クラスでは、上のようにパターンを順番に認識していく処理を書いている。
+ * 派生クラスとなるnumerical_expression_normalizer, abstime_expression_normalizer, reltime_expression_normalizer, duration_expression_normalizerでは、認識したパターンに対応する処理を書く。
+ *
+ */
 @Slf4j
 public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedExpressionTemplate, AnyTypeLimitedExpression extends LimitedExpressionTemplate> {
 
