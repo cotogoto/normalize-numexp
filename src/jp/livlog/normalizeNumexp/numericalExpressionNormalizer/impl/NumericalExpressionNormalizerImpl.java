@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -64,8 +65,8 @@ public class NumericalExpressionNormalizerImpl extends NumericalExpressionNormal
                 expression = new Counter();
                 expression.pattern = (String) map.get("pattern");
                 expression.counter = (String) map.get("counter");
-                expression.SIprefix = (int) map.get("SI_prefix");
-                expression.optionalPowerOfTen = (int) map.get("optional_power_of_ten");
+                expression.SIprefix = new BigDecimal((double) map.get("SI_prefix")).intValue();
+                expression.optionalPowerOfTen = new BigDecimal((double) map.get("optional_power_of_ten")).intValue();
                 expression.ordinary = (Boolean) map.get("ordinary");
                 expression.option = (String) map.get("option");
                 loadTarget.add(expression);

@@ -33,6 +33,8 @@ public class LimitedExpressionTemplateImpl extends LimitedExpressionTemplate {
         if (a > -1) {
             final var str = this.pattern.substring(a + 1);
             this.lengthOfStringsAfterFinalPlaceHolder = str.length();
+        } else {
+            this.lengthOfStringsAfterFinalPlaceHolder = this.pattern.length();
         }
     }
 }

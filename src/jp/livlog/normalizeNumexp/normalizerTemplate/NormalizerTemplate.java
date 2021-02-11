@@ -196,10 +196,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
         final var stringAfterExpression = new StringBuilder();
         this.normalizerUtility.extractAfterString(uTextReplaced, anyTypeExpression.positionEnd, stringAfterExpression);
-        final var ret = this.normalizerUtility.prefixSearch(stringAfterExpression, this.limitedExpressionPatterns, matchingPatternId);
-        if (ret != null) {
-            anyTypeExpression.positionEnd += ret.first.length();
-        }
+        this.normalizerUtility.prefixSearch(stringAfterExpression, this.limitedExpressionPatterns, matchingPatternId);
     }
 
 
