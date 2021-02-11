@@ -97,10 +97,6 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
         }
         abstimeexps.get(expressionId.argValue).ordinary = matchingLimitedAbstimeExpressionImpl.ordinary;
         abstimeexps.get(expressionId.argValue).options.add(matchingLimitedAbstimeExpressionImpl.option);
-        // for (var i = expressionId.argValue + 1; i < expressionId.argValue + 1 + matchingLimitedAbstimeExpressionImpl.totalNumberOfPlaceHolder; i++)
-        // {
-        // abstimeexps.remove(1);// 一致した部分のnumberを削除
-        // }
 
         var i = 0;
         final var min = expressionId.argValue + 1;
