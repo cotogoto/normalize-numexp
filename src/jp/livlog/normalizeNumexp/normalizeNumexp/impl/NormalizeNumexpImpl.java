@@ -7,19 +7,20 @@ import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.AbstimeExpression;
 import jp.livlog.normalizeNumexp.durationExpressionNormalizer.DurationExpression;
 import jp.livlog.normalizeNumexp.normalizeNumexp.NormalizeNumexp;
 import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.NumericalExpression;
+import jp.livlog.normalizeNumexp.reltimeExpressionNormalizer.ReltimeExpression;
 
 public class NormalizeNumexpImpl extends NormalizeNumexp {
 
-    public void normalizeEachTypeExpressions(
+    private void normalizeEachTypeExpressions(
             final String text,
             List <NumericalExpression> numexps,
             List <AbstimeExpression> abstimeexps,
-            // ArrayList<reltime_expression_normalizer.ReltimeExpression> reltimeexps,
+            List <ReltimeExpression> reltimeexps,
             List <DurationExpression> durationexps) {
 
         this.NEN.process(text, numexps);
         this.AEN.process(text, abstimeexps);
-        // REN.process(text, reltimeexps);
+        this.REN.process(text, reltimeexps);
         this.DEN.process(text, durationexps);
     }
 
@@ -36,17 +37,16 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
         result.clear();
         final var numexps = new ArrayList <NumericalExpression>();
         final var abstimeexps = new ArrayList <AbstimeExpression>();
-        // final ArrayList<reltime_expression_normalizer.ReltimeExpression> reltimeexps = new
-        // ArrayList<reltime_expression_normalizer.ReltimeExpression>();
+        final var reltimeexps = new ArrayList <ReltimeExpression>();
         final var durationexps = new ArrayList <DurationExpression>();
 
         // 4つのnormalizerで処理を行う
-        this.normalizeEachTypeExpressions(text, numexps, abstimeexps, durationexps);
-        //
-        // //それぞれの結果より、不適当な抽出を削除
-        // IER.remove_inappropriate_extraction(text, numexps, abstimeexps, reltimeexps, durationexps);
-        //
-        // //string型に変換し、resultにまとめる
+        this.normalizeEachTypeExpressions(text, numexps, abstimeexps, reltimeexps, durationexps);
+
+        // それぞれの結果より、不適当な抽出を削除
+        this.IER.removeInappropriateExtraction(text, numexps, abstimeexps, reltimeexps, durationexps);
+
+        // string型に変換し、resultにまとめる
         // merge_normalize_expressions_into_result(new ArrayList<numerical_expression_normalizer.NumericalExpression>(numexps), new
         // ArrayList<abstime_expression_normalizer.AbstimeExpression>(abstimeexps), new
         // ArrayList<reltime_expression_normalizer.ReltimeExpression>(reltimeexps), new

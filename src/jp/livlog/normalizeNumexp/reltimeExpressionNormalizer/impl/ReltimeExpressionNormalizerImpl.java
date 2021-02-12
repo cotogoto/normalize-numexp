@@ -1,7 +1,16 @@
 package jp.livlog.normalizeNumexp.reltimeExpressionNormalizer.impl;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.HashMap;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import jp.livlog.normalizeNumexp.digitUtility.impl.DigitUtilityImpl;
 import jp.livlog.normalizeNumexp.reltimeExpressionNormalizer.LimitedReltimeExpression;
 import jp.livlog.normalizeNumexp.reltimeExpressionNormalizer.ReltimeExpression;
 import jp.livlog.normalizeNumexp.reltimeExpressionNormalizer.ReltimeExpressionNormalizer;
@@ -10,7 +19,9 @@ import jp.livlog.normalizeNumexp.share.NTime;
 import jp.livlog.normalizeNumexp.share.NumberModifier;
 import jp.livlog.normalizeNumexp.share.RefObject;
 import jp.livlog.normalizeNumexp.share.Symbol;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ReltimeExpressionNormalizerImpl extends ReltimeExpressionNormalizer {
 
     public ReltimeExpressionNormalizerImpl(String language) {
@@ -31,6 +42,37 @@ public class ReltimeExpressionNormalizerImpl extends ReltimeExpressionNormalizer
     public void normalizeNumber(StringBuilder uText, List <NNumber> numbers) {
 
         this.NN.process(uText.toString(), numbers);
+    }
+
+
+    @SuppressWarnings ("unchecked")
+    @Override
+    public void loadFromDictionary1(String dictionaryPath, List <LimitedReltimeExpression> loadTarget) {
+
+        loadTarget.clear();
+
+        final Reader reader = new InputStreamReader(
+                DigitUtilityImpl.class.getResourceAsStream(dictionaryPath));
+
+        final var gson = new Gson();
+        final var listType = new TypeToken <HashMap <String, Object>>() {
+        }.getType();
+        LimitedReltimeExpression expression = null;
+        try (var br = new BufferedReader(reader)) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                final var map = (HashMap <String, Object>) gson.fromJson(line, listType);
+                expression = new LimitedReltimeExpression();
+                expression.pattern = (String) map.get("pattern");
+                expression.correspondingTimePosition = (List <String>) map.get("corresponding_time_position");
+                expression.processType = (List <String>) map.get("process_type");
+                expression.ordinary = (Boolean) map.get("ordinary");
+                expression.option = (String) map.get("option");
+                loadTarget.add(expression);
+            }
+        } catch (final IOException e) {
+            ReltimeExpressionNormalizerImpl.log.error(e.getMessage(), e);
+        }
     }
 
 
@@ -421,7 +463,29 @@ public class ReltimeExpressionNormalizerImpl extends ReltimeExpressionNormalizer
     @Override
     public void reviseAnyTypeExpressionByNumberModifier(ReltimeExpression reltimeexp, NumberModifier numberModifier) {
 
-        // TODO 自動生成されたメソッド・スタブ
+        final var processType = numberModifier.processType;
+        // or_overなどのタイプは、reltimeではexpression_jsonの方で記述されており、
+        // これはrevise_reltimeexp_by_process_typeで処理されるので、ここでは処理しない。
+        // （TODO : 辞書からありえない表現をのぞく）
+        if (processType.equals("none")) {
+
+        } else if (processType.equals("about")) {
+            this.doTimeAbout(reltimeexp);
+        } else if (processType.equals("zenhan")) {
+            this.doTimeZenhan(reltimeexp);
+        } else if (processType.equals("kouhan")) {
+            this.doTimeKouhan(reltimeexp);
+        } else if (processType.equals("nakaba")) {
+            this.doTimeNakaba(reltimeexp);
+        } else if (processType.equals("joujun")) {
+            this.doTimeJoujun(reltimeexp);
+        } else if (processType.equals("tyujun")) {
+            this.doTimeTyujun(reltimeexp);
+        } else if (processType.equals("gejun")) {
+            this.doTimeGejun(reltimeexp);
+        } else {
+            reltimeexp.options.add(processType);
+        }
 
     }
 
@@ -429,32 +493,44 @@ public class ReltimeExpressionNormalizerImpl extends ReltimeExpressionNormalizer
     @Override
     public void deleteNotAnyTypeExpression(List <ReltimeExpression> reltimeexps) {
 
-        // TODO 自動生成されたメソッド・スタブ
-
+        for (var i = 0; i < reltimeexps.size(); i++) {
+            if (this.normalizerUtility.isNullTime(reltimeexps.get(i).valueLowerboundRel)
+                    && this.normalizerUtility.isNullTime(reltimeexps.get(i).valueUpperboundRel)) {
+                reltimeexps.remove(i);
+                i--;
+            }
+        }
     }
 
 
     @Override
     public void fixByRangeExpression(StringBuilder uText, List <ReltimeExpression> reltimeexps) {
 
-        // TODO 自動生成されたメソッド・スタブ
-
-    }
-
-
-    @Override
-    public void loadFromDictionary1(String dictionaryPath, List <LimitedReltimeExpression> loadTarget) {
-
-        // TODO 自動生成されたメソッド・スタブ
-
+        for (var i = 0; i < reltimeexps.size() - 1; i++) {
+            if (this.haveKaraSuffix(reltimeexps.get(i).options) && this.haveKaraPrefix(reltimeexps.get(i + 1).options)
+                    && reltimeexps.get(i).positionEnd + 2 >= reltimeexps.get(i + 1).positionStart) {
+                reltimeexps.get(i).valueUpperboundRel = reltimeexps.get(i + 1).valueUpperboundRel;
+                reltimeexps.get(i).valueUpperboundAbs = reltimeexps.get(i + 1).valueUpperboundAbs;
+                reltimeexps.get(i).positionEnd = reltimeexps.get(i + 1).positionEnd;
+                reltimeexps.get(i).setOriginalExpressionFromPosition(uText);
+                this.mergeOptions(reltimeexps.get(i).options, reltimeexps.get(i + 1).options);
+                reltimeexps.remove(i + 1);
+            }
+        }
     }
 
 
     @Override
     public void convertNumbersToAnyTypeExpressions(List <NNumber> numbers, List <ReltimeExpression> anyTypeExpressions) {
 
-        // TODO 自動生成されたメソッド・スタブ
+        for (final NNumber number : numbers) {
 
+            final var anyTypeExpression = new ReltimeExpression(number);
+            anyTypeExpression.originalExpression = number.originalExpression;
+            anyTypeExpression.positionStart = number.positionStart;
+            anyTypeExpression.positionEnd = number.positionEnd;
+            anyTypeExpressions.add(anyTypeExpression);
+        }
     }
 
 }
