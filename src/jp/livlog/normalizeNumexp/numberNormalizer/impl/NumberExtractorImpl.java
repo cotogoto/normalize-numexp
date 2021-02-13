@@ -43,9 +43,10 @@ public class NumberExtractorImpl extends NumberExtractor {
                     numFlg = true;
                     this.returnLongestNumberStrings(utext, new RefObject <>(i), numstr);
                     number.originalExpression = numstr.toString();
+                    number.positionEnd = number.positionStart + numstr.length();
                     numbers.add(number);
                 }
-                number.positionEnd = i + 1;
+//                number.positionEnd = i + 1;
 
             } else {
                 numFlg = false;

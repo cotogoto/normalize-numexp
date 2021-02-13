@@ -550,4 +550,15 @@ class NumberNormalizerTest {
         org.junit.Assert.assertEquals(text, result.get(0).originalExpression);
         org.junit.Assert.assertTrue(100000000 == result.get(0).valueUpperbound);
     }
+
+    @Test
+    void otherTest() {
+
+        final var input = "1万4000";
+        final List <NNumber> result = new ArrayList <>();
+        this.NE.extractNumber(input, result);
+        org.junit.Assert.assertEquals(1, result.size());
+        org.junit.Assert.assertEquals("1万4000", result.get(0).originalExpression);
+        org.junit.Assert.assertTrue(14000 == result.get(0).valueUpperbound);
+    }
 }
