@@ -8,6 +8,7 @@ import jp.livlog.normalizeNumexp.abstimeExpressionNormalizer.AbstimeExpression;
 import jp.livlog.normalizeNumexp.durationExpressionNormalizer.DurationExpression;
 import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.NumericalExpression;
 import jp.livlog.normalizeNumexp.reltimeExpressionNormalizer.ReltimeExpression;
+import jp.livlog.normalizeNumexp.share.BaseExpressionTemplate;
 
 public abstract class InappropriateExpressionRemover {
 
@@ -25,14 +26,14 @@ public abstract class InappropriateExpressionRemover {
             List <DurationExpression> durationexps);
 
 
-    protected abstract <AnyTypeExpression> void deleteInappropriateExtractionUsingDictionaryOneType(
-            java.util.ArrayList <AnyTypeExpression> any_type_expressions);
+    protected abstract <AnyTypeExpression extends BaseExpressionTemplate> void deleteInappropriateExtractionUsingDictionaryOneType(
+            List <AnyTypeExpression> any_type_expressions);
 
 
-    protected abstract <AnyTypeExpression> boolean isUrlStrings(String text, AnyTypeExpression anyTypeExpression);
+    protected abstract <AnyTypeExpression extends BaseExpressionTemplate> boolean isUrlStrings(String text, AnyTypeExpression anyTypeExpression);
 
 
-    protected abstract <AnyTypeExpression> void deleteUrlStrings(String text, java.util.ArrayList <AnyTypeExpression> anyTypeExpressions);
+    protected abstract <AnyTypeExpression extends BaseExpressionTemplate> void deleteUrlStrings(String text, List <AnyTypeExpression> anyTypeExpressions);
 
 
     protected abstract void deleteInappropriateExtractionUsingDictionary(
