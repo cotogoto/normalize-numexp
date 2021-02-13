@@ -5,7 +5,7 @@ import java.util.List;
 
 import lombok.ToString;
 
-@ToString
+@ToString(callSuper=true)
 public class NNumber extends BaseExpressionTemplate {
 
     public NNumber() {

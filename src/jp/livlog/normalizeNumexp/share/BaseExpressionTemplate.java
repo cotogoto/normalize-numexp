@@ -2,7 +2,7 @@ package jp.livlog.normalizeNumexp.share;
 
 import lombok.ToString;
 
-@ToString
+@ToString(callSuper=true)
 public class BaseExpressionTemplate {
 
     public String originalExpression;

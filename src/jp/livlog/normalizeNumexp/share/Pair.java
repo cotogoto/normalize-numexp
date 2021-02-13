@@ -2,7 +2,7 @@ package jp.livlog.normalizeNumexp.share;
 
 import lombok.ToString;
 
-@ToString
+@ToString(callSuper=true)
 public final class Pair <T1, T2> {
 
     public T1 first;

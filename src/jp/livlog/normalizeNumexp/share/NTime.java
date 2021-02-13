@@ -2,7 +2,7 @@ package jp.livlog.normalizeNumexp.share;
 
 import lombok.ToString;
 
-@ToString
+@ToString(callSuper=true)
 public class NTime {
 
     public NTime(final double value) {

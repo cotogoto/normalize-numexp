@@ -3,7 +3,7 @@ package jp.livlog.normalizeNumexp.normalizerUtility.impl;
 import jp.livlog.normalizeNumexp.normalizerUtility.NormalizedExpressionTemplate;
 import lombok.ToString;
 
-@ToString
+@ToString(callSuper=true)
 public class NormalizedExpressionTemplateImpl extends NormalizedExpressionTemplate {
 
     public NormalizedExpressionTemplateImpl(String originalExpression, int positionStart, int positionEnd) {
