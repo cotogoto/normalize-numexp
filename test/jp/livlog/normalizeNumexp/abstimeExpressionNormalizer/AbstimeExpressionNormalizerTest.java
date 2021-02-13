@@ -171,8 +171,7 @@ class AbstimeExpressionNormalizerTest {
         final var language = "ja";
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
-        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDateString(false) + " "
-                + abstimeexps.get(0).valueLowerbound.toTimeString(false));
+        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         org.junit.Assert.assertEquals(1, abstimeexps.size());
         final var ex2Lower = new NTime(1701, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
         final var ex2Upper = new NTime(1800, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
@@ -192,8 +191,7 @@ class AbstimeExpressionNormalizerTest {
         final var language = "ja";
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
-        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDateString(false) + " "
-                + abstimeexps.get(0).valueLowerbound.toTimeString(false));
+        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         final var ex1Lower = new NTime(1989, 7, 20, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
         final var ex1Upper = new NTime(1989, 7, 22, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
         org.junit.Assert.assertEquals("1989年7月21日ごろ", abstimeexps.get(0).originalExpression);
@@ -212,8 +210,7 @@ class AbstimeExpressionNormalizerTest {
         final var language = "ja";
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
-        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDateString(false) + " "
-                + abstimeexps.get(0).valueLowerbound.toTimeString(false));
+        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         final var ex1Lower = new NTime(1989, 7, 21, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
         final var ex1Upper = new NTime(1989, 7, 21, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
         org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
@@ -231,8 +228,7 @@ class AbstimeExpressionNormalizerTest {
         final var language = "ja";
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
-        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDateString(false) + " "
-                + abstimeexps.get(0).valueLowerbound.toTimeString(false));
+        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         org.junit.Assert.assertEquals(1, abstimeexps.size());
         final var ex2Lower = new NTime(1701, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
         final var ex2Upper = new NTime(1750, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
@@ -252,8 +248,7 @@ class AbstimeExpressionNormalizerTest {
         final var language = "ja";
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
-        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDateString(false) + " "
-                + abstimeexps.get(0).valueLowerbound.toTimeString(false));
+        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         org.junit.Assert.assertEquals(1, abstimeexps.size());
         final var ex2Lower = new NTime(1751, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
         final var ex2Upper = new NTime(1800, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
@@ -273,8 +268,7 @@ class AbstimeExpressionNormalizerTest {
         final var language = "ja";
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
-        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDateString(false) + " "
-                + abstimeexps.get(0).valueLowerbound.toTimeString(false));
+        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         org.junit.Assert.assertEquals(1, abstimeexps.size());
         final var ex2Lower = new NTime(1725, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
         final var ex2Upper = new NTime(1776, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
@@ -294,8 +288,7 @@ class AbstimeExpressionNormalizerTest {
         final var language = "ja";
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
-        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDateString(false) + " "
-                + abstimeexps.get(0).valueLowerbound.toTimeString(false));
+        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         final var ex1Lower = new NTime(Symbol.INFINITY, 7, 3, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
         final var ex1Upper = new NTime(-Symbol.INFINITY, 7, 3, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
         org.junit.Assert.assertEquals("7月3日", abstimeexps.get(0).originalExpression);
@@ -314,8 +307,7 @@ class AbstimeExpressionNormalizerTest {
         final var language = "ja";
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
-        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDateString(false) + " "
-                + abstimeexps.get(0).valueLowerbound.toTimeString(false));
+        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         final var ex1Lower = new NTime(Symbol.INFINITY, 7, 1, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
         final var ex1Upper = new NTime(-Symbol.INFINITY, 7, 10, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
         org.junit.Assert.assertEquals("７月上旬", abstimeexps.get(0).originalExpression);
@@ -334,8 +326,7 @@ class AbstimeExpressionNormalizerTest {
         final var language = "ja";
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
-        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDateString(false) + " "
-                + abstimeexps.get(0).valueLowerbound.toTimeString(false));
+        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         final var ex1Lower = new NTime(Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
         final var ex1Upper = new NTime(-Symbol.INFINITY, 3, 11, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
         org.junit.Assert.assertEquals("3月11日以前", abstimeexps.get(0).originalExpression);
@@ -354,8 +345,7 @@ class AbstimeExpressionNormalizerTest {
         final var language = "ja";
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
-        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDateString(false) + " "
-                + abstimeexps.get(0).valueLowerbound.toTimeString(false));
+        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         final var ex1Lower = new NTime(Symbol.INFINITY, 3, 11, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
         final var ex1Upper = new NTime(-Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
         org.junit.Assert.assertEquals("3月11日以降", abstimeexps.get(0).originalExpression);
@@ -374,8 +364,7 @@ class AbstimeExpressionNormalizerTest {
         final var language = "ja";
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
-        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDateString(false) + " "
-                + abstimeexps.get(0).valueLowerbound.toTimeString(false));
+        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         final var ex1Lower = new NTime(Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, 15, Symbol.INFINITY, Symbol.INFINITY);
         final var ex1Upper = new NTime(-Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, 18, -Symbol.INFINITY, -Symbol.INFINITY);
         org.junit.Assert.assertEquals("15時〜18時", abstimeexps.get(0).originalExpression);
@@ -394,8 +383,7 @@ class AbstimeExpressionNormalizerTest {
         final var language = "ja";
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
-        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDateString(false) + " "
-                + abstimeexps.get(0).valueLowerbound.toTimeString(false));
+        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         final var ex1Lower = new NTime(Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, 15, 0, Symbol.INFINITY);
         final var ex1Upper = new NTime(-Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, 18, 0, -Symbol.INFINITY);
         org.junit.Assert.assertEquals("15:00から18:00", abstimeexps.get(0).originalExpression);
@@ -414,8 +402,7 @@ class AbstimeExpressionNormalizerTest {
         final var language = "ja";
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
-        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDateString(false) + " "
-                + abstimeexps.get(0).valueLowerbound.toTimeString(false));
+        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         final var ex1Lower = new NTime(Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, 15, Symbol.INFINITY, Symbol.INFINITY);
         final var ex1Upper = new NTime(-Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, 18, -Symbol.INFINITY, -Symbol.INFINITY);
         org.junit.Assert.assertEquals("15~18時", abstimeexps.get(0).originalExpression);
@@ -434,8 +421,7 @@ class AbstimeExpressionNormalizerTest {
         final var language = "ja";
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
-        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDateString(false) + " "
-                + abstimeexps.get(0).valueLowerbound.toTimeString(false));
+        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         final var ex1Lower = new NTime(2012, 3, 8, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
         final var ex1Upper = new NTime(2012, 3, 10, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
         org.junit.Assert.assertEquals("2012/3/8~3/10", abstimeexps.get(0).originalExpression);
@@ -454,8 +440,7 @@ class AbstimeExpressionNormalizerTest {
         final var language = "ja";
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
-        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDateString(false) + " "
-                + abstimeexps.get(0).valueLowerbound.toTimeString(false));
+        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         final var ex1Lower = new NTime(2011, 3, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
         final var ex1Upper = new NTime(2011, 3, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
         org.junit.Assert.assertEquals("2011.3", abstimeexps.get(0).originalExpression);
@@ -474,8 +459,7 @@ class AbstimeExpressionNormalizerTest {
         final var language = "ja";
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
-        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDateString(false) + " "
-                + abstimeexps.get(0).valueLowerbound.toTimeString(false));
+        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         final var ex1Lower = new NTime(Symbol.INFINITY, 3, 11, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
         final var ex1Upper = new NTime(-Symbol.INFINITY, 3, 11, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
         org.junit.Assert.assertEquals("3.11", abstimeexps.get(0).originalExpression);
@@ -487,12 +471,14 @@ class AbstimeExpressionNormalizerTest {
     @Test
     void chinese1() {
 
+        final var methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
         final var text = "我生于1989年7月21日";
         final List <AbstimeExpression> abstimeexps = new ArrayList <>();
         final var language = "zh";
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
-        System.out.println(abstimeexps.get(0).valueLowerbound.toDateString(false) + " " + abstimeexps.get(0).valueLowerbound.toTimeString(false));
+        System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         final var ex1Lower = new NTime(1989, 7, 21, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
         final var ex1Upper = new NTime(1989, 7, 21, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
         org.junit.Assert.assertEquals("1989年7月21日", abstimeexps.get(0).originalExpression);
