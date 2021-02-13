@@ -277,8 +277,8 @@ class ReltimeExpressionNormalizerTest {
     @Test
     void abstimeExpression() {
 
-        final var methodName = new Object() {
-        }.getClass().getEnclosingMethod().getName();
+        // final var methodName = new Object() {
+        // }.getClass().getEnclosingMethod().getName();
         final var text = "それは4月の出来事";
         final List <ReltimeExpression> reltimeexps = new ArrayList <>();
         final var language = "ja";

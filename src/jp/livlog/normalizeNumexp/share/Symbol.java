@@ -12,6 +12,12 @@ public final class Symbol {
     /** 指定された浮動小数点型の正の無限大値を返します. */
     public static final double INFINITY = Double.POSITIVE_INFINITY;
 
+    /** アスタリスク. */
+    public static final String ASTERISK = "*";
+
+    /** カンマ. */
+    public static final String COMMA = ",";
+
     /**
      * コンストラクタ.
      */

@@ -9,8 +9,6 @@ public abstract class LimitedExpressionTemplate extends BaseExpressionTemplate {
 
     abstract public void setLengthOfStringsAfterFinalPlaceHolder();
 
-
-
     public boolean ordinary;
 
     public String  option;
