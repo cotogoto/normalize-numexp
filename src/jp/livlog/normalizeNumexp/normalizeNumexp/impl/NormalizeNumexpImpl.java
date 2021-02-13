@@ -47,10 +47,12 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
         this.IER.removeInappropriateExtraction(text, numexps, abstimeexps, reltimeexps, durationexps);
 
         // string型に変換し、resultにまとめる
-        // merge_normalize_expressions_into_result(new ArrayList<numerical_expression_normalizer.NumericalExpression>(numexps), new
-        // ArrayList<abstime_expression_normalizer.AbstimeExpression>(abstimeexps), new
-        // ArrayList<reltime_expression_normalizer.ReltimeExpression>(reltimeexps), new
-        // ArrayList<duration_expression_normalizer.DurationExpression>(durationexps), result);
+//         merge_normalize_expressions_into_result(new ArrayList<numerical_expression_normalizer.NumericalExpression>(numexps), new
+//         ArrayList<abstime_expression_normalizer.AbstimeExpression>(abstimeexps), new
+//         ArrayList<reltime_expression_normalizer.ReltimeExpression>(reltimeexps), new
+//         ArrayList<duration_expression_normalizer.DurationExpression>(durationexps), result);
+
+
     }
 
 }

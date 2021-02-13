@@ -71,7 +71,7 @@ public class NTime {
         if (this.isNullTimeElement(t, isUpperbound)) {
             return "";
         } else {
-            ss.append((int) t);
+            ss.append(t);
             ss.append(timePosition);
             ret = ss.toString();
             return ret;
