@@ -24,13 +24,46 @@ class NormalizeNumexpTest {
         for (final String line : result) {
             System.out.println(methodName + ":" + line);
         }
-        // System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
-        // org.junit.Assert.assertEquals(1, abstimeexps.size());
-        // final var ex2Lower = new NTime(Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, 15, Symbol.INFINITY, Symbol.INFINITY);
-        // final var ex2Upper = new NTime(-Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, 15, -Symbol.INFINITY, -Symbol.INFINITY);
-        // org.junit.Assert.assertEquals("午後3時", abstimeexps.get(0).originalExpression);
-        // org.junit.Assert.assertTrue(this.isSameTime(ex2Lower, abstimeexps.get(0).valueLowerbound));
-        // org.junit.Assert.assertTrue(this.isSameTime(ex2Upper, abstimeexps.get(0).valueUpperbound));
+        org.junit.Assert.assertEquals(3, result.size());
+        org.junit.Assert.assertEquals("numerical*9.3万人*27*32*人*93000*93000*", result.get(0));
+        org.junit.Assert.assertEquals("abstime*1911年から2011年*0*12*none*1911-XX-XX*2011-XX-XX*", result.get(1));
+        org.junit.Assert.assertEquals("duration*100年間*17*22*none*P100Y*P100Y*", result.get(2));
     }
 
+
+    @Test
+    void simple2() {
+
+        final var methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
+        final var text = "15年前、戦争があった";
+        final List <String> result = new ArrayList <>();
+        final var language = "ja";
+        this.NN = new NormalizeNumexpImpl(language);
+        this.NN.normalize(text, result);
+        for (final String line : result) {
+            System.out.println(methodName + ":" + line);
+        }
+        org.junit.Assert.assertEquals(1, result.size());
+        org.junit.Assert.assertEquals("reltime*15年前*0*4*none*XX:XX:XX,P-15Y*XX:XX:XX,P-15Y*", result.get(0));
+    }
+
+
+    @Test
+    void simple3() {
+
+        final var methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
+        final var text = "昨年3月、僕たち２人は結婚した";
+        final List <String> result = new ArrayList <>();
+        final var language = "ja";
+        this.NN = new NormalizeNumexpImpl(language);
+        this.NN.normalize(text, result);
+        for (final String line : result) {
+            System.out.println(methodName + ":" + line);
+        }
+        org.junit.Assert.assertEquals(2, result.size());
+        org.junit.Assert.assertEquals("numerical*２人*8*10*人*2*2*", result.get(0));
+        org.junit.Assert.assertEquals("reltime*昨年3月*0*4*none*XXXX-03-XX,P-1Y*XXXX-03-XX,P-1Y*", result.get(1));
+    }
 }

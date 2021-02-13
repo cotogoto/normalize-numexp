@@ -71,7 +71,7 @@ public class NTime {
         if (this.isNullTimeElement(t, isUpperbound)) {
             return "";
         } else {
-            ss.append(t);
+            ss.append(this.format(t));
             ss.append(timePosition);
             ret = ss.toString();
             return ret;
@@ -148,6 +148,16 @@ public class NTime {
         ss.append(this.toIntervalStringFromTimeElement(this.second, "s", isUpperbound));
         ret = ss.toString();
         return ret;
+    }
+
+
+    public String format(double d) {
+
+        if (d == (int) d) {
+            return String.format("%d", (int) d);
+        } else {
+            return String.format("%s", d);
+        }
     }
 
     public double year;
