@@ -33,7 +33,8 @@ public abstract class InappropriateExpressionRemover {
     protected abstract <AnyTypeExpression extends BaseExpressionTemplate> boolean isUrlStrings(String text, AnyTypeExpression anyTypeExpression);
 
 
-    protected abstract <AnyTypeExpression extends BaseExpressionTemplate> void deleteUrlStrings(String text, List <AnyTypeExpression> anyTypeExpressions);
+    protected abstract <AnyTypeExpression extends BaseExpressionTemplate> void deleteUrlStrings(String text,
+            List <AnyTypeExpression> anyTypeExpressions);
 
 
     protected abstract void deleteInappropriateExtractionUsingDictionary(
@@ -49,9 +50,29 @@ public abstract class InappropriateExpressionRemover {
 
     protected abstract void initUrlStrings();
 
+
+    protected boolean isInappropriateStringsToBool(String val) {
+
+        final var ret = this.inappropriateStringsToBool.get(val);
+        if (ret == null) {
+            return false;
+        }
+        return ret;
+    }
+
+
+    protected boolean isUrlStringsToBool(String val) {
+
+        final var ret = this.inappropriateStringsToBool.get(val);
+        if (ret == null) {
+            return false;
+        }
+        return ret;
+    }
+
     protected Map <String, Boolean> inappropriateStringsToBool = new TreeMap <>();
 
     protected Map <String, Boolean> urlStringsToBool           = new TreeMap <>();
 
-    protected String                   language;
+    protected String                language;
 }

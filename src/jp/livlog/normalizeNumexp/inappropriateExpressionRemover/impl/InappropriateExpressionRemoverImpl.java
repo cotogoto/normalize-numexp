@@ -182,9 +182,9 @@ public class InappropriateExpressionRemoverImpl extends InappropriateExpressionR
         if (anyTypeExpression.positionEnd < uText.length()) {
             b = uText.charAt(anyTypeExpression.positionEnd);
         }
-        if (this.urlStringsToBool.get(String.valueOf(a)) && this.urlStringsToBool.get(String.valueOf(b))) {
+        if (this.isUrlStringsToBool(String.valueOf(a)) && this.isUrlStringsToBool(String.valueOf(b))) {
             for (var i = 0; i < anyTypeExpression.originalExpression.length(); i++) {
-                if (!this.urlStringsToBool.get(String.valueOf(anyTypeExpression.originalExpression.charAt(i)))) {
+                if (!this.isUrlStringsToBool(String.valueOf(anyTypeExpression.originalExpression.charAt(i)))) {
                     return false;
                 }
             }
