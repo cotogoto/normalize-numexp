@@ -31,10 +31,6 @@ public class NNumber extends BaseExpressionTemplate {
 
     public String               originalExpression = null;
 
-    public int                  positionStart;
-
-    public int                  positionEnd;
-
     public double               valueLowerbound;
 
     public double               valueUpperbound;

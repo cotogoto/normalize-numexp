@@ -124,13 +124,15 @@ public class NumberNormalizerImpl extends NumberNormalizer {
 
         final var temp = new StringBuilder(text);
         final List <NNumber> wkNumbers = new ArrayList <>();
+        var positionEnd = 0;
         for (final NNumber number : numbers) {
             final var a = temp.indexOf(number.originalExpression);
-            if (a > -1) {
+            if (a > -1 && positionEnd <= number.positionStart) {
                 final var b = a + number.originalExpression.length();
                 temp.delete(a, b);
                 wkNumbers.add(number);
             }
+            positionEnd = number.positionEnd;
         }
         numbers.clear();
         numbers.addAll(wkNumbers);
