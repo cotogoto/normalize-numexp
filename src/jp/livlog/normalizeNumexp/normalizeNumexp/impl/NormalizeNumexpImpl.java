@@ -53,7 +53,6 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
                 new ArrayList <>(reltimeexps),
                 new ArrayList <>(durationexps),
                 result);
-
     }
 
 }

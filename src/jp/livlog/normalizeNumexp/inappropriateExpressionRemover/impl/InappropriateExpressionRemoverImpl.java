@@ -227,11 +227,10 @@ public class InappropriateExpressionRemoverImpl extends InappropriateExpressionR
         this.deleteUrlStrings(text, durationexps);
     }
 
+
     /*
-     不適切な時間表現の削除
+     * 不適切な時間表現の削除
      */
-
-
     private void reviseYearDoRevise(RefObject <Double> year) {
 
         if (20 < year.argValue && year.argValue < 100) {
@@ -292,16 +291,15 @@ public class InappropriateExpressionRemoverImpl extends InappropriateExpressionR
 
         // 時間の範囲が明らかにおかしいかどうか
         return (this.isInappropriateTimeValue(abstimeexp.valueLowerbound) || this.isInappropriateTimeValue(abstimeexp.valueUpperbound));
-
     }
 
 
-    @SuppressWarnings ("unlikely-arg-type")
     private void reviseOrDeleteAbstimeexp(List <AbstimeExpression> abstimeexps, RefObject <Integer> i) {
 
-        this.reviseYear(abstimeexps.get(i.argValue));
-        if (this.isInappropriateAbstimeexp(abstimeexps.get(i.argValue))) {
-            abstimeexps.remove(i.argValue);
+        final int a = i.argValue;
+        this.reviseYear(abstimeexps.get(a));
+        if (this.isInappropriateAbstimeexp(abstimeexps.get(a))) {
+            abstimeexps.remove(a);
             i.argValue--;
         }
     }
@@ -405,15 +403,6 @@ public class InappropriateExpressionRemoverImpl extends InappropriateExpressionR
             InappropriateExpressionRemoverImpl.log.error(e.getMessage(), e);
         }
     }
-
-    // C++ TO JAVA CONVERTER WARNING: The original C++ declaration of the following method implementation was not found:
-    // ORIGINAL LINE: void InappropriateExpressionRemover::init_inappropriate_stringss(const String& language)
-
-    // C++ TO JAVA CONVERTER WARNING: The original C++ declaration of the following method implementation was not found:
-    // ORIGINAL LINE: void InappropriateExpressionRemover::init_url_strings()
-
-    // C++ TO JAVA CONVERTER WARNING: The original C++ declaration of the following method implementation was not found:
-    // ORIGINAL LINE: InappropriateExpressionRemover::InappropriateExpressionRemover(const String& language)
 
 
     @Override
