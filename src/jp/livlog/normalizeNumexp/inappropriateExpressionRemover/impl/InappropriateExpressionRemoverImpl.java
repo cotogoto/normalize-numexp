@@ -430,9 +430,9 @@ public class InappropriateExpressionRemoverImpl extends InappropriateExpressionR
     @Override
     public void initUrlStrings() {
 
-        final var url_strings = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ１２３４５６７８９０ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＭＮＬＰＱＲＳＴＵＶＷＸＹＺ";
-        for (var i = 0; i < url_strings.length(); i++) {
-            this.urlStringsToBool.put(String.valueOf(url_strings.charAt(i)), true);
+        final var urlStrings = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ１２３４５６７８９０ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＭＮＬＰＱＲＳＴＵＶＷＸＹＺ";
+        for (var i = 0; i < urlStrings.length(); i++) {
+            this.urlStringsToBool.put(String.valueOf(urlStrings.charAt(i)), true);
         }
     }
 
