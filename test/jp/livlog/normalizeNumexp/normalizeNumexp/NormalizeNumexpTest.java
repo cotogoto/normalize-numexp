@@ -434,4 +434,19 @@ class NormalizeNumexpTest {
         org.junit.Assert.assertEquals(1, result.size());
         org.junit.Assert.assertEquals("numerical*3割4分5厘*5*11*%*34.5*34.5*", result.get(0));
     }
+
+    @Test
+    void chinese1() {
+
+        final var methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
+        final var text = "我生于1989年7月21日";
+        final List <String> result = new ArrayList <>();
+        final var language = "zh";
+        this.NN = new NormalizeNumexpImpl(language);
+        this.NN.normalize(text, result);
+        for (final String line : result) {
+            System.out.println(methodName + ":" + line);
+        }
+    }
 }

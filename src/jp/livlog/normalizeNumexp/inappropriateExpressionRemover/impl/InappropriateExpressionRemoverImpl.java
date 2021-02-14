@@ -391,8 +391,7 @@ public class InappropriateExpressionRemoverImpl extends InappropriateExpressionR
 
         loadTarget.clear();
 
-        final Reader reader = new InputStreamReader(
-                DigitUtilityImpl.class.getResourceAsStream(dictionaryPath));
+        final var reader = this.fileLoad(dictionaryPath);
 
         final var gson = new Gson();
         final var listType = new TypeToken <HashMap <String, Object>>() {
@@ -437,4 +436,17 @@ public class InappropriateExpressionRemoverImpl extends InappropriateExpressionR
         }
     }
 
+
+    private Reader fileLoad(String dictionaryPath) {
+
+        try {
+            return new InputStreamReader(
+                    DigitUtilityImpl.class.getResourceAsStream(dictionaryPath));
+        } catch (final Exception e) {
+            dictionaryPath = dictionaryPath.replace("/zh/", "/ja/");
+            dictionaryPath = dictionaryPath.replace("/en/", "/ja/");
+            return new InputStreamReader(
+                    DigitUtilityImpl.class.getResourceAsStream(dictionaryPath));
+        }
+    }
 }

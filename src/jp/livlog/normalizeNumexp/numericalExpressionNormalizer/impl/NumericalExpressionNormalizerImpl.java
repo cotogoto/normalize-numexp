@@ -2,8 +2,6 @@ package jp.livlog.normalizeNumexp.numericalExpressionNormalizer.impl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +9,6 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import jp.livlog.normalizeNumexp.digitUtility.impl.DigitUtilityImpl;
 import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.Counter;
 import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.NumericalExpression;
 import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.NumericalExpressionNormalizer;
@@ -50,8 +47,7 @@ public class NumericalExpressionNormalizerImpl extends NumericalExpressionNormal
 
         loadTarget.clear();
 
-        final Reader reader = new InputStreamReader(
-                DigitUtilityImpl.class.getResourceAsStream(dictionaryPath));
+        final var reader = this.fileLoad(dictionaryPath);
 
         final var gson = new Gson();
         final var listType = new TypeToken <HashMap <String, Object>>() {

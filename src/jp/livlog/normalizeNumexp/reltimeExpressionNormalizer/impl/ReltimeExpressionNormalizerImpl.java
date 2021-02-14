@@ -2,15 +2,12 @@ package jp.livlog.normalizeNumexp.reltimeExpressionNormalizer.impl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.HashMap;
 import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import jp.livlog.normalizeNumexp.digitUtility.impl.DigitUtilityImpl;
 import jp.livlog.normalizeNumexp.reltimeExpressionNormalizer.LimitedReltimeExpression;
 import jp.livlog.normalizeNumexp.reltimeExpressionNormalizer.ReltimeExpression;
 import jp.livlog.normalizeNumexp.reltimeExpressionNormalizer.ReltimeExpressionNormalizer;
@@ -51,8 +48,7 @@ public class ReltimeExpressionNormalizerImpl extends ReltimeExpressionNormalizer
 
         loadTarget.clear();
 
-        final Reader reader = new InputStreamReader(
-                DigitUtilityImpl.class.getResourceAsStream(dictionaryPath));
+        final var reader = this.fileLoad(dictionaryPath);
 
         final var gson = new Gson();
         final var listType = new TypeToken <HashMap <String, Object>>() {

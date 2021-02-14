@@ -134,8 +134,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
         loadTarget.clear();
 
-        final Reader reader = new InputStreamReader(
-                DigitUtilityImpl.class.getResourceAsStream(dictionaryPath));
+        final var reader = this.fileLoad(dictionaryPath);
 
         final var gson = new Gson();
         final var listType = new TypeToken <HashMap <String, String>>() {
@@ -188,9 +187,9 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
         // dictionaryPath += this.language;
         // dictionaryPath += "/";
         this.loadFromDictionary1(dictionaryPath + this.language + "/" + limitedExpressionDictionary, this.limitedExpressions);
-        this.loadFromDictionary1(dictionaryPath + "ja/" + prefixCounterDictionary, this.prefixCounters);
-        this.loadFromDictionary2(dictionaryPath + "ja/" + suffixNumberModifierDictionary, this.suffixNumberModifier);
-        this.loadFromDictionary2(dictionaryPath + "ja/" + prefixNumberModifierDictionary, this.prefixNumberModifier);
+        this.loadFromDictionary1(dictionaryPath + this.language + "/" + prefixCounterDictionary, this.prefixCounters);
+        this.loadFromDictionary2(dictionaryPath + this.language + "/" + suffixNumberModifierDictionary, this.suffixNumberModifier);
+        this.loadFromDictionary2(dictionaryPath + this.language + "/" + prefixNumberModifierDictionary, this.prefixNumberModifier);
 
         this.buildPatterns(this.limitedExpressions, this.limitedExpressionPatterns);
         this.buildPatternsRev(this.prefixCounters, this.prefixCounterPatterns);
@@ -332,6 +331,20 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
                 continue;
             }
             options1.add(options2.get(i));
+        }
+    }
+
+
+    public Reader fileLoad(String dictionaryPath) {
+
+        try {
+            return new InputStreamReader(
+                    DigitUtilityImpl.class.getResourceAsStream(dictionaryPath));
+        } catch (final Exception e) {
+            dictionaryPath = dictionaryPath.replace("/zh/", "/ja/");
+            dictionaryPath = dictionaryPath.replace("/en/", "/ja/");
+            return new InputStreamReader(
+                    DigitUtilityImpl.class.getResourceAsStream(dictionaryPath));
         }
     }
 

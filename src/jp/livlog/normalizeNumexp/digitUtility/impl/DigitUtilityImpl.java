@@ -48,13 +48,11 @@ public class DigitUtilityImpl extends DigitUtility {
         public final String  notationType;
     }
 
-
     void loadFromDictionary(final String dictionaryPath, List <ChineseCharacter> loadTarget) {
 
         loadTarget.clear();
 
-        final Reader reader = new InputStreamReader(
-                DigitUtilityImpl.class.getResourceAsStream(dictionaryPath));
+        final var reader = this.fileLoad(dictionaryPath);
 
         final var gson = new Gson();
         try (var br = new BufferedReader(reader)) {
@@ -300,4 +298,17 @@ public class DigitUtilityImpl extends DigitUtility {
     // throw new NullPointerException("Exception : is not number string");
     // }
 
+
+    private Reader fileLoad(String dictionaryPath) {
+
+        try {
+            return new InputStreamReader(
+                    DigitUtilityImpl.class.getResourceAsStream(dictionaryPath));
+        } catch (final Exception e) {
+            dictionaryPath = dictionaryPath.replace("/zh/", "/ja/");
+            dictionaryPath = dictionaryPath.replace("/en/", "/ja/");
+            return new InputStreamReader(
+                    DigitUtilityImpl.class.getResourceAsStream(dictionaryPath));
+        }
+    }
 }
