@@ -9,6 +9,7 @@ import jp.livlog.normalizeNumexp.normalizeNumexp.NormalizeNumexp;
 import jp.livlog.normalizeNumexp.normalizerUtility.NormalizedExpressionTemplate;
 import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.NumericalExpression;
 import jp.livlog.normalizeNumexp.reltimeExpressionNormalizer.ReltimeExpression;
+import jp.livlog.normalizeNumexp.share.Expression;
 import jp.livlog.normalizeNumexp.share.Symbol;
 
 public class NormalizeNumexpImpl extends NormalizeNumexp {
@@ -27,7 +28,14 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
     }
 
 
-    // resultの生成
+    /**
+     * resultの生成.
+     * @param numexps
+     * @param abstimeexps
+     * @param reltimeexps
+     * @param durationexps
+     * @param result
+     */
     protected void mergeNormalizeExpressionsIntoResult(
             List <NumericalExpression> numexps,
             List <AbstimeExpression> abstimeexps,
@@ -35,7 +43,6 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
             List <DurationExpression> durationexps,
             List <String> result) {
 
-        // TODO : それぞれの正規形に、toString関数をつける？逆に分かり辛い？ とりあえずここで処理
         final var kugiri = Symbol.ASTERISK;
         final var comma = Symbol.COMMA;
         final var ss = new StringBuilder();
@@ -128,6 +135,82 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
     }
 
 
+    /**
+     * データの生成.
+     * @param numexps
+     * @param abstimeexps
+     * @param reltimeexps
+     * @param durationexps
+     */
+    protected List <Expression> mergeNormalizeExpressionsIntoData(
+            List <NumericalExpression> numexps,
+            List <AbstimeExpression> abstimeexps,
+            List <ReltimeExpression> reltimeexps,
+            List <DurationExpression> durationexps) {
+
+        final var comma = Symbol.COMMA;
+
+        final List <Expression> ret = new ArrayList <>();
+        Expression expression = null;
+
+        for (var i = 0; i < numexps.size(); i++) {
+            expression = new Expression();
+            expression.type = "numerical";
+            expression.originalExpression = numexps.get(i).originalExpression;
+            expression.positionStart = numexps.get(i).positionStart;
+            expression.positionEnd = numexps.get(i).positionEnd;
+            expression.counter = numexps.get(i).counter;
+            expression.valueLowerbound = String.valueOf(numexps.get(i).valueLowerbound);
+            expression.valueUpperbound = String.valueOf(numexps.get(i).valueUpperbound);
+            expression.options = this.showOptions(numexps.get(i));
+            ret.add(expression);
+        }
+
+        for (var i = 0; i < abstimeexps.size(); i++) {
+            expression = new Expression();
+            expression.type = "abstime";
+            expression.originalExpression = abstimeexps.get(i).originalExpression;
+            expression.positionStart = abstimeexps.get(i).positionStart;
+            expression.positionEnd = abstimeexps.get(i).positionEnd;
+            expression.counter = "none";
+            expression.valueLowerbound = abstimeexps.get(i).valueLowerbound.toString(false);
+            expression.valueUpperbound = abstimeexps.get(i).valueUpperbound.toString(true);
+            expression.options = this.showOptions(abstimeexps.get(i));
+            ret.add(expression);
+        }
+
+        for (var i = 0; i < reltimeexps.size(); i++) {
+            expression = new Expression();
+            expression.type = "reltime";
+            expression.originalExpression = reltimeexps.get(i).originalExpression;
+            expression.positionStart = reltimeexps.get(i).positionStart;
+            expression.positionEnd = reltimeexps.get(i).positionEnd;
+            expression.counter = "none";
+            expression.valueLowerbound = reltimeexps.get(i).valueLowerboundAbs.toString(false)
+                    + comma + reltimeexps.get(i).valueLowerboundRel.toDurationString(false);
+            expression.valueUpperbound = reltimeexps.get(i).valueUpperboundAbs.toString(true)
+                    + comma + reltimeexps.get(i).valueUpperboundRel.toDurationString(true);
+            expression.options = this.showOptions(reltimeexps.get(i));
+            ret.add(expression);
+        }
+
+        for (var i = 0; i < durationexps.size(); i++) {
+            expression = new Expression();
+            expression.type = "duration";
+            expression.originalExpression = durationexps.get(i).originalExpression;
+            expression.positionStart = durationexps.get(i).positionStart;
+            expression.positionEnd = durationexps.get(i).positionEnd;
+            expression.counter = "none";
+            expression.valueLowerbound = durationexps.get(i).valueLowerbound.toDurationString(false);
+            expression.valueUpperbound = durationexps.get(i).valueUpperbound.toDurationString(true);
+            expression.options = this.showOptions(durationexps.get(i));
+            ret.add(expression);
+        }
+
+        return ret;
+    }
+
+
     private <AnyTypeExpression extends NormalizedExpressionTemplate> String showOptions(AnyTypeExpression anyTypeExpression) {
 
         final var ss = new StringBuilder();
@@ -187,6 +270,24 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
                 new ArrayList <>(reltimeexps),
                 new ArrayList <>(durationexps),
                 result);
+    }
+
+
+    @Override
+    public List <Expression> normalizeData(String text) {
+
+        final var numexps = new ArrayList <NumericalExpression>();
+        final var abstimeexps = new ArrayList <AbstimeExpression>();
+        final var reltimeexps = new ArrayList <ReltimeExpression>();
+        final var durationexps = new ArrayList <DurationExpression>();
+
+        // 4つのnormalizerで処理を行う
+        this.normalizeEachTypeExpressions(text, numexps, abstimeexps, reltimeexps, durationexps);
+
+        // それぞれの結果より、不適当な抽出を削除
+        this.IER.removeInappropriateExtraction(text, numexps, abstimeexps, reltimeexps, durationexps);
+
+        return this.mergeNormalizeExpressionsIntoData(numexps, abstimeexps, reltimeexps, durationexps);
     }
 
 }

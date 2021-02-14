@@ -31,5 +31,5 @@ public class NumericalExpression extends NormalizedExpressionTemplateImpl {
 
     public double  valueUpperbound;
 
-    public String  counter = new String();
+    public String  counter;
 }

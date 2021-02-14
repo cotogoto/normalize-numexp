@@ -12,10 +12,11 @@ import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.NumericalExpressi
 import jp.livlog.normalizeNumexp.numericalExpressionNormalizer.impl.NumericalExpressionNormalizerImpl;
 import jp.livlog.normalizeNumexp.reltimeExpressionNormalizer.ReltimeExpressionNormalizer;
 import jp.livlog.normalizeNumexp.reltimeExpressionNormalizer.impl.ReltimeExpressionNormalizerImpl;
+import jp.livlog.normalizeNumexp.share.Expression;
 
 public abstract class NormalizeNumexp {
 
-    public NormalizeNumexp(final String language) {
+    public NormalizeNumexp(String language) {
 
         this.NEN = new NumericalExpressionNormalizerImpl(language);
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
@@ -25,7 +26,10 @@ public abstract class NormalizeNumexp {
     }
 
 
-    public abstract void normalize(final String text, List <String> result);
+    public abstract void normalize(String text, List <String> result);
+
+
+    public abstract List <Expression> normalizeData(String text);
 
     protected NumericalExpressionNormalizer  NEN = null;
 
