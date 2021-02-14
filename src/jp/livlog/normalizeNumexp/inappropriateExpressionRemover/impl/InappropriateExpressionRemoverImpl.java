@@ -38,10 +38,10 @@ public class InappropriateExpressionRemoverImpl extends InappropriateExpressionR
 
 
     private <AnyTypeExpression1 extends NormalizedExpressionTemplate, AnyTypeExpression2 extends NormalizedExpressionTemplate> boolean isCoveredByOtherTypeExpression(
-            AnyTypeExpression1 any_type_expression1, AnyTypeExpression2 any_type_expression2) {
+            AnyTypeExpression1 anyTypeExpression1, AnyTypeExpression2 anyTypeExpression2) {
 
-        return any_type_expression2.positionStart <= any_type_expression1.positionStart
-                && any_type_expression1.positionEnd <= any_type_expression2.positionEnd;
+        return anyTypeExpression2.positionStart <= anyTypeExpression1.positionStart
+                && anyTypeExpression1.positionEnd <= anyTypeExpression2.positionEnd;
     }
 
 
@@ -57,7 +57,7 @@ public class InappropriateExpressionRemoverImpl extends InappropriateExpressionR
     }
 
 
-    private void delete_duplicate_extraction(
+    private void deleteDuplicateExtraction(
             List <NumericalExpression> numexps,
             List <AbstimeExpression> abstimeexps,
             List <ReltimeExpression> reltimeexps,
@@ -160,12 +160,17 @@ public class InappropriateExpressionRemoverImpl extends InappropriateExpressionR
     }
 
 
+    // 辞書に記述した表現の削除
     @Override
     protected <AnyTypeExpression extends BaseExpressionTemplate> void deleteInappropriateExtractionUsingDictionaryOneType(
-            List <AnyTypeExpression> any_type_expressions) {
+            List <AnyTypeExpression> anyTypeExpressions) {
 
-        // TODO 自動生成されたメソッド・スタブ
-
+        for (var i = 0; i < anyTypeExpressions.size(); i++) {
+            if (this.isInappropriateStringsToBool(anyTypeExpressions.get(i).originalExpression)) {
+                anyTypeExpressions.remove(i);
+                i--;
+            }
+        }
     }
 
 
@@ -254,7 +259,7 @@ public class InappropriateExpressionRemoverImpl extends InappropriateExpressionR
         // 「98年7月21日」などの表記のとき（20 < year < 100のとき）は、1900を加算する
         // 「01年7月21日」などの表記のとき（0<= year <= 20のとき）は、2000を加算する
         // 「西暦」とついてたら処理を行わない
-        if (abstimeexp.originalExpression.equals("西")) {
+        if (abstimeexp.originalExpression.contains("西")) {
             return;
         }
         final var tempRef_year = new RefObject <>(abstimeexp.valueLowerbound.year);
@@ -297,8 +302,9 @@ public class InappropriateExpressionRemoverImpl extends InappropriateExpressionR
     private void reviseOrDeleteAbstimeexp(List <AbstimeExpression> abstimeexps, RefObject <Integer> i) {
 
         final int a = i.argValue;
-        this.reviseYear(abstimeexps.get(a));
-        if (this.isInappropriateAbstimeexp(abstimeexps.get(a))) {
+        final var abstimeexp = abstimeexps.get(a);
+        this.reviseYear(abstimeexp);
+        if (this.isInappropriateAbstimeexp(abstimeexp)) {
             abstimeexps.remove(a);
             i.argValue--;
         }
@@ -323,8 +329,7 @@ public class InappropriateExpressionRemoverImpl extends InappropriateExpressionR
         if (anyTypeExpression.originalExpression.charAt(0) == 'か'
                 && anyTypeExpression.originalExpression.charAt(1) == 'ら') {
             // 先頭一致
-            anyTypeExpression.originalExpression = anyTypeExpression.originalExpression.substring(2,
-                    anyTypeExpression.originalExpression.length() - 2);
+            anyTypeExpression.originalExpression = anyTypeExpression.originalExpression.substring(2, anyTypeExpression.originalExpression.length());
             anyTypeExpression.positionStart += 2;
         }
         if (anyTypeExpression.originalExpression.length() > 2
@@ -370,9 +375,11 @@ public class InappropriateExpressionRemoverImpl extends InappropriateExpressionR
 
         // TODO : この部分を、コンポーネントとして書き出す。辞書で指定できるようにする。 規格化処理は辞書で指定できるが、不適切な表現の処理は辞書でできるようにほとんどなっていない。
         this.deleteInappropriateAbstimeexps(abstimeexps);
-        this.delete_duplicate_extraction(numexps, abstimeexps, reltimeexps, durationexps);
+        this.deleteDuplicateExtraction(numexps, abstimeexps, reltimeexps, durationexps);
+
         this.deleteInappropriateExtractionUsingDictionary(text, numexps, abstimeexps, reltimeexps, durationexps);
         this.deleteInappropriateRangeExpression(numexps, abstimeexps, reltimeexps, durationexps);
+
     }
 
 

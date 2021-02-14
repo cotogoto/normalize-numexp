@@ -6,7 +6,7 @@ import jp.livlog.normalizeNumexp.share.NTime;
 import jp.livlog.normalizeNumexp.share.Symbol;
 import lombok.ToString;
 
-@ToString(callSuper=true)
+@ToString(callSuper=false)
 public class AbstimeExpression extends NormalizedExpressionTemplateImpl {
 
     public AbstimeExpression(NNumber number) {

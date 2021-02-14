@@ -63,7 +63,7 @@ public abstract class InappropriateExpressionRemover {
 
     protected boolean isUrlStringsToBool(String val) {
 
-        final var ret = this.inappropriateStringsToBool.get(val);
+        final var ret = this.urlStringsToBool.get(val);
         if (ret == null) {
             return false;
         }

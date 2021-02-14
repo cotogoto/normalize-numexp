@@ -554,11 +554,25 @@ class NumberNormalizerTest {
     @Test
     void otherTest() {
 
-        final var input = "1万4000";
+        final var text = "1万4000";
         final List <NNumber> result = new ArrayList <>();
-        this.NE.extractNumber(input, result);
+        final var language = "ja";
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
         org.junit.Assert.assertEquals(1, result.size());
         org.junit.Assert.assertEquals("1万4000", result.get(0).originalExpression);
         org.junit.Assert.assertTrue(14000 == result.get(0).valueUpperbound);
+    }
+
+
+    @Test
+    void otherTest2() {
+
+        final var text = "数十人が十数人と喧嘩して、百数十円落とした";
+        final List <NNumber> result = new ArrayList <>();
+        final var language = "ja";
+        this.NN = new NumberNormalizerImpl(language);
+        this.NN.process(text, result);
+        org.junit.Assert.assertEquals(3, result.size());
     }
 }

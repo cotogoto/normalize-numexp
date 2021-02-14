@@ -155,7 +155,11 @@ public class SymbolFixerImpl extends SymbolFixer {
 
         // 「1.001」のような0が含まれる表記のため、先頭のゼロの分、0.1を乗算する
         var pos = 0;
+        final var len = number.originalExpression.length();
         while (true) {
+            if (len <= pos) {
+                break;
+            }
             final var str = String.valueOf(number.originalExpression.charAt(pos));
             if (!"0".equals(str) && !"０".equals(str) && !"零".equals(str) && !"〇".equals(str)) {
                 break;

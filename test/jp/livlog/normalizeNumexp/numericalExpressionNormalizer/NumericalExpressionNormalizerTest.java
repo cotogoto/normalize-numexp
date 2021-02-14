@@ -521,4 +521,23 @@ class NumericalExpressionNormalizerTest {
         org.junit.Assert.assertEquals(1, numexps.size());
         org.junit.Assert.assertTrue(this.isSameNumexp(ex, numexps.get(0)));
     }
+
+    @Test
+    void test2() {
+
+        final var methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
+        final var text = "数十人が十数人と喧嘩して、百数十円落とした";
+        final List <NumericalExpression> numexps = new ArrayList <>();
+        final var language = "ja";
+        this.NEN = new NumericalExpressionNormalizerImpl(language);
+        this.NEN.process(text, numexps);
+        for (final NumericalExpression numexp : numexps) {
+            System.out.println(methodName + ":" + numexp);
+        }
+//        final var ex = new NumericalExpression("から30匹", 2, 7, 30, 30);
+//        ex.counter = "匹";
+//        org.junit.Assert.assertEquals(1, numexps.size());
+//        org.junit.Assert.assertTrue(this.isSameNumexp(ex, numexps.get(0)));
+    }
 }

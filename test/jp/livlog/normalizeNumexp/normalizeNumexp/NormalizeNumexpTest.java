@@ -291,7 +291,10 @@ class NormalizeNumexpTest {
         for (final String line : result) {
             System.out.println(methodName + ":" + line);
         }
-        org.junit.Assert.assertEquals(0, result.size());
+        org.junit.Assert.assertEquals(3, result.size());
+        org.junit.Assert.assertEquals("duration*198999年*0*7*none*P198999Y*P198999Y*", result.get(0));
+        org.junit.Assert.assertEquals("duration*30月*7*10*none*P30M*P30M*", result.get(1));
+        org.junit.Assert.assertEquals("duration*41日*10*13*none*P41D*P41D*", result.get(2));
     }
 
     @Test
@@ -377,7 +380,7 @@ class NormalizeNumexpTest {
         }
         org.junit.Assert.assertEquals(3, result.size());
         org.junit.Assert.assertEquals("numerical*数十人*0*3*人*10*90*", result.get(0));
-        org.junit.Assert.assertEquals("anumerical*十数人*4*7*人*11*19*", result.get(1));
+        org.junit.Assert.assertEquals("numerical*十数人*4*7*人*11*19*", result.get(1));
         org.junit.Assert.assertEquals("numerical*百数十円*13*17*円*110*190*", result.get(2));
     }
 

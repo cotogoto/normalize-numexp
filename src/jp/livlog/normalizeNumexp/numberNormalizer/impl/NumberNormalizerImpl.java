@@ -124,15 +124,16 @@ public class NumberNormalizerImpl extends NumberNormalizer {
 
         final var temp = new StringBuilder(text);
         final List <NNumber> wkNumbers = new ArrayList <>();
-        var positionEnd = 0;
+        // var positionEnd = 0;
         for (final NNumber number : numbers) {
             final var a = temp.indexOf(number.originalExpression);
-            if (a > -1 && positionEnd <= number.positionStart) {
+            // if (a > -1 && positionEnd <= number.positionStart) {
+            if (a > -1) {
                 final var b = a + number.originalExpression.length();
                 temp.delete(a, b);
                 wkNumbers.add(number);
             }
-            positionEnd = number.positionEnd;
+            // positionEnd = number.positionEnd;
         }
         numbers.clear();
         numbers.addAll(wkNumbers);
@@ -204,7 +205,7 @@ public class NumberNormalizerImpl extends NumberNormalizer {
         if (numbers.get(i).positionEnd == uText.length()) {
             return;
         }
-        if (uText.charAt(i) != '数') {
+        if (uText.charAt(numbers.get(i).positionEnd) != '数') {
             return;
         }
         numbers.get(i).valueUpperbound += 9;

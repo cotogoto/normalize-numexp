@@ -4,7 +4,7 @@ import jp.livlog.normalizeNumexp.normalizerUtility.impl.NormalizedExpressionTemp
 import jp.livlog.normalizeNumexp.share.NNumber;
 import lombok.ToString;
 
-@ToString(callSuper=true)
+@ToString(callSuper=false)
 public class NumericalExpression extends NormalizedExpressionTemplateImpl {
 
     public NumericalExpression(final String originalExpression, final int positionStart, final int positionEnd, final double valueLowerbound,

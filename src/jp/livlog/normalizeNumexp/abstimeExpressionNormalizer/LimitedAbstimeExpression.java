@@ -6,7 +6,7 @@ import java.util.List;
 import jp.livlog.normalizeNumexp.normalizerUtility.impl.LimitedExpressionTemplateImpl;
 import lombok.ToString;
 
-@ToString(callSuper=true)
+@ToString(callSuper=false)
 public class LimitedAbstimeExpression extends LimitedExpressionTemplateImpl {
 
     public List <String> correspondingTimePosition = new ArrayList <>();

@@ -4,7 +4,7 @@ import jp.livlog.normalizeNumexp.normalizerUtility.LimitedExpressionTemplate;
 import jp.livlog.normalizeNumexp.normalizerUtility.NormalizerUtility;
 import lombok.ToString;
 
-@ToString(callSuper=true)
+@ToString(callSuper=false)
 public class LimitedExpressionTemplateImpl extends LimitedExpressionTemplate {
 
     private final NormalizerUtility normalizerUtility = new NormalizerUtilityImpl();

@@ -3,7 +3,7 @@ package jp.livlog.normalizeNumexp.numericalExpressionNormalizer;
 import jp.livlog.normalizeNumexp.normalizerUtility.impl.LimitedExpressionTemplateImpl;
 import lombok.ToString;
 
-@ToString(callSuper=true)
+@ToString(callSuper=false)
 public class Counter extends LimitedExpressionTemplateImpl {
 
     public String counter;
