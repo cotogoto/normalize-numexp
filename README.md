@@ -16,7 +16,6 @@ JVM環境で使うためにはいろいろと問題もあり、リバースエ�
 主にはC++からJAVAへの変換を行っております。
 
 ### Maven
-Run `mvn package` from the base directory. Package is built into the `target` directory.
 ベースディレクトリから`mvn package`を実行します。 パッケージは `target`ディレクトリに組み込まれています。
 
 ### Eclipse
@@ -29,9 +28,6 @@ Quick start:
 * Hit next
 * Hit finish
 * Build!
-
-# License
-The source code is licensed MIT. The website content is licensed CC BY 4.0,see LICENSE.
 
 ## Features
 C++ to Java Converterのツールを利用して、C++のソースをJAVAに一旦変換、その後、変換ミスを修正する手法をとる。
