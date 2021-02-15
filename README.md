@@ -1,7 +1,10 @@
 # normalizeNumexp
+数量表現・時間表現の規格化を行うツール
 
 ## Overview
-数量表現・時間表現の規格化を行うツール
+normalizeNumexpは、日本語の文中に含まれる数量表現・時間表現を高速かつ正確に抽出、規格化するツールです。 
+
+具体的な入力・出力例は以下のようになります。自然言語文の入力に対し、抽出した数量表現・時間表現とその規格化表現を表示します。
 
 ## Requirement
 数量表現・時間表現のできるプログラムを探していたのですが、何年も前のプログラムで、C++で書かれていて、
@@ -9,7 +12,26 @@ JVM環境で使うためにはいろいろと問題もあり、リバースエ�
 
 
 ## Usage
-JSON形式のAPIに対応できるようにする予定。
+基本的な仕組みについては[こちら](https://www.cl.ecei.tohoku.ac.jp/index.php?Open%20Resources%2FnormalizeNumexp%2FDetail)に詳しく載っています。
+主にはC++からJAVAへの変換を行っております。
+
+### Maven
+Run `mvn package` from the base directory. Package is built into the `target` directory.
+ベースディレクトリから`mvn package`を実行します。 パッケージは `target`ディレクトリに組み込まれています。
+
+### Eclipse
+Quick start:
+* Checkout code from github
+* File menu > New Java Project
+* Uncheck "Use default location"
+* Set project layout to Use project folder as root for sources and class files
+* Browse for location checked out code
+* Hit next
+* Hit finish
+* Build!
+
+# License
+The source code is licensed MIT. The website content is licensed CC BY 4.0,see LICENSE.
 
 ## Features
 C++ to Java Converterのツールを利用して、C++のソースをJAVAに一旦変換、その後、変換ミスを修正する手法をとる。
@@ -29,4 +51,4 @@ https://www.tangiblesoftwaresolutions.com/product_details/cplusplus_to_java_conv
 
 ## Licence
 
-Copyright(c) 2021 LivLog llc.
+BSD-3-Clause License
