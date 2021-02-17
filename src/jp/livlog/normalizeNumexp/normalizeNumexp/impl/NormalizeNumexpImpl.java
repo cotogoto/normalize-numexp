@@ -90,7 +90,6 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
 
         for (var i = 0; i < reltimeexps.size(); i++) {
             ss.setLength(0);
-            // TODO : 相対時間表現を、どう表示させるか？
             ss.append("reltime");
             ss.append(kugiri);
             ss.append(reltimeexps.get(i).originalExpression);
@@ -148,8 +147,6 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
             List <ReltimeExpression> reltimeexps,
             List <DurationExpression> durationexps) {
 
-        final var comma = Symbol.COMMA;
-
         final List <Expression> ret = new ArrayList <>();
         Expression expression = null;
 
@@ -186,10 +183,11 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
             expression.positionStart = reltimeexps.get(i).positionStart;
             expression.positionEnd = reltimeexps.get(i).positionEnd;
             expression.counter = "none";
-            expression.valueLowerbound = reltimeexps.get(i).valueLowerboundAbs.toString(false)
-                    + comma + reltimeexps.get(i).valueLowerboundRel.toDurationString(false);
-            expression.valueUpperbound = reltimeexps.get(i).valueUpperboundAbs.toString(true)
-                    + comma + reltimeexps.get(i).valueUpperboundRel.toDurationString(true);
+            expression.valueLowerboundAbs = reltimeexps.get(i).valueLowerboundAbs.toString(false);
+            expression.valueUpperboundAbs = reltimeexps.get(i).valueUpperboundAbs.toString(true);
+            expression.valueLowerboundRel = reltimeexps.get(i).valueLowerboundRel.toDurationString(false);
+            
+            expression.valueUpperboundRel = reltimeexps.get(i).valueUpperboundRel.toDurationString(true);
             expression.options = this.showOptions(reltimeexps.get(i));
             ret.add(expression);
         }
