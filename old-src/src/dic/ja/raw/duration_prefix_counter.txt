@@ -1,3 +1,0 @@
-週	/week
-月	/month
-年	/year

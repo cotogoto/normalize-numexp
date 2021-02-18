@@ -1,3 +1,0 @@
-■swigによるJava連携について
-compile.shを実行した後、生成されたclassesディレクトリをclasspathに含めるようにしてください。
-また生成された.soファイルをおいたディレクトリを、java.library.pathシステムプロパティに含めるようにしてください。
