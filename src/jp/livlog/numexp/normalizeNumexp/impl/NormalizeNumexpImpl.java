@@ -1,6 +1,7 @@
 package jp.livlog.numexp.normalizeNumexp.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import jp.livlog.numexp.abstimeExpressionNormalizer.AbstimeExpression;
@@ -10,6 +11,7 @@ import jp.livlog.numexp.normalizerUtility.NormalizedExpressionTemplate;
 import jp.livlog.numexp.numericalExpressionNormalizer.NumericalExpression;
 import jp.livlog.numexp.reltimeExpressionNormalizer.ReltimeExpression;
 import jp.livlog.numexp.share.Expression;
+import jp.livlog.numexp.share.ExpressionKey0Comp;
 import jp.livlog.numexp.share.Symbol;
 
 public class NormalizeNumexpImpl extends NormalizeNumexp {
@@ -204,6 +206,9 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
             expression.options = this.showOptions(durationexps.get(i));
             ret.add(expression);
         }
+
+        // 単語の出現順にソート
+        Collections.sort(ret, new ExpressionKey0Comp());
 
         return ret;
     }
