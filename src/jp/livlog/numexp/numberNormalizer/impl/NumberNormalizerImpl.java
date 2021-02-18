@@ -122,18 +122,16 @@ public class NumberNormalizerImpl extends NumberNormalizer {
 
     private void removeUnnecessaryData(String text, List <NNumber> numbers) {
 
-        final var temp = new StringBuilder(text);
+//        final var temp = new StringBuilder(text);
         final List <NNumber> wkNumbers = new ArrayList <>();
-        // var positionEnd = 0;
+        var positionStart = -1;
+        var positionEnd = -1;
         for (final NNumber number : numbers) {
-            final var a = temp.indexOf(number.originalExpression);
-            // if (a > -1 && positionEnd <= number.positionStart) {
-            if (a > -1) {
-                final var b = a + number.originalExpression.length();
-                temp.delete(a, b);
+            if (positionStart > number.positionStart || number.positionEnd > positionEnd) {
                 wkNumbers.add(number);
+                positionStart = number.positionStart;
+                positionEnd = number.positionEnd;
             }
-            // positionEnd = number.positionEnd;
         }
         numbers.clear();
         numbers.addAll(wkNumbers);
