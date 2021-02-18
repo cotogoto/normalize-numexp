@@ -188,7 +188,6 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
             expression.valueLowerboundAbs = reltimeexps.get(i).valueLowerboundAbs.toString(false);
             expression.valueUpperboundAbs = reltimeexps.get(i).valueUpperboundAbs.toString(true);
             expression.valueLowerboundRel = reltimeexps.get(i).valueLowerboundRel.toDurationString(false);
-
             expression.valueUpperboundRel = reltimeexps.get(i).valueUpperboundRel.toDurationString(true);
             expression.options = this.showOptions(reltimeexps.get(i));
             ret.add(expression);
