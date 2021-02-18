@@ -522,6 +522,7 @@ public class ReltimeExpressionNormalizerImpl extends ReltimeExpressionNormalizer
         for (final LimitedReltimeExpression prefixCounter : this.prefixCounters) {
             final var a = uText.indexOf(prefixCounter.pattern);
             if (a > -1) {
+                prefixCounter.setLengthOfStringsAfterFinalPlaceHolder();
                 number = new NNumber(prefixCounter.pattern, a, a + prefixCounter.lengthOfStringsAfterFinalPlaceHolder);
                 if (!this.isRegistered(number, reltimeexps)) {
                     reltimeexp = new ReltimeExpression(number);
