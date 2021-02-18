@@ -10,13 +10,25 @@ package jp.livlog.numexp.share;
 public final class Symbol {
 
     /** 指定された浮動小数点型の正の無限大値を返します. */
-    public static final double INFINITY = Double.POSITIVE_INFINITY;
+    public static final double INFINITY  = Double.POSITIVE_INFINITY;
 
     /** アスタリスク. */
-    public static final String ASTERISK = "*";
+    public static final String ASTERISK  = "*";
 
     /** カンマ. */
-    public static final String COMMA = ",";
+    public static final String COMMA     = ",";
+
+    /** 数量表現. */
+    public static final String NUMERICAL = "numerical";
+
+    /** 絶対時間表現. */
+    public static final String ABSTIME   = "abstime";
+
+    /** 相対時間表現. */
+    public static final String RELTIME   = "reltime";
+
+    /** 持続時間表現. */
+    public static final String DURATION  = "duration";
 
     /**
      * コンストラクタ.

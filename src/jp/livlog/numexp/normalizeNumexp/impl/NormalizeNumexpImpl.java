@@ -50,7 +50,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
 
         for (var i = 0; i < numexps.size(); i++) {
             ss.setLength(0);
-            ss.append("numerical");
+            ss.append(Symbol.NUMERICAL);
             ss.append(kugiri);
             ss.append(numexps.get(i).originalExpression);
             ss.append(kugiri);
@@ -70,7 +70,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
 
         for (var i = 0; i < abstimeexps.size(); i++) {
             ss.setLength(0);
-            ss.append("abstime");
+            ss.append(Symbol.ABSTIME);
             ss.append(kugiri);
             ss.append(abstimeexps.get(i).originalExpression);
             ss.append(kugiri);
@@ -90,7 +90,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
 
         for (var i = 0; i < reltimeexps.size(); i++) {
             ss.setLength(0);
-            ss.append("reltime");
+            ss.append(Symbol.RELTIME);
             ss.append(kugiri);
             ss.append(reltimeexps.get(i).originalExpression);
             ss.append(kugiri);
@@ -114,7 +114,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
 
         for (var i = 0; i < durationexps.size(); i++) {
             ss.setLength(0);
-            ss.append("duration");
+            ss.append(Symbol.DURATION);
             ss.append(kugiri);
             ss.append(durationexps.get(i).originalExpression);
             ss.append(kugiri);
@@ -152,7 +152,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
 
         for (var i = 0; i < numexps.size(); i++) {
             expression = new Expression();
-            expression.type = "numerical";
+            expression.type = Symbol.NUMERICAL;
             expression.originalExpression = numexps.get(i).originalExpression;
             expression.positionStart = numexps.get(i).positionStart;
             expression.positionEnd = numexps.get(i).positionEnd;
@@ -165,7 +165,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
 
         for (var i = 0; i < abstimeexps.size(); i++) {
             expression = new Expression();
-            expression.type = "abstime";
+            expression.type = Symbol.ABSTIME;
             expression.originalExpression = abstimeexps.get(i).originalExpression;
             expression.positionStart = abstimeexps.get(i).positionStart;
             expression.positionEnd = abstimeexps.get(i).positionEnd;
@@ -178,7 +178,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
 
         for (var i = 0; i < reltimeexps.size(); i++) {
             expression = new Expression();
-            expression.type = "reltime";
+            expression.type = Symbol.RELTIME;
             expression.originalExpression = reltimeexps.get(i).originalExpression;
             expression.positionStart = reltimeexps.get(i).positionStart;
             expression.positionEnd = reltimeexps.get(i).positionEnd;
@@ -194,7 +194,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
 
         for (var i = 0; i < durationexps.size(); i++) {
             expression = new Expression();
-            expression.type = "duration";
+            expression.type = Symbol.DURATION;
             expression.originalExpression = durationexps.get(i).originalExpression;
             expression.positionStart = durationexps.get(i).positionStart;
             expression.positionEnd = durationexps.get(i).positionEnd;
