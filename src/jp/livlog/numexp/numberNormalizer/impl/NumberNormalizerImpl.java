@@ -127,7 +127,9 @@ public class NumberNormalizerImpl extends NumberNormalizer {
         var positionStart = -1;
         var positionEnd = -1;
         for (final NNumber number : numbers) {
-            if (positionStart > number.positionStart || number.positionEnd > positionEnd) {
+            if (positionStart <= number.positionStart && number.positionEnd <= positionEnd) {
+                // 重複を除外
+            } else if (positionEnd <= number.positionStart)  {
                 wkNumbers.add(number);
                 positionStart = number.positionStart;
                 positionEnd = number.positionEnd;
