@@ -7,7 +7,7 @@ package jp.livlog.numexp.share;
  * @author H.Aoshima
  * @version 1.0
  */
-public final class Symbol {
+public final class NumexpSymbol {
 
     /** 指定された浮動小数点型の正の無限大値を返します. */
     public static final double INFINITY  = Double.POSITIVE_INFINITY;
@@ -33,7 +33,7 @@ public final class Symbol {
     /**
      * コンストラクタ.
      */
-    private Symbol() {
+    private NumexpSymbol() {
 
     }
 

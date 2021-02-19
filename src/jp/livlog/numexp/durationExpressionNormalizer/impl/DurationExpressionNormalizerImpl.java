@@ -15,7 +15,7 @@ import jp.livlog.numexp.share.NNumber;
 import jp.livlog.numexp.share.NTime;
 import jp.livlog.numexp.share.NumberModifier;
 import jp.livlog.numexp.share.RefObject;
-import jp.livlog.numexp.share.Symbol;
+import jp.livlog.numexp.share.NumexpSymbol;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -262,14 +262,14 @@ public class DurationExpressionNormalizerImpl extends DurationExpressionNormaliz
 
         final var processType = numberModifier.processType;
         if (processType.equals("or_over")) {
-            durationexp.valueUpperbound = new NTime(-Symbol.INFINITY);
+            durationexp.valueUpperbound = new NTime(-NumexpSymbol.INFINITY);
         } else if (processType.equals("or_less")) {
-            durationexp.valueLowerbound = new NTime(Symbol.INFINITY);
+            durationexp.valueLowerbound = new NTime(NumexpSymbol.INFINITY);
         } else if (processType.equals("over")) {
-            durationexp.valueUpperbound = new NTime(-Symbol.INFINITY);
+            durationexp.valueUpperbound = new NTime(-NumexpSymbol.INFINITY);
             durationexp.includeLowerbound = false;
         } else if (processType.equals("less")) {
-            durationexp.valueLowerbound = new NTime(Symbol.INFINITY);
+            durationexp.valueLowerbound = new NTime(NumexpSymbol.INFINITY);
             durationexp.includeUpperbound = false;
         } else if (processType.equals("ordinary")) {
             // TODO : 序数は絶対時間として扱う？持続時間として扱う？ 未定
@@ -288,7 +288,7 @@ public class DurationExpressionNormalizerImpl extends DurationExpressionNormaliz
             this.doTimeJaku(durationexp);
         } else if (processType.equals("made")) {
             if (durationexp.valueLowerbound == durationexp.valueUpperbound) {
-                durationexp.valueLowerbound = new NTime(Symbol.INFINITY);
+                durationexp.valueLowerbound = new NTime(NumexpSymbol.INFINITY);
             } else {
 
             }

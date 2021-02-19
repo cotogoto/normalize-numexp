@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import jp.livlog.numexp.abstimeExpressionNormalizer.impl.AbstimeExpressionNormalizerImpl;
 import jp.livlog.numexp.share.NTime;
-import jp.livlog.numexp.share.Symbol;
+import jp.livlog.numexp.share.NumexpSymbol;
 
 class AbstimeExpressionNormalizerTest {
 
@@ -45,8 +45,8 @@ class AbstimeExpressionNormalizerTest {
         this.AEN.process(text, abstimeexps);
         System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         org.junit.Assert.assertEquals(1, abstimeexps.size());
-        final var ex2Lower = new NTime(Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, 15, Symbol.INFINITY, Symbol.INFINITY);
-        final var ex2Upper = new NTime(-Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, 15, -Symbol.INFINITY, -Symbol.INFINITY);
+        final var ex2Lower = new NTime(NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, 15, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY);
+        final var ex2Upper = new NTime(-NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, 15, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY);
         org.junit.Assert.assertEquals("午後3時", abstimeexps.get(0).originalExpression);
         org.junit.Assert.assertTrue(this.isSameTime(ex2Lower, abstimeexps.get(0).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex2Upper, abstimeexps.get(0).valueUpperbound));
@@ -66,13 +66,13 @@ class AbstimeExpressionNormalizerTest {
         System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         System.out.println(methodName + ":" + abstimeexps.get(1).valueLowerbound.toDurationString(false));
         org.junit.Assert.assertEquals(2, abstimeexps.size());
-        final var ex1Lower = new NTime(1989, 7, 21, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
-        final var ex1Upper = new NTime(1989, 7, 21, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
+        final var ex1Lower = new NTime(1989, 7, 21, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY);
+        final var ex1Upper = new NTime(1989, 7, 21, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY);
         org.junit.Assert.assertEquals("1989年7月21日", abstimeexps.get(0).originalExpression);
         org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));
-        final var ex2Lower = new NTime(Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, 3, Symbol.INFINITY, Symbol.INFINITY);
-        final var ex2Upper = new NTime(-Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, 3, -Symbol.INFINITY, -Symbol.INFINITY);
+        final var ex2Lower = new NTime(NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, 3, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY);
+        final var ex2Upper = new NTime(-NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, 3, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY);
         org.junit.Assert.assertEquals("午前3時", abstimeexps.get(1).originalExpression);
         org.junit.Assert.assertTrue(this.isSameTime(ex2Lower, abstimeexps.get(1).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex2Upper, abstimeexps.get(1).valueUpperbound));
@@ -91,8 +91,8 @@ class AbstimeExpressionNormalizerTest {
         this.AEN.process(text, abstimeexps);
 
         org.junit.Assert.assertEquals(4, abstimeexps.size());
-        final var ex1Lower = new NTime(1989, 7, 21, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
-        final var ex1Upper = new NTime(1989, 7, 21, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
+        final var ex1Lower = new NTime(1989, 7, 21, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY);
+        final var ex1Upper = new NTime(1989, 7, 21, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY);
         System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         System.out.println(methodName + ":" + abstimeexps.get(1).valueLowerbound.toDurationString(false));
         System.out.println(methodName + ":" + abstimeexps.get(2).valueLowerbound.toDurationString(false));
@@ -128,13 +128,13 @@ class AbstimeExpressionNormalizerTest {
         System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         System.out.println(methodName + ":" + abstimeexps.get(1).valueLowerbound.toDurationString(false));
         org.junit.Assert.assertEquals(2, abstimeexps.size());
-        final var ex1Lower = new NTime(1989, 7, 21, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
-        final var ex1Upper = new NTime(1989, 7, 21, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
+        final var ex1Lower = new NTime(1989, 7, 21, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY);
+        final var ex1Upper = new NTime(1989, 7, 21, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY);
         org.junit.Assert.assertEquals("1989年7月21日", abstimeexps.get(0).originalExpression);
         org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));
-        final var ex2Lower = new NTime(Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, 15, Symbol.INFINITY, Symbol.INFINITY);
-        final var ex2Upper = new NTime(-Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, 15, -Symbol.INFINITY, -Symbol.INFINITY);
+        final var ex2Lower = new NTime(NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, 15, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY);
+        final var ex2Upper = new NTime(-NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, 15, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY);
         org.junit.Assert.assertEquals("午後3時", abstimeexps.get(1).originalExpression);
         org.junit.Assert.assertTrue(this.isSameTime(ex2Lower, abstimeexps.get(1).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex2Upper, abstimeexps.get(1).valueUpperbound));
@@ -153,8 +153,8 @@ class AbstimeExpressionNormalizerTest {
         this.AEN.process(text, abstimeexps);
         System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         org.junit.Assert.assertEquals(1, abstimeexps.size());
-        final var ex2Lower = new NTime(Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, 15, 30, Symbol.INFINITY);
-        final var ex2Upper = new NTime(-Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, 15, 30, -Symbol.INFINITY);
+        final var ex2Lower = new NTime(NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, 15, 30, NumexpSymbol.INFINITY);
+        final var ex2Upper = new NTime(-NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, 15, 30, -NumexpSymbol.INFINITY);
         org.junit.Assert.assertEquals("午後3時半", abstimeexps.get(0).originalExpression);
         org.junit.Assert.assertTrue(this.isSameTime(ex2Lower, abstimeexps.get(0).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex2Upper, abstimeexps.get(0).valueUpperbound));
@@ -173,8 +173,8 @@ class AbstimeExpressionNormalizerTest {
         this.AEN.process(text, abstimeexps);
         System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         org.junit.Assert.assertEquals(1, abstimeexps.size());
-        final var ex2Lower = new NTime(1701, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
-        final var ex2Upper = new NTime(1800, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
+        final var ex2Lower = new NTime(1701, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY);
+        final var ex2Upper = new NTime(1800, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY);
         org.junit.Assert.assertEquals("18世紀", abstimeexps.get(0).originalExpression);
         org.junit.Assert.assertTrue(this.isSameTime(ex2Lower, abstimeexps.get(0).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex2Upper, abstimeexps.get(0).valueUpperbound));
@@ -192,8 +192,8 @@ class AbstimeExpressionNormalizerTest {
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
         System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
-        final var ex1Lower = new NTime(1989, 7, 20, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
-        final var ex1Upper = new NTime(1989, 7, 22, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
+        final var ex1Lower = new NTime(1989, 7, 20, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY);
+        final var ex1Upper = new NTime(1989, 7, 22, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY);
         org.junit.Assert.assertEquals("1989年7月21日ごろ", abstimeexps.get(0).originalExpression);
         org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));
@@ -211,8 +211,8 @@ class AbstimeExpressionNormalizerTest {
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
         System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
-        final var ex1Lower = new NTime(1989, 7, 21, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
-        final var ex1Upper = new NTime(1989, 7, 21, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
+        final var ex1Lower = new NTime(1989, 7, 21, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY);
+        final var ex1Upper = new NTime(1989, 7, 21, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY);
         org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));
     }
@@ -230,8 +230,8 @@ class AbstimeExpressionNormalizerTest {
         this.AEN.process(text, abstimeexps);
         System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         org.junit.Assert.assertEquals(1, abstimeexps.size());
-        final var ex2Lower = new NTime(1701, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
-        final var ex2Upper = new NTime(1750, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
+        final var ex2Lower = new NTime(1701, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY);
+        final var ex2Upper = new NTime(1750, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY);
         org.junit.Assert.assertEquals("18世紀前半", abstimeexps.get(0).originalExpression);
         org.junit.Assert.assertTrue(this.isSameTime(ex2Lower, abstimeexps.get(0).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex2Upper, abstimeexps.get(0).valueUpperbound));
@@ -250,8 +250,8 @@ class AbstimeExpressionNormalizerTest {
         this.AEN.process(text, abstimeexps);
         System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         org.junit.Assert.assertEquals(1, abstimeexps.size());
-        final var ex2Lower = new NTime(1751, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
-        final var ex2Upper = new NTime(1800, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
+        final var ex2Lower = new NTime(1751, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY);
+        final var ex2Upper = new NTime(1800, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY);
         org.junit.Assert.assertEquals("18世紀後半", abstimeexps.get(0).originalExpression);
         org.junit.Assert.assertTrue(this.isSameTime(ex2Lower, abstimeexps.get(0).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex2Upper, abstimeexps.get(0).valueUpperbound));
@@ -270,8 +270,8 @@ class AbstimeExpressionNormalizerTest {
         this.AEN.process(text, abstimeexps);
         System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
         org.junit.Assert.assertEquals(1, abstimeexps.size());
-        final var ex2Lower = new NTime(1725, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
-        final var ex2Upper = new NTime(1776, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
+        final var ex2Lower = new NTime(1725, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY);
+        final var ex2Upper = new NTime(1776, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY);
         org.junit.Assert.assertEquals("18世紀半ば", abstimeexps.get(0).originalExpression);
         org.junit.Assert.assertTrue(this.isSameTime(ex2Lower, abstimeexps.get(0).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex2Upper, abstimeexps.get(0).valueUpperbound));
@@ -289,8 +289,8 @@ class AbstimeExpressionNormalizerTest {
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
         System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
-        final var ex1Lower = new NTime(Symbol.INFINITY, 7, 3, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
-        final var ex1Upper = new NTime(-Symbol.INFINITY, 7, 3, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
+        final var ex1Lower = new NTime(NumexpSymbol.INFINITY, 7, 3, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY);
+        final var ex1Upper = new NTime(-NumexpSymbol.INFINITY, 7, 3, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY);
         org.junit.Assert.assertEquals("7月3日", abstimeexps.get(0).originalExpression);
         org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));
@@ -308,8 +308,8 @@ class AbstimeExpressionNormalizerTest {
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
         System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
-        final var ex1Lower = new NTime(Symbol.INFINITY, 7, 1, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
-        final var ex1Upper = new NTime(-Symbol.INFINITY, 7, 10, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
+        final var ex1Lower = new NTime(NumexpSymbol.INFINITY, 7, 1, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY);
+        final var ex1Upper = new NTime(-NumexpSymbol.INFINITY, 7, 10, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY);
         org.junit.Assert.assertEquals("７月上旬", abstimeexps.get(0).originalExpression);
         org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));
@@ -327,8 +327,8 @@ class AbstimeExpressionNormalizerTest {
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
         System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
-        final var ex1Lower = new NTime(Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
-        final var ex1Upper = new NTime(-Symbol.INFINITY, 3, 11, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
+        final var ex1Lower = new NTime(NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY);
+        final var ex1Upper = new NTime(-NumexpSymbol.INFINITY, 3, 11, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY);
         org.junit.Assert.assertEquals("3月11日以前", abstimeexps.get(0).originalExpression);
         org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));
@@ -346,8 +346,8 @@ class AbstimeExpressionNormalizerTest {
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
         System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
-        final var ex1Lower = new NTime(Symbol.INFINITY, 3, 11, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
-        final var ex1Upper = new NTime(-Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
+        final var ex1Lower = new NTime(NumexpSymbol.INFINITY, 3, 11, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY);
+        final var ex1Upper = new NTime(-NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY);
         org.junit.Assert.assertEquals("3月11日以降", abstimeexps.get(0).originalExpression);
         org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));
@@ -365,8 +365,8 @@ class AbstimeExpressionNormalizerTest {
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
         System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
-        final var ex1Lower = new NTime(Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, 15, Symbol.INFINITY, Symbol.INFINITY);
-        final var ex1Upper = new NTime(-Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, 18, -Symbol.INFINITY, -Symbol.INFINITY);
+        final var ex1Lower = new NTime(NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, 15, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY);
+        final var ex1Upper = new NTime(-NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, 18, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY);
         org.junit.Assert.assertEquals("15時〜18時", abstimeexps.get(0).originalExpression);
         org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));
@@ -384,8 +384,8 @@ class AbstimeExpressionNormalizerTest {
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
         System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
-        final var ex1Lower = new NTime(Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, 15, 0, Symbol.INFINITY);
-        final var ex1Upper = new NTime(-Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, 18, 0, -Symbol.INFINITY);
+        final var ex1Lower = new NTime(NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, 15, 0, NumexpSymbol.INFINITY);
+        final var ex1Upper = new NTime(-NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, 18, 0, -NumexpSymbol.INFINITY);
         org.junit.Assert.assertEquals("15:00から18:00", abstimeexps.get(0).originalExpression);
         org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));
@@ -403,8 +403,8 @@ class AbstimeExpressionNormalizerTest {
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
         System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
-        final var ex1Lower = new NTime(Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, 15, Symbol.INFINITY, Symbol.INFINITY);
-        final var ex1Upper = new NTime(-Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, 18, -Symbol.INFINITY, -Symbol.INFINITY);
+        final var ex1Lower = new NTime(NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, 15, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY);
+        final var ex1Upper = new NTime(-NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, 18, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY);
         org.junit.Assert.assertEquals("15~18時", abstimeexps.get(0).originalExpression);
         org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));
@@ -422,8 +422,8 @@ class AbstimeExpressionNormalizerTest {
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
         System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
-        final var ex1Lower = new NTime(2012, 3, 8, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
-        final var ex1Upper = new NTime(2012, 3, 10, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
+        final var ex1Lower = new NTime(2012, 3, 8, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY);
+        final var ex1Upper = new NTime(2012, 3, 10, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY);
         org.junit.Assert.assertEquals("2012/3/8~3/10", abstimeexps.get(0).originalExpression);
         org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));
@@ -441,8 +441,8 @@ class AbstimeExpressionNormalizerTest {
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
         System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
-        final var ex1Lower = new NTime(2011, 3, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
-        final var ex1Upper = new NTime(2011, 3, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
+        final var ex1Lower = new NTime(2011, 3, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY);
+        final var ex1Upper = new NTime(2011, 3, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY);
         org.junit.Assert.assertEquals("2011.3", abstimeexps.get(0).originalExpression);
         org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));
@@ -460,8 +460,8 @@ class AbstimeExpressionNormalizerTest {
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
         System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
-        final var ex1Lower = new NTime(Symbol.INFINITY, 3, 11, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
-        final var ex1Upper = new NTime(-Symbol.INFINITY, 3, 11, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
+        final var ex1Lower = new NTime(NumexpSymbol.INFINITY, 3, 11, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY);
+        final var ex1Upper = new NTime(-NumexpSymbol.INFINITY, 3, 11, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY);
         org.junit.Assert.assertEquals("3.11", abstimeexps.get(0).originalExpression);
         org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));
@@ -479,8 +479,8 @@ class AbstimeExpressionNormalizerTest {
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.AEN.process(text, abstimeexps);
         System.out.println(methodName + ":" + abstimeexps.get(0).valueLowerbound.toDurationString(false));
-        final var ex1Lower = new NTime(1989, 7, 21, Symbol.INFINITY, Symbol.INFINITY, Symbol.INFINITY);
-        final var ex1Upper = new NTime(1989, 7, 21, -Symbol.INFINITY, -Symbol.INFINITY, -Symbol.INFINITY);
+        final var ex1Lower = new NTime(1989, 7, 21, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY, NumexpSymbol.INFINITY);
+        final var ex1Upper = new NTime(1989, 7, 21, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY, -NumexpSymbol.INFINITY);
         org.junit.Assert.assertEquals("1989年7月21日", abstimeexps.get(0).originalExpression);
         org.junit.Assert.assertTrue(this.isSameTime(ex1Lower, abstimeexps.get(0).valueLowerbound));
         org.junit.Assert.assertTrue(this.isSameTime(ex1Upper, abstimeexps.get(0).valueUpperbound));

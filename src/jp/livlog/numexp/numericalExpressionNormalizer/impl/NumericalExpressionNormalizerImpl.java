@@ -15,7 +15,7 @@ import jp.livlog.numexp.numericalExpressionNormalizer.NumericalExpressionNormali
 import jp.livlog.numexp.share.NNumber;
 import jp.livlog.numexp.share.NumberModifier;
 import jp.livlog.numexp.share.RefObject;
-import jp.livlog.numexp.share.Symbol;
+import jp.livlog.numexp.share.NumexpSymbol;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -163,14 +163,14 @@ public class NumericalExpressionNormalizerImpl extends NumericalExpressionNormal
          * 「約」などのNumberModifierの処理を行う。
          */
         if (processType.equals("or_over")) {
-            numexp.valueUpperbound = Symbol.INFINITY;
+            numexp.valueUpperbound = NumexpSymbol.INFINITY;
         } else if (processType.equals("or_less")) {
-            numexp.valueLowerbound = -Symbol.INFINITY;
+            numexp.valueLowerbound = -NumexpSymbol.INFINITY;
         } else if (processType.equals("over")) {
-            numexp.valueUpperbound = Symbol.INFINITY;
+            numexp.valueUpperbound = NumexpSymbol.INFINITY;
             numexp.includeLowerbound = false;
         } else if (processType.equals("less")) {
-            numexp.valueLowerbound = -Symbol.INFINITY;
+            numexp.valueLowerbound = -NumexpSymbol.INFINITY;
             numexp.includeUpperbound = false;
         } else if (processType.equals("dai")) {
             // TODO : どんな処理をするか未定。。 該当する事例は「30代」「9秒台」のみ？
@@ -194,7 +194,7 @@ public class NumericalExpressionNormalizerImpl extends NumericalExpressionNormal
             numexp.valueLowerbound *= 0.5;
         } else if (processType.equals("made")) {
             if (numexp.valueLowerbound == numexp.valueUpperbound) {
-                numexp.valueLowerbound = -Symbol.INFINITY;
+                numexp.valueLowerbound = -NumexpSymbol.INFINITY;
             } else {
 
             }

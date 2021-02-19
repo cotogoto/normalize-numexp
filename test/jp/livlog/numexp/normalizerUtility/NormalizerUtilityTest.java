@@ -13,7 +13,7 @@ import jp.livlog.numexp.share.NTime;
 import jp.livlog.numexp.share.Pair;
 import jp.livlog.numexp.share.PairKey0Comp;
 import jp.livlog.numexp.share.RefObject;
-import jp.livlog.numexp.share.Symbol;
+import jp.livlog.numexp.share.NumexpSymbol;
 
 class NormalizerUtilityTest {
 
@@ -149,14 +149,14 @@ class NormalizerUtilityTest {
     void testIsFinite() {
 
         org.junit.Assert.assertTrue(this.normalizerUtility.isFinite(99999.0));
-        org.junit.Assert.assertFalse(this.normalizerUtility.isFinite(Symbol.INFINITY));
+        org.junit.Assert.assertFalse(this.normalizerUtility.isFinite(NumexpSymbol.INFINITY));
     }
 
 
     @Test
     void testIsNullTime() {
 
-        var t = new NTime(Symbol.INFINITY);
+        var t = new NTime(NumexpSymbol.INFINITY);
         org.junit.Assert.assertTrue(this.normalizerUtility.isNullTime(t));
         t = new NTime(1);
         org.junit.Assert.assertFalse(this.normalizerUtility.isNullTime(t));
@@ -166,7 +166,7 @@ class NormalizerUtilityTest {
     @Test
     void testIdentifyTimeDetail() {
 
-        final var t = new NTime(1, 1, 1, 1, 1, Symbol.INFINITY);
+        final var t = new NTime(1, 1, 1, 1, 1, NumexpSymbol.INFINITY);
         org.junit.Assert.assertEquals(this.normalizerUtility.identifyTimeDetail(t), "mn");
     }
 

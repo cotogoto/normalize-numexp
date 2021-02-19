@@ -16,7 +16,7 @@ import jp.livlog.numexp.share.NNumber;
 import jp.livlog.numexp.share.NTime;
 import jp.livlog.numexp.share.NumberModifier;
 import jp.livlog.numexp.share.RefObject;
-import jp.livlog.numexp.share.Symbol;
+import jp.livlog.numexp.share.NumexpSymbol;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -211,14 +211,14 @@ public class ReltimeExpressionNormalizerImpl extends ReltimeExpressionNormalizer
                     .get(matchingLimitedReltimeExpression.correspondingTimePosition.size() - 1);
             this.doOptionHan(reltimeexp, correspondingTimePosition);
         } else if (processType.equals("or_over")) {
-            reltimeexp.valueUpperboundAbs = new NTime(-Symbol.INFINITY);
+            reltimeexp.valueUpperboundAbs = new NTime(-NumexpSymbol.INFINITY);
         } else if (processType.equals("or_less")) {
-            reltimeexp.valueLowerboundAbs = new NTime(Symbol.INFINITY);
+            reltimeexp.valueLowerboundAbs = new NTime(NumexpSymbol.INFINITY);
         } else if (processType.equals("over")) {
-            reltimeexp.valueUpperboundAbs = new NTime(-Symbol.INFINITY);
+            reltimeexp.valueUpperboundAbs = new NTime(-NumexpSymbol.INFINITY);
             reltimeexp.includeLowerbound = false;
         } else if (processType.equals("less")) {
-            reltimeexp.valueLowerboundAbs = new NTime(Symbol.INFINITY);
+            reltimeexp.valueLowerboundAbs = new NTime(NumexpSymbol.INFINITY);
             reltimeexp.includeUpperbound = false;
         } else if (processType.equals("none")) {
 

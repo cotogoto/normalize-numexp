@@ -5,7 +5,7 @@ import java.util.List;
 import jp.livlog.numexp.digitUtility.DigitUtility;
 import jp.livlog.numexp.numberNormalizer.SymbolFixer;
 import jp.livlog.numexp.share.NNumber;
-import jp.livlog.numexp.share.Symbol;
+import jp.livlog.numexp.share.NumexpSymbol;
 
 public class SymbolFixerImpl extends SymbolFixer {
 
@@ -65,7 +65,7 @@ public class SymbolFixerImpl extends SymbolFixer {
         }
 
         // final String decimal_strings;
-        if (numbers.get(i).valueLowerbound == Symbol.INFINITY || numbers.get(i + 1).valueLowerbound == Symbol.INFINITY) {
+        if (numbers.get(i).valueLowerbound == NumexpSymbol.INFINITY || numbers.get(i + 1).valueLowerbound == NumexpSymbol.INFINITY) {
             return;
         }
 

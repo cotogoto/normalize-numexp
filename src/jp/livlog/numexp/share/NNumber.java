@@ -13,8 +13,8 @@ public class NNumber extends BaseExpressionTemplate {
         this.originalExpression = "";
         this.positionStart = -1;
         this.positionEnd = -1;
-        this.valueLowerbound = Symbol.INFINITY;
-        this.valueUpperbound = -Symbol.INFINITY;
+        this.valueLowerbound = NumexpSymbol.INFINITY;
+        this.valueUpperbound = -NumexpSymbol.INFINITY;
         this.notationType = new ArrayList <>();
     }
 
@@ -24,8 +24,8 @@ public class NNumber extends BaseExpressionTemplate {
         this.originalExpression = originalExpression;
         this.positionStart = positionStart;
         this.positionEnd = positionEnd;
-        this.valueLowerbound = Symbol.INFINITY;
-        this.valueUpperbound = -Symbol.INFINITY;
+        this.valueLowerbound = NumexpSymbol.INFINITY;
+        this.valueUpperbound = -NumexpSymbol.INFINITY;
         this.notationType = new ArrayList <>();
     }
 

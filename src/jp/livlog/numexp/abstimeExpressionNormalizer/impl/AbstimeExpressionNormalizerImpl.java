@@ -15,7 +15,7 @@ import jp.livlog.numexp.share.NNumber;
 import jp.livlog.numexp.share.NTime;
 import jp.livlog.numexp.share.NumberModifier;
 import jp.livlog.numexp.share.RefObject;
-import jp.livlog.numexp.share.Symbol;
+import jp.livlog.numexp.share.NumexpSymbol;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -135,14 +135,14 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
 
         final var processType = numberModifier.processType;
         if (processType.equals("or_over")) {
-            abstimeexp.valueUpperbound = new NTime(-Symbol.INFINITY);
+            abstimeexp.valueUpperbound = new NTime(-NumexpSymbol.INFINITY);
         } else if (processType.equals("or_less")) {
-            abstimeexp.valueLowerbound = new NTime(Symbol.INFINITY);
+            abstimeexp.valueLowerbound = new NTime(NumexpSymbol.INFINITY);
         } else if (processType.equals("over")) {
-            abstimeexp.valueUpperbound = new NTime(-Symbol.INFINITY);
+            abstimeexp.valueUpperbound = new NTime(-NumexpSymbol.INFINITY);
             abstimeexp.includeLowerbound = false;
         } else if (processType.equals("less")) {
-            abstimeexp.valueLowerbound = new NTime(Symbol.INFINITY);
+            abstimeexp.valueLowerbound = new NTime(NumexpSymbol.INFINITY);
             abstimeexp.includeUpperbound = false;
         } else if (processType.equals("none")) {
 
@@ -163,7 +163,7 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
         } else if (processType.equals("made")) {
             if (abstimeexp.valueUpperbound == abstimeexp.valueLowerbound) {
                 // 「3時までに来て下さい」の場合
-                abstimeexp.valueLowerbound = new NTime(Symbol.INFINITY);
+                abstimeexp.valueLowerbound = new NTime(NumexpSymbol.INFINITY);
             } else {
                 // 「2時~3時までに来て下さい」の場合
             }
@@ -242,14 +242,14 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
 
         // 修飾語でない、パターンに含まれるprocess_typeによる規格化表現の補正処理。
         if (processType.equals("gozen")) {
-            if (abstimeexp.valueLowerbound.hour == Symbol.INFINITY) {
+            if (abstimeexp.valueLowerbound.hour == NumexpSymbol.INFINITY) {
                 abstimeexp.valueLowerbound.hour = 0;
                 abstimeexp.valueUpperbound.hour = 12;
             } else {
 
             }
         } else if (processType.equals("gogo")) {
-            if (abstimeexp.valueLowerbound.hour == Symbol.INFINITY) {
+            if (abstimeexp.valueLowerbound.hour == NumexpSymbol.INFINITY) {
                 abstimeexp.valueLowerbound.hour = 12;
                 abstimeexp.valueUpperbound.hour = 24;
             } else {
@@ -266,8 +266,8 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
             abstimeexp.valueUpperbound.year = abstimeexp.valueUpperbound.month;
             abstimeexp.valueLowerbound.month = abstimeexp.valueLowerbound.day;
             abstimeexp.valueUpperbound.month = abstimeexp.valueUpperbound.day;
-            abstimeexp.valueLowerbound.day = Symbol.INFINITY;
-            abstimeexp.valueUpperbound.day = -Symbol.INFINITY;
+            abstimeexp.valueLowerbound.day = NumexpSymbol.INFINITY;
+            abstimeexp.valueUpperbound.day = -NumexpSymbol.INFINITY;
         }
     }
 
@@ -450,8 +450,8 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
 
     private boolean isSupplementAbstimeInformationSpecificType(double timeElement1Lowerbound, double timeElement1Upperbound) {
 
-        if (timeElement1Lowerbound == Symbol.INFINITY
-                && timeElement1Upperbound == -Symbol.INFINITY) {
+        if (timeElement1Lowerbound == NumexpSymbol.INFINITY
+                && timeElement1Upperbound == -NumexpSymbol.INFINITY) {
             return true;
         }
         return false;
@@ -575,7 +575,7 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
 
     private void setAbstimeInformationToNullAbstime(AbstimeExpression abstime1, AbstimeExpression abstime2) {
 
-        if (abstime1.valueLowerbound.equalsTo(new NTime(Symbol.INFINITY))) {
+        if (abstime1.valueLowerbound.equalsTo(new NTime(NumexpSymbol.INFINITY))) {
             // lower_boundが空 = 時間として認識されていない場合（例：「4~12月」の「4~」）、lower_boundを設定
             // TODO :
             // 本当は、[i+1]の最上位時間単位を指定したいので、最下位時間単位を返すidentify_time_detailを用いるのは間違っている。
@@ -583,7 +583,7 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
             final var targetTimePosition = this.normalizerUtility.identifyTimeDetail(abstime2.valueUpperbound);
             final var tmpAbstimeexp = abstime1;
             this.setTime(abstime1, targetTimePosition, tmpAbstimeexp);
-        } else if (abstime2.valueUpperbound.equalsTo(new NTime(-Symbol.INFINITY))) {
+        } else if (abstime2.valueUpperbound.equalsTo(new NTime(-NumexpSymbol.INFINITY))) {
             // upper_boundが空 =
             // 時間として認識されていない場合（例：「2012/4/3~6」の「~6」）、upper_boundを設定
             abstime2.valueUpperbound = abstime1.valueUpperbound;

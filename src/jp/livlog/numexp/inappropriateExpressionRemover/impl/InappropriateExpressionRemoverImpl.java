@@ -23,7 +23,7 @@ import jp.livlog.numexp.reltimeExpressionNormalizer.ReltimeExpression;
 import jp.livlog.numexp.share.BaseExpressionTemplate;
 import jp.livlog.numexp.share.NTime;
 import jp.livlog.numexp.share.RefObject;
-import jp.livlog.numexp.share.Symbol;
+import jp.livlog.numexp.share.NumexpSymbol;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -273,7 +273,7 @@ public class InappropriateExpressionRemoverImpl extends InappropriateExpressionR
 
     private boolean isOutOfRange(double x, double a, double b) {
 
-        if (x == Symbol.INFINITY || x == -Symbol.INFINITY) {
+        if (x == NumexpSymbol.INFINITY || x == -NumexpSymbol.INFINITY) {
             return false;
         }
         return (x < a || b < x);

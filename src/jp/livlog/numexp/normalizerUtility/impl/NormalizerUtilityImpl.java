@@ -10,7 +10,7 @@ import jp.livlog.numexp.share.NTime;
 import jp.livlog.numexp.share.Pair;
 import jp.livlog.numexp.share.PairKey0Comp;
 import jp.livlog.numexp.share.RefObject;
-import jp.livlog.numexp.share.Symbol;
+import jp.livlog.numexp.share.NumexpSymbol;
 
 public class NormalizerUtilityImpl extends NormalizerUtility {
 
@@ -200,15 +200,15 @@ public class NormalizerUtilityImpl extends NormalizerUtility {
     @Override
     public boolean isFinite(double value) {
 
-        return value != Symbol.INFINITY && value != -Symbol.INFINITY;
+        return value != NumexpSymbol.INFINITY && value != -NumexpSymbol.INFINITY;
     }
 
 
     @Override
     public boolean isNullTime(NTime t) {
 
-        final var positive_inf = new NTime(Symbol.INFINITY);
-        final var negative_inf = new NTime(-Symbol.INFINITY);
+        final var positive_inf = new NTime(NumexpSymbol.INFINITY);
+        final var negative_inf = new NTime(-NumexpSymbol.INFINITY);
         return (positive_inf.equalsTo(t)) || (negative_inf.equalsTo(t));
 
     }

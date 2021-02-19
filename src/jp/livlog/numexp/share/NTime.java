@@ -32,9 +32,9 @@ public class NTime {
     public final boolean isNullTimeElement(double t, boolean isUpperbound) {
 
         if (isUpperbound) {
-            return t == -Symbol.INFINITY;
+            return t == -NumexpSymbol.INFINITY;
         } else {
-            return t == Symbol.INFINITY;
+            return t == NumexpSymbol.INFINITY;
         }
     }
 
@@ -42,9 +42,9 @@ public class NTime {
     public final boolean isInfinityTimeElement(double t, boolean isUpperbound) {
 
         if (isUpperbound) {
-            return t == Symbol.INFINITY;
+            return t == NumexpSymbol.INFINITY;
         } else {
-            return t == -Symbol.INFINITY;
+            return t == -NumexpSymbol.INFINITY;
         }
     }
 

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import jp.livlog.numexp.numericalExpressionNormalizer.impl.NumericalExpressionNormalizerImpl;
-import jp.livlog.numexp.share.Symbol;
+import jp.livlog.numexp.share.NumexpSymbol;
 
 class NumericalExpressionNormalizerTest {
 
@@ -121,7 +121,7 @@ class NumericalExpressionNormalizerTest {
         for (final NumericalExpression numexp : numexps) {
             System.out.println(methodName + ":" + numexp);
         }
-        final var ex = new NumericalExpression("三人以上", 2, 6, 3.0, Symbol.INFINITY);
+        final var ex = new NumericalExpression("三人以上", 2, 6, 3.0, NumexpSymbol.INFINITY);
         ex.counter = "人";
         org.junit.Assert.assertTrue(this.isSameNumexp(ex, numexps.get(0)));
     }
@@ -140,7 +140,7 @@ class NumericalExpressionNormalizerTest {
         for (final NumericalExpression numexp : numexps) {
             System.out.println(methodName + ":" + numexp);
         }
-        final var ex = new NumericalExpression("約十人以上", 2, 7, 7.0, Symbol.INFINITY);
+        final var ex = new NumericalExpression("約十人以上", 2, 7, 7.0, NumexpSymbol.INFINITY);
         ex.counter = "人";
         org.junit.Assert.assertTrue(this.isSameNumexp(ex, numexps.get(0)));
     }
@@ -159,7 +159,7 @@ class NumericalExpressionNormalizerTest {
         for (final NumericalExpression numexp : numexps) {
             System.out.println(methodName + ":" + numexp);
         }
-        final var ex = new NumericalExpression("三人以下", 2, 6, -Symbol.INFINITY, 3);
+        final var ex = new NumericalExpression("三人以下", 2, 6, -NumexpSymbol.INFINITY, 3);
         ex.counter = "人";
         org.junit.Assert.assertTrue(this.isSameNumexp(ex, numexps.get(0)));
     }

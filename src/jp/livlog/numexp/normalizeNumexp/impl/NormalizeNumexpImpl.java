@@ -12,7 +12,7 @@ import jp.livlog.numexp.numericalExpressionNormalizer.NumericalExpression;
 import jp.livlog.numexp.reltimeExpressionNormalizer.ReltimeExpression;
 import jp.livlog.numexp.share.Expression;
 import jp.livlog.numexp.share.ExpressionKey0Comp;
-import jp.livlog.numexp.share.Symbol;
+import jp.livlog.numexp.share.NumexpSymbol;
 
 public class NormalizeNumexpImpl extends NormalizeNumexp {
 
@@ -45,14 +45,14 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
             List <DurationExpression> durationexps,
             List <String> result) {
 
-        final var kugiri = Symbol.ASTERISK;
-        final var comma = Symbol.COMMA;
+        final var kugiri = NumexpSymbol.ASTERISK;
+        final var comma = NumexpSymbol.COMMA;
         final var ss = new StringBuilder();
         result.clear();
 
         for (var i = 0; i < numexps.size(); i++) {
             ss.setLength(0);
-            ss.append(Symbol.NUMERICAL);
+            ss.append(NumexpSymbol.NUMERICAL);
             ss.append(kugiri);
             ss.append(numexps.get(i).originalExpression);
             ss.append(kugiri);
@@ -72,7 +72,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
 
         for (var i = 0; i < abstimeexps.size(); i++) {
             ss.setLength(0);
-            ss.append(Symbol.ABSTIME);
+            ss.append(NumexpSymbol.ABSTIME);
             ss.append(kugiri);
             ss.append(abstimeexps.get(i).originalExpression);
             ss.append(kugiri);
@@ -92,7 +92,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
 
         for (var i = 0; i < reltimeexps.size(); i++) {
             ss.setLength(0);
-            ss.append(Symbol.RELTIME);
+            ss.append(NumexpSymbol.RELTIME);
             ss.append(kugiri);
             ss.append(reltimeexps.get(i).originalExpression);
             ss.append(kugiri);
@@ -116,7 +116,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
 
         for (var i = 0; i < durationexps.size(); i++) {
             ss.setLength(0);
-            ss.append(Symbol.DURATION);
+            ss.append(NumexpSymbol.DURATION);
             ss.append(kugiri);
             ss.append(durationexps.get(i).originalExpression);
             ss.append(kugiri);
@@ -154,7 +154,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
 
         for (var i = 0; i < numexps.size(); i++) {
             expression = new Expression();
-            expression.type = Symbol.NUMERICAL;
+            expression.type = NumexpSymbol.NUMERICAL;
             expression.originalExpression = numexps.get(i).originalExpression;
             expression.positionStart = numexps.get(i).positionStart;
             expression.positionEnd = numexps.get(i).positionEnd;
@@ -167,7 +167,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
 
         for (var i = 0; i < abstimeexps.size(); i++) {
             expression = new Expression();
-            expression.type = Symbol.ABSTIME;
+            expression.type = NumexpSymbol.ABSTIME;
             expression.originalExpression = abstimeexps.get(i).originalExpression;
             expression.positionStart = abstimeexps.get(i).positionStart;
             expression.positionEnd = abstimeexps.get(i).positionEnd;
@@ -180,7 +180,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
 
         for (var i = 0; i < reltimeexps.size(); i++) {
             expression = new Expression();
-            expression.type = Symbol.RELTIME;
+            expression.type = NumexpSymbol.RELTIME;
             expression.originalExpression = reltimeexps.get(i).originalExpression;
             expression.positionStart = reltimeexps.get(i).positionStart;
             expression.positionEnd = reltimeexps.get(i).positionEnd;
@@ -195,7 +195,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
 
         for (var i = 0; i < durationexps.size(); i++) {
             expression = new Expression();
-            expression.type = Symbol.DURATION;
+            expression.type = NumexpSymbol.DURATION;
             expression.originalExpression = durationexps.get(i).originalExpression;
             expression.positionStart = durationexps.get(i).positionStart;
             expression.positionEnd = durationexps.get(i).positionEnd;
@@ -226,7 +226,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
             }
             ss.append(anyTypeExpression.options.get(i));
             if (i != sz - 1) {
-                ss.append(Symbol.COMMA);
+                ss.append(NumexpSymbol.COMMA);
             }
         }
 
