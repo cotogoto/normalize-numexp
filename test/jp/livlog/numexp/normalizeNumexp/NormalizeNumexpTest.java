@@ -155,7 +155,7 @@ class NormalizeNumexpTest {
         }
         org.junit.Assert.assertEquals(2, result.size());
         org.junit.Assert.assertEquals("abstime*4/26(Tue)まで*59*70*none*XXXX-04-26*XXXX-04-26*Tue", result.get(0));
-        org.junit.Assert.assertEquals("reltime*今日*1*1*none*XX:XX:XX,P0D*XX:XX:XX,P0D*", result.get(1));
+        org.junit.Assert.assertEquals("reltime*今日*1*3*none*XX:XX:XX,P0D*XX:XX:XX,P0D*", result.get(1));
     }
 
 
