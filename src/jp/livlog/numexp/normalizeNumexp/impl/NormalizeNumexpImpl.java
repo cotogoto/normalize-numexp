@@ -172,8 +172,8 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
             expression.positionStart = abstimeexps.get(i).positionStart;
             expression.positionEnd = abstimeexps.get(i).positionEnd;
             expression.counter = "none";
-            expression.valueLowerbound = abstimeexps.get(i).valueLowerbound.toString(false);
-            expression.valueUpperbound = abstimeexps.get(i).valueUpperbound.toString(true);
+            expression.valueLowerbound = abstimeexps.get(i).valueLowerbound.toSlashString(false);
+            expression.valueUpperbound = abstimeexps.get(i).valueUpperbound.toSlashString(true);
             expression.options = this.showOptions(abstimeexps.get(i));
             ret.add(expression);
         }
@@ -185,8 +185,8 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
             expression.positionStart = reltimeexps.get(i).positionStart;
             expression.positionEnd = reltimeexps.get(i).positionEnd;
             expression.counter = "none";
-            expression.valueLowerboundAbs = reltimeexps.get(i).valueLowerboundAbs.toString(false);
-            expression.valueUpperboundAbs = reltimeexps.get(i).valueUpperboundAbs.toString(true);
+            expression.valueLowerboundAbs = reltimeexps.get(i).valueLowerboundAbs.toSlashString(false);
+            expression.valueUpperboundAbs = reltimeexps.get(i).valueUpperboundAbs.toSlashString(true);
             expression.valueLowerboundRel = reltimeexps.get(i).valueLowerboundRel.toDurationString(false);
             expression.valueUpperboundRel = reltimeexps.get(i).valueUpperboundRel.toDurationString(true);
             expression.options = this.showOptions(reltimeexps.get(i));

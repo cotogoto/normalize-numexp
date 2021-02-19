@@ -2,7 +2,7 @@ package jp.livlog.numexp.share;
 
 import lombok.ToString;
 
-@ToString(callSuper=false)
+@ToString (callSuper = false)
 public class NTime {
 
     public NTime(final double value) {
@@ -90,6 +90,17 @@ public class NTime {
     }
 
 
+    public final String toSlashString(boolean isUpperbound) {
+
+        if (this.isNullTimeElement(this.year, isUpperbound) && this.isNullTimeElement(this.month, isUpperbound)
+                && this.isNullTimeElement(this.day, isUpperbound)) {
+            return this.toTimeString(isUpperbound);
+        } else {
+            return this.toDateSlashString(isUpperbound);
+        }
+    }
+
+
     public final String toDateString(boolean isUpperbound) {
 
         final var ss = new StringBuilder();
@@ -103,6 +114,25 @@ public class NTime {
         }
         ss.append(this.toStringFromTimeElement(this.year, "XXXX", "-", isUpperbound, 4));
         ss.append(this.toStringFromTimeElement(this.month, "XX", "-", isUpperbound, 2));
+        ss.append(this.toStringFromTimeElement(this.day, "XX", "", isUpperbound, 2));
+        ret = ss.toString();
+        return ret;
+    }
+
+
+    public final String toDateSlashString(boolean isUpperbound) {
+
+        final var ss = new StringBuilder();
+        String ret;
+        if (this.isInfinityTimeElement(this.year, isUpperbound)) {
+            if (isUpperbound) {
+                return "INF";
+            } else {
+                return "-INF";
+            }
+        }
+        ss.append(this.toStringFromTimeElement(this.year, "XXXX", "/", isUpperbound, 4));
+        ss.append(this.toStringFromTimeElement(this.month, "XX", "/", isUpperbound, 2));
         ss.append(this.toStringFromTimeElement(this.day, "XX", "", isUpperbound, 2));
         ret = ss.toString();
         return ret;
