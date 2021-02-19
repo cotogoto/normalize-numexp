@@ -73,7 +73,7 @@ public class SymbolFixerImpl extends SymbolFixer {
             this.fixDecimalPoint(numbers, i, intermediate);
         }
 
-        if (this.digitUtility.isRangeExpression(intermediate.charAt(0))
+        if (this.digitUtility.isRangeExpression(intermediate)
                 || (this.digitUtility.isComma(intermediate.charAt(0))
                         && intermediate.length() == 1
                         && (numbers.get(i).valueLowerbound == numbers.get(i + 1).valueUpperbound - 1))) { // 範囲表現か、コンマの並列表現のとき

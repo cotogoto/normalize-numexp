@@ -214,28 +214,22 @@ public class DigitUtilityImpl extends DigitUtility {
     @Override
     public boolean isComma(char uc) {
 
-        final var str = String.valueOf(uc);
-
-        return (",".equals(str) || "、".equals(str) || "，".equals(str));
+        return (',' == uc || '、' == uc || '，' == uc);
     }
 
 
     @Override
     public boolean isDecimalPoint(char uc) {
 
-        final var str = String.valueOf(uc);
-
-        return (".".equals(str) || "・".equals(str) || "．".equals(str));
+        return ('.' == uc || '・' == uc || '．' == uc);
     }
 
 
     @Override
-    public boolean isRangeExpression(char uc) {
+    public boolean isRangeExpression(String str) {
 
-        final var str = String.valueOf(uc);
-
-        return ("~".equals(str) || "〜".equals(str) || "～".equals(str) || "-".equals(str) || "−".equals(str) || "ー".equals(str) || "―".equals(str)
-                || "から".equals(str));
+        return str.startsWith("~") || str.startsWith( "〜") || str.startsWith("～") || str.startsWith("-") || str.startsWith("−") || str.startsWith("ー")
+                || str.startsWith("―") || str.startsWith("から");
     }
 
 
