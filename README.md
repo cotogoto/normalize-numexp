@@ -12,7 +12,7 @@ JVM環境で使うためにはいろいろと問題もあり、リバースエ�
 
 
 ## Usage
-基本的な仕組みについては[こちら](https://www.cl.ecei.tohoku.ac.jp/index.php?Open%20Resources%2FnormalizeNumexp%2FDetail)に詳しく載っています。
+基本的な仕組みについては[こちら](detail.md)に詳しく載っています。
 主にはC++からJAVAへの変換を行っております。
 
 ### Maven
