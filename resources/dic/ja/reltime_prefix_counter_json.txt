@@ -10,6 +10,12 @@
 {"pattern":"来月", "corresponding_time_position":["m"], "process_type":["+1"], "ordinary":false, "option":"add_relation"}
 {"pattern":"来来月", "corresponding_time_position":["m"], "process_type":["+2"], "ordinary":false, "option":"add_relation"}
 {"pattern":"再来月", "corresponding_time_position":["m"], "process_type":["+2"], "ordinary":false, "option":"add_relation"}
+{"pattern":"先週", "corresponding_time_position":["d"], "process_type":["-7"], "ordinary":false, "option":"add_relation"}
+{"pattern":"先々週", "corresponding_time_position":["d"], "process_type":["-14"], "ordinary":false, "option":"add_relation"}
+{"pattern":"今週", "corresponding_time_position":["d"], "process_type":["0"], "ordinary":false, "option":"add_relation"}
+{"pattern":"来週", "corresponding_time_position":["d"], "process_type":["+7"], "ordinary":false, "option":"add_relation"}
+{"pattern":"来来週", "corresponding_time_position":["d"], "process_type":["+14"], "ordinary":false, "option":"add_relation"}
+{"pattern":"再来週", "corresponding_time_position":["d"], "process_type":["+14"], "ordinary":false, "option":"add_relation"}
 {"pattern":"昨日", "corresponding_time_position":["d"], "process_type":["-1"], "ordinary":false, "option":"add_relation"}
 {"pattern":"一昨日", "corresponding_time_position":["d"], "process_type":["-2"], "ordinary":false, "option":"add_relation"}
 {"pattern":"今日", "corresponding_time_position":["d"], "process_type":["0"], "ordinary":false, "option":"add_relation"}
