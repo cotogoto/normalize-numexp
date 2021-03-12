@@ -254,9 +254,9 @@
 {"pattern":"平成", "corresponding_time_position":[], "process_type":["1988"], "ordinary":false, "option":"seireki"}
 {"pattern":"H", "corresponding_time_position":[], "process_type":["1988"], "ordinary":false, "option":"seireki"}
 {"pattern":"Ｈ", "corresponding_time_position":[], "process_type":["1988"], "ordinary":false, "option":"seireki"}
-{"pattern":"令和", "corresponding_time_position":[], "process_type":["2019"], "ordinary":false, "option":"seireki"}
-{"pattern":"R", "corresponding_time_position":[], "process_type":["2019"], "ordinary":false, "option":"seireki"}
-{"pattern":"Ｒ", "corresponding_time_position":[], "process_type":["2019"], "ordinary":false, "option":"seireki"}
+{"pattern":"令和", "corresponding_time_position":[], "process_type":["2018"], "ordinary":false, "option":"seireki"}
+{"pattern":"R", "corresponding_time_position":[], "process_type":["2018"], "ordinary":false, "option":"seireki"}
+{"pattern":"Ｒ", "corresponding_time_position":[], "process_type":["2018"], "ordinary":false, "option":"seireki"}
 {"pattern":"紀元前", "corresponding_time_position":[], "process_type":[], "ordinary":false, "option":"kigenzen"}
 {"pattern":"午前", "corresponding_time_position":[], "process_type":[], "ordinary":false, "option":"gozen"}
 {"pattern":"午後", "corresponding_time_position":[], "process_type":[], "ordinary":false, "option":"gogo"}
