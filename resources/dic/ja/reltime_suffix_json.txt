@@ -10,6 +10,7 @@
 {"pattern":"-", "process_type":"kara_suffix"}
 {"pattern":"−", "process_type":"kara_suffix"}
 {"pattern":"ー", "process_type":"kara_suffix"}
+{"pattern":"―", "process_type":"kara_prefix"}
 {"pattern":"から", "process_type":"kara_suffix"}
 {"pattern":"くらい", "process_type":"about"}
 {"pattern":"ばかり", "process_type":"about"}

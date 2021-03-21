@@ -7,6 +7,7 @@
 {"pattern":"-", "process_type":"kara_prefix"}
 {"pattern":"−", "process_type":"kara_prefix"}
 {"pattern":"ー", "process_type":"kara_prefix"}
+{"pattern":"―", "process_type":"kara_prefix"}
 {"pattern":"から", "process_type":"kara_prefix"}
 {"pattern":"PM", "process_type":"gogo"}
 {"pattern":"AM", "process_type":"gozen"}
