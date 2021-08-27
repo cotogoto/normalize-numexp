@@ -12,10 +12,9 @@ public class Main {
 
         final var language = args[0];
         final var text = args[1];
-        final List <String> result = new ArrayList <>();
 
         final NormalizeNumexp normalizeNumexp = new NormalizeNumexpImpl(language);
-        normalizeNumexp.normalize(text, result);
+        final var result = normalizeNumexp.normalize(text);
 
         for (final String line : result) {
             System.out.println(line);
