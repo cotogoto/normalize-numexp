@@ -38,17 +38,17 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
      * @param durationexps
      * @param result
      */
-    protected void mergeNormalizeExpressionsIntoResult(
+    protected List <String> result mergeNormalizeExpressionsIntoResult(
             List <NumericalExpression> numexps,
             List <AbstimeExpression> abstimeexps,
             List <ReltimeExpression> reltimeexps,
-            List <DurationExpression> durationexps,
-            List <String> result) {
+            List <DurationExpression> durationexps) {
 
+        List <String> result　= new ArrayList<>();
+        
         final var kugiri = NumexpSymbol.ASTERISK;
         final var comma = NumexpSymbol.COMMA;
         final var ss = new StringBuilder();
-        result.clear();
 
         for (var i = 0; i < numexps.size(); i++) {
             ss.setLength(0);
@@ -133,6 +133,8 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
             ss.append(this.showOptions(durationexps.get(i)));
             result.add(ss.toString());
         }
+        
+        return result;
     }
 
 
