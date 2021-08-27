@@ -38,14 +38,14 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
      * @param durationexps
      * @param result
      */
-    protected List <String> result mergeNormalizeExpressionsIntoResult(
+    protected List <String> mergeNormalizeExpressionsIntoResult(
             List <NumericalExpression> numexps,
             List <AbstimeExpression> abstimeexps,
             List <ReltimeExpression> reltimeexps,
             List <DurationExpression> durationexps) {
 
-        List <String> result　= new ArrayList<>();
-        
+        final List <String> result = new ArrayList <>();
+
         final var kugiri = NumexpSymbol.ASTERISK;
         final var comma = NumexpSymbol.COMMA;
         final var ss = new StringBuilder();
@@ -133,7 +133,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
             ss.append(this.showOptions(durationexps.get(i)));
             result.add(ss.toString());
         }
-        
+
         return result;
     }
 
@@ -253,9 +253,8 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
 
 
     @Override
-    public void normalize(final String text, List <String> result) {
+    public List <String> normalize(final String text) {
 
-        result.clear();
         final var numexps = new ArrayList <NumericalExpression>();
         final var abstimeexps = new ArrayList <AbstimeExpression>();
         final var reltimeexps = new ArrayList <ReltimeExpression>();
@@ -268,12 +267,11 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
         this.IER.removeInappropriateExtraction(text, numexps, abstimeexps, reltimeexps, durationexps);
 
         // string型に変換し、resultにまとめる
-        this.mergeNormalizeExpressionsIntoResult(
+        return this.mergeNormalizeExpressionsIntoResult(
                 new ArrayList <>(numexps),
                 new ArrayList <>(abstimeexps),
                 new ArrayList <>(reltimeexps),
-                new ArrayList <>(durationexps),
-                result);
+                new ArrayList <>(durationexps));
     }
 
 

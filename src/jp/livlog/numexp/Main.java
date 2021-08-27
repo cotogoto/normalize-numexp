@@ -1,8 +1,5 @@
 package jp.livlog.numexp;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jp.livlog.numexp.normalizeNumexp.NormalizeNumexp;
 import jp.livlog.numexp.normalizeNumexp.impl.NormalizeNumexpImpl;
 

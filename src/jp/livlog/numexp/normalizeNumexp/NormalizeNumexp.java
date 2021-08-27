@@ -26,7 +26,7 @@ public abstract class NormalizeNumexp {
     }
 
 
-    public abstract void normalize(String text, List <String> result);
+    public abstract List <String> normalize(String textt);
 
 
     public abstract List <Expression> normalizeData(String text);
