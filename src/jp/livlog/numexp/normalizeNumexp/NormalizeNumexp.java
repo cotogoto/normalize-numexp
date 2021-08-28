@@ -16,6 +16,16 @@ import jp.livlog.numexp.share.Expression;
 
 public abstract class NormalizeNumexp {
 
+    protected NumericalExpressionNormalizer  NEN = null;
+
+    protected AbstimeExpressionNormalizer    AEN = null;
+
+    protected ReltimeExpressionNormalizer    REN = null;
+
+    protected DurationExpressionNormalizer   DEN = null;
+
+    protected InappropriateExpressionRemover IER = null;
+
     public NormalizeNumexp(String language) {
 
         this.NEN = new NumericalExpressionNormalizerImpl(language);
@@ -30,15 +40,5 @@ public abstract class NormalizeNumexp {
 
 
     public abstract List <Expression> normalizeData(String text);
-
-    protected NumericalExpressionNormalizer  NEN = null;
-
-    protected AbstimeExpressionNormalizer    AEN = null;
-
-    protected ReltimeExpressionNormalizer    REN = null;
-
-    protected DurationExpressionNormalizer   DEN = null;
-
-    protected InappropriateExpressionRemover IER = null;
 
 }

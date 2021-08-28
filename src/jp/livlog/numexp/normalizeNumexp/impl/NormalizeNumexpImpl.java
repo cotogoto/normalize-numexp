@@ -267,11 +267,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
         this.IER.removeInappropriateExtraction(text, numexps, abstimeexps, reltimeexps, durationexps);
 
         // string型に変換し、resultにまとめる
-        return this.mergeNormalizeExpressionsIntoResult(
-                new ArrayList <>(numexps),
-                new ArrayList <>(abstimeexps),
-                new ArrayList <>(reltimeexps),
-                new ArrayList <>(durationexps));
+        return this.mergeNormalizeExpressionsIntoResult(numexps, abstimeexps, reltimeexps, durationexps);
     }
 
 
