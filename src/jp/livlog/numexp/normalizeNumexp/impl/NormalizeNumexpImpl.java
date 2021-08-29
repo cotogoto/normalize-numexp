@@ -36,7 +36,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
      * @param abstimeexps
      * @param reltimeexps
      * @param durationexps
-     * @param result
+     * @return List <String>
      */
     protected List <String> mergeNormalizeExpressionsIntoResult(
             List <NumericalExpression> numexps,
@@ -144,6 +144,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
      * @param abstimeexps
      * @param reltimeexps
      * @param durationexps
+     * @return List <Expression>
      */
     protected List <Expression> mergeNormalizeExpressionsIntoData(
             List <NumericalExpression> numexps,
