@@ -27,7 +27,7 @@ public abstract class InappropriateExpressionRemover {
 
 
     protected abstract <AnyTypeExpression extends BaseExpressionTemplate> void deleteInappropriateExtractionUsingDictionaryOneType(
-            List <AnyTypeExpression> any_type_expressions);
+            List <AnyTypeExpression> anyTypeExpressions);
 
 
     protected abstract <AnyTypeExpression extends BaseExpressionTemplate> boolean isUrlStrings(String text, AnyTypeExpression anyTypeExpression);
