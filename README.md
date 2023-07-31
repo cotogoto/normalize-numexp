@@ -1,4 +1,4 @@
-# normalizeNumexp
+# normalize-numexp
 数量表現・時間表現の規格化を行うツール
 
 ## 概要
