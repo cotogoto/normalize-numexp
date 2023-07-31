@@ -28,7 +28,7 @@
 このプロジェクトはBSD-3-Clause Licenseの下でライセンスされています。
 
 ## 作者
-このプロジェクトは@blue_islandsによって開発されました。
+このプロジェクトは@blue-islandsによって開発されました。
 
 ## Licence
 BSD-3-Clause License
