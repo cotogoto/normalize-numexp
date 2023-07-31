@@ -1,50 +1,34 @@
 # normalizeNumexp
 数量表現・時間表現の規格化を行うツール
 
-## Overview
-normalizeNumexpは、日本語の文中に含まれる数量表現・時間表現を高速かつ正確に抽出、規格化するツールです。 
+## 概要
+「normalize-numexp」は、日本語の文章中に含まれる数量表現や時間表現を抽出し、規格化するツールです。自然言語文の入力に対して、抽出した数量表現・時間表現とその規格化表現を表示します。詳細は[こちら](http://www.cl.ecei.tohoku.ac.jp/index.php?Open%20Resources%2FnormalizeNumexp)を参照してください。
 
-具体的な入力・出力例は以下のようになります。自然言語文の入力に対し、抽出した数量表現・時間表現とその規格化表現を表示します。
+## リバースエンジニアリング
+このツールは、[normalizeNumexp](http://www.cl.ecei.tohoku.ac.jp/index.php?Open%20Resources%2FnormalizeNumexp)というC++で書かれたツールをリバースエンジニアリングによりJavaに変換したものです。変換には[C++ to Java Converter](https://www.tangiblesoftwaresolutions.com/product_details/cplusplus_to_java_converter_details.html)を利用し、その後、変換ミスを修正します。また、J-UNITを利用してテストケースを網羅し、リバースエンジニアリングのミスを排除します。
 
-## Requirement
-数量表現・時間表現のできるプログラムを探していたのですが、何年も前のプログラムで、C++で書かれていて、
-JVM環境で使うためにはいろいろと問題もあり、リバースエンジニアリングでソースを作り直すことを始めました。
+## 必要条件
+このツールを使用するためには、Java Virtual Machine (JVM) 環境が必要です。
 
+## 使用方法
+このツールの使用方法は以下の通りです。
 
-## Usage
-基本的な仕組みについては[こちら](detail.md)に詳しく載っています。
-主にはC++からJAVAへの変換を行っております。
+1. Mavenを使用する場合: ベースディレクトリから`mvn package`を実行します。パッケージは targetディレクトリに組み込まれています。
+2. Eclipseを使用する場合: 
+   - GitHubからコードをチェックアウトします。
+   - ファイルメニューから新規Javaプロジェクトを作成します。
+   - "Use default location"のチェックを外します。
+   - プロジェクトレイアウトを"Use project folder as root for sources and class files"に設定します。
+   - チェックアウトしたコードの場所を参照します。
+   - 次へをクリックします。
+   - 完了をクリックします。
+   - ビルドします。
 
-### Maven
-ベースディレクトリから`mvn package`を実行します。 パッケージは `target`ディレクトリに組み込まれています。
+## ライセンス
+このプロジェクトはBSD-3-Clause Licenseの下でライセンスされています。
 
-### Eclipse
-Quick start:
-* Checkout code from github
-* File menu > New Java Project
-* Uncheck "Use default location"
-* Set project layout to Use project folder as root for sources and class files
-* Browse for location checked out code
-* Hit next
-* Hit finish
-* Build!
-
-## Features
-C++ to Java Converterのツールを利用して、C++のソースをJAVAに一旦変換、その後、変換ミスを修正する手法をとる。
-J-UNITを利用して、テストケースを網羅して、リバースエンジニアリングのミスをなくす。
-
-## Reference
-
-normalizeNumexp 数量表現・時間表現の規格化を行うツール<br>
-http://www.cl.ecei.tohoku.ac.jp/index.php?Open%20Resources%2FnormalizeNumexp
-
-C++ to Java Converter<br>
-https://www.tangiblesoftwaresolutions.com/product_details/cplusplus_to_java_converter_details.html
-
-## Author
-
-[@blue_islands](https://twitter.com/blue_islands)
+## 作者
+このプロジェクトは@blue_islandsによって開発されました。
 
 ## Licence
-
 BSD-3-Clause License
