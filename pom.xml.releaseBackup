@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>jp.livlog</groupId>
     <artifactId>normalize-numexp</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
     
     <distributionManagement>
         <repository>
@@ -14,8 +14,8 @@
     <scm>
         <url>https://github.com/cotogoto/normalize-numexp</url>
         <connection>scm:git:git@github.com:cotogoto/normalize-numexp.git</connection>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
     
     <build>
         <sourceDirectory>src</sourceDirectory>
@@ -33,7 +33,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <release>11</release>
+                    <source>11</source>
+                    <target>11</target>
                     <encoding>UTF-8</encoding> <!-- 文字コードをUTF-8に設定 -->
                 </configuration>
             </plugin>
