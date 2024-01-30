@@ -10,19 +10,26 @@
 ## 必要条件
 このツールを使用するためには、Java Virtual Machine (JVM) 環境が必要です。
 
-## 使用方法
-このツールの使用方法は以下の通りです。
+## ダウンロード
+Latest Version:
+[![](https://jitpack.io/v/cotogoto/normalize-numexp.svg)](https://jitpack.io/#cotogoto/normalize-numexp)
 
-1. Mavenを使用する場合: ベースディレクトリから`mvn package`を実行します。パッケージは targetディレクトリに組み込まれています。
-2. Eclipseを使用する場合: 
-   - GitHubからコードをチェックアウトします。
-   - ファイルメニューから新規Javaプロジェクトを作成します。
-   - "Use default location"のチェックを外します。
-   - プロジェクトレイアウトを"Use project folder as root for sources and class files"に設定します。
-   - チェックアウトしたコードの場所を参照します。
-   - 次へをクリックします。
-   - 完了をクリックします。
-   - ビルドします。
+下記の **VERSION** キーを上記の最新バージョンに必ず置き換えてください
+
+Maven
+```xml
+<dependency>
+    <groupId>com.github.cotogoto</groupId>
+    <artifactId>normalize-numexp</artifactId>
+    <version>VERSION</version>
+</dependency>
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+```
 
 ## ライセンス
 このプロジェクトはBSD-3-Clause Licenseの下でライセンスされています。
