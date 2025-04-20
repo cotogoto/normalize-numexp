@@ -13,8 +13,8 @@
 
     <scm>
         <url>https://github.com/cotogoto/normalize-numexp</url>
-        <connection>scm:git:git@github.com:cotogoto/normalize-numexp.git</connection>
-        <tag>v1.0.2</tag>
+        <connection>scm:git:https://github.com/cotogoto/normalize-numexp.git</connection>
+        <tag>HEAD</tag>
     </scm>
     
     <build>
