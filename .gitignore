@@ -5,3 +5,4 @@ target/
 .checkstyle
 .settings/
 .factorypath
+.idea/
