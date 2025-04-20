@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>jp.livlog</groupId>
     <artifactId>normalize-numexp</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.3</version>
     
     <distributionManagement>
         <repository>
@@ -14,7 +14,7 @@
     <scm>
         <url>https://github.com/cotogoto/normalize-numexp</url>
         <connection>scm:git:https://github.com/cotogoto/normalize-numexp.git</connection>
-        <tag>HEAD</tag>
+        <tag>v1.0.3</tag>
     </scm>
     
     <build>
