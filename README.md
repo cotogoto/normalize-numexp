@@ -8,7 +8,24 @@
 このツールは、[normalizeNumexp](http://www.cl.ecei.tohoku.ac.jp/index.php?Open%20Resources%2FnormalizeNumexp)というC++で書かれたツールをリバースエンジニアリングによりJavaに変換したものです。変換には[C++ to Java Converter](https://www.tangiblesoftwaresolutions.com/product_details/cplusplus_to_java_converter_details.html)を利用し、その後、変換ミスを修正します。また、J-UNITを利用してテストケースを網羅し、リバースエンジニアリングのミスを排除します。
 
 ## 必要条件
-このツールを使用するためには、Java Virtual Machine (JVM) 環境が必要です。
+このツールを使用するためには、Java Virtual Machine (JVM) 環境が必要です。ソースからビルドする場合は Java 17 以上と Maven が必要です（Maven Wrapper は同梱されていません）。
+
+## 開発
+
+```shell
+mvn compile
+mvn package
+```
+
+`pom.xml` の現行設定では Surefire がテストをスキップするため、上記コマンドではテストは実行されません。詳細は [テスト方針](docs/testing-policy.md) を参照してください。
+
+## ドキュメント
+
+- [プロダクト概要](docs/product-overview.md)
+- [アーキテクチャ](docs/architecture.md)
+- [Java API仕様](docs/api-spec.md)
+- [テスト方針](docs/testing-policy.md)
+- [AIコーディングエージェント向け共通指示](AGENTS.md)
 
 ## ダウンロード
 Latest Version:
