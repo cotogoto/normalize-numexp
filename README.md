@@ -38,7 +38,7 @@ Maven
 <dependency>
     <groupId>com.github.cotogoto</groupId>
     <artifactId>normalize-numexp</artifactId>
-    <version>v1.0.4</version>
+    <version>v1.0.5</version>
 </dependency>
 <repositories>
     <repository>
