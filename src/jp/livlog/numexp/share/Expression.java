@@ -26,10 +26,10 @@ public class Expression {
     /* 数量(時間)の上限. */
     public String valueUpperbound;
 
-    /* 絶対時間表現の上限. */
+    /* 絶対時間表現の下限. */
     public String valueLowerboundAbs;
 
-    /* 絶対時間表現の下限. */
+    /* 絶対時間表現の上限. */
     public String valueUpperboundAbs;
 
     /* 持続時間表現の下限. */

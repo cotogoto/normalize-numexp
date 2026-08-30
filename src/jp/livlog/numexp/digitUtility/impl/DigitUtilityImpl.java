@@ -2,8 +2,6 @@ package jp.livlog.numexp.digitUtility.impl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
@@ -13,6 +11,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import jp.livlog.numexp.dictionaryDirpath.DictionaryDirpath;
+import jp.livlog.numexp.dictionaryDirpath.DictionaryResourceLoader;
 import jp.livlog.numexp.digitUtility.DigitUtility;
 import jp.livlog.numexp.share.ENotationType;
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +51,7 @@ public class DigitUtilityImpl extends DigitUtility {
 
         loadTarget.clear();
 
-        final var reader = this.fileLoad(dictionaryPath);
+        final var reader = DictionaryResourceLoader.load(dictionaryPath);
 
         final var gson = new Gson();
         try (var br = new BufferedReader(reader)) {
@@ -292,17 +291,4 @@ public class DigitUtilityImpl extends DigitUtility {
     // throw new NullPointerException("Exception : is not number string");
     // }
 
-
-    private Reader fileLoad(String dictionaryPath) {
-
-        try {
-            return new InputStreamReader(
-                    DigitUtilityImpl.class.getResourceAsStream(dictionaryPath));
-        } catch (final Exception e) {
-            dictionaryPath = dictionaryPath.replace("/zh/", "/ja/");
-            dictionaryPath = dictionaryPath.replace("/en/", "/ja/");
-            return new InputStreamReader(
-                    DigitUtilityImpl.class.getResourceAsStream(dictionaryPath));
-        }
-    }
 }

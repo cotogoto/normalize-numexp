@@ -13,8 +13,8 @@
 
 - 前提確認: `java -version` と `mvn -version`（コンパイラ設定は Java 17）。Maven Wrapper はないため、Maven を別途用意します。
 - 依存解決とコンパイル: `mvn compile`
-- ビルド: `mvn package`（成果物は `target/`。現行 POM ではテストを実行しません）
-- テスト: **要確認**。`pom.xml` の Surefire 設定が `<skipTests>true</skipTests>` を固定しており、`mvn test` および `mvn -DskipTests=false test` はテストをスキップします。テスト有効化は勝手に行わず、運用方針を確認してください。
+- ビルド: `mvn package`（テストを実行し、成果物を `target/` に作成）
+- テスト: `mvn test`
 - lint / format / 独立した typecheck / DB migration: 設定・コマンドはありません。存在しないツールを前提にしないでください。
 
 ## Code Style
@@ -27,7 +27,7 @@
 
 - JUnit 5 テストは本体と対応するパッケージで `test/` に置かれ、クラス名は `*Test` です。Mockito、fixture ディレクトリ、外部サービス用 mock はありません。
 - 実装変更時は同じ normalizer の境界値・日本語表記・位置情報・上下限を既存 assertion の形式で追加し、辞書変更時は関連する数量/時間種別と不適切表現除去への回帰も確認してください。
-- 自動テストを有効にできない間は、少なくとも `mvn compile` と `mvn package` を実行し、テストがスキップされた事実を報告してください。CLI の手動確認を行う場合は `Main` が `<language> <text>` の2引数を取ることと、辞書リソースが classpath にあることを確認します。
+- 実装後は対象テストに加えて `mvn test` を実行し、リリース可能性に関わる変更では `mvn package` まで確認してください。CLI の手動確認を行う場合は `Main` が `<language> <text>` の2引数を取ることと、辞書リソースが classpath にあることを確認します。
 
 ## Git Workflow
 
@@ -39,6 +39,7 @@
 
 - `.env*`、Secrets、API キー、パスワード、個人情報を読み取り・表示・コミットしないでください。現時点で環境変数、外部 API、DB、DDL、migration、Docker、CI 設定は確認されていません。将来追加された場合も値や本番接続を推測しません。
 - `target/`、IDE 設定、バックアップファイルを成果物として編集・コミットしません。大規模リファクタリング、公開 API/規格化出力の変更、新規依存、POM のテスト設定変更、辞書の一括再生成は事前確認が必要です。
+- 対応言語は `ja` と `zh` です。`NormalizeNumexpImpl` のインスタンス共有はスレッドセーフ性を保証していないため避け、処理単位またはスレッド単位で生成してください。計測根拠のない最大入力サイズをライブラリ仕様として追加せず、利用側で入力上限とタイムアウトを設けてください。
 
 ## Workflow
 

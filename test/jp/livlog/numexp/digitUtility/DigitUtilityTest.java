@@ -15,26 +15,23 @@ class DigitUtilityTest {
         this.digitUtility.initKansuji("ja");
     }
 
-
-//    @Test
-//    void testInitKansuji() {
-//        this.digitUtility.initKansuji("ja");
-//    }
-
-
     @Test
     void testIsHankakusuji() {
 
-        org.junit.Assert.assertFalse(this.digitUtility.isZenkakusuji('1'));
-        org.junit.Assert.assertTrue(this.digitUtility.isZenkakusuji('１'));
-        org.junit.Assert.assertFalse(this.digitUtility.isZenkakusuji('一'));
-        org.junit.Assert.assertFalse(this.digitUtility.isZenkakusuji('あ'));
+        org.junit.Assert.assertTrue(this.digitUtility.isHankakusuji('1'));
+        org.junit.Assert.assertFalse(this.digitUtility.isHankakusuji('１'));
+        org.junit.Assert.assertFalse(this.digitUtility.isHankakusuji('一'));
+        org.junit.Assert.assertFalse(this.digitUtility.isHankakusuji('あ'));
     }
 
 
     @Test
     void testIsZenkakusuji() {
 
+        org.junit.Assert.assertFalse(this.digitUtility.isZenkakusuji('1'));
+        org.junit.Assert.assertTrue(this.digitUtility.isZenkakusuji('１'));
+        org.junit.Assert.assertFalse(this.digitUtility.isZenkakusuji('一'));
+        org.junit.Assert.assertFalse(this.digitUtility.isZenkakusuji('あ'));
     }
 
 
@@ -121,47 +118,53 @@ class DigitUtilityTest {
         org.junit.Assert.assertFalse(this.digitUtility.isNumber('あ'));
     }
 
+    @Test
+    void testIsComma() {
 
-//    @Test
-//    void testIsComma() {
-//
-//        // Assertions.fail('まだ実装されていません');
-//    }
-//
-//
+        org.junit.Assert.assertTrue(this.digitUtility.isComma(','));
+        org.junit.Assert.assertTrue(this.digitUtility.isComma('、'));
+        org.junit.Assert.assertTrue(this.digitUtility.isComma('，'));
+        org.junit.Assert.assertFalse(this.digitUtility.isComma('.'));
+    }
+
+
     @Test
     void testIsDecimalPoint() {
 
-        // Assertions.fail('まだ実装されていません');
+        org.junit.Assert.assertTrue(this.digitUtility.isDecimalPoint('.'));
+        org.junit.Assert.assertTrue(this.digitUtility.isDecimalPoint('・'));
         org.junit.Assert.assertTrue(this.digitUtility.isDecimalPoint('．'));
+        org.junit.Assert.assertFalse(this.digitUtility.isDecimalPoint(','));
     }
-//
-//
-//    @Test
-//    void testIsRangeExpression() {
-//
-//        // Assertions.fail('まだ実装されていません');
-//    }
-//
-//
-//    @Test
-//    void testConvertKansuji09ToValue() {
-//
-//        // Assertions.fail('まだ実装されていません');
-//    }
-//
-//
-//    @Test
-//    void testConvertKansujiKuraiToPowerValue() {
-//
-//        // Assertions.fail('まだ実装されていません');
-//    }
-//
-//
-//    @Test
-//    void testGetNumberStringCharacter() {
-//
-//        // Assertions.fail('まだ実装されていません');
-//    }
+
+
+    @Test
+    void testIsRangeExpression() {
+
+        org.junit.Assert.assertTrue(this.digitUtility.isRangeExpression("〜10"));
+        org.junit.Assert.assertTrue(this.digitUtility.isRangeExpression("から10"));
+        org.junit.Assert.assertFalse(this.digitUtility.isRangeExpression("10〜20"));
+    }
+
+
+    @Test
+    void testConvertKansuji09ToValue() {
+
+        org.junit.Assert.assertEquals(1, this.digitUtility.convertKansuji09ToValue('一'));
+        org.junit.jupiter.api.Assertions.assertThrows(
+                NullPointerException.class,
+                () -> this.digitUtility.convertKansuji09ToValue('あ'));
+    }
+
+
+    @Test
+    void testConvertKansujiKuraiToPowerValue() {
+
+        org.junit.Assert.assertEquals(1, this.digitUtility.convertKansujiKuraiToPowerValue('十'));
+        org.junit.Assert.assertEquals(4, this.digitUtility.convertKansujiKuraiToPowerValue('万'));
+        org.junit.jupiter.api.Assertions.assertThrows(
+                NullPointerException.class,
+                () -> this.digitUtility.convertKansujiKuraiToPowerValue('あ'));
+    }
 
 }

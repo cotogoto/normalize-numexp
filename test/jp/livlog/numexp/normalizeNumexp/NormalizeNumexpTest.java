@@ -435,4 +435,45 @@ class NormalizeNumexpTest {
             System.out.println(methodName + ":" + line);
         }
     }
+
+
+    @Test
+    void rejectsNullLanguage() {
+
+        org.junit.jupiter.api.Assertions.assertThrows(
+                NullPointerException.class,
+                () -> new NormalizeNumexpImpl(null));
+    }
+
+
+    @Test
+    void rejectsUnsupportedLanguage() {
+
+        org.junit.jupiter.api.Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> new NormalizeNumexpImpl("en"));
+    }
+
+
+    @Test
+    void rejectsNullText() {
+
+        final var normalizer = new NormalizeNumexpImpl("ja");
+        org.junit.jupiter.api.Assertions.assertThrows(
+                NullPointerException.class,
+                () -> normalizer.normalize(null));
+        org.junit.jupiter.api.Assertions.assertThrows(
+                NullPointerException.class,
+                () -> normalizer.normalizeData(null));
+    }
+
+
+    @Test
+    void formatsLargeAndSpecialNumbers() {
+
+        final var normalizer = new NormalizeNumexpImpl("ja");
+        org.junit.Assert.assertEquals("3000000000", normalizer.format(3_000_000_000D));
+        org.junit.Assert.assertEquals("34.5", normalizer.format(34.5D));
+        org.junit.Assert.assertEquals("Infinity", normalizer.format(Double.POSITIVE_INFINITY));
+    }
 }

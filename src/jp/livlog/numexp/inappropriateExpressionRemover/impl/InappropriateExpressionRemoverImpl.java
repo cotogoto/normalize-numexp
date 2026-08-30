@@ -2,8 +2,6 @@ package jp.livlog.numexp.inappropriateExpressionRemover.impl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +11,7 @@ import com.google.gson.reflect.TypeToken;
 
 import jp.livlog.numexp.abstimeExpressionNormalizer.AbstimeExpression;
 import jp.livlog.numexp.dictionaryDirpath.DictionaryDirpath;
-import jp.livlog.numexp.digitUtility.impl.DigitUtilityImpl;
+import jp.livlog.numexp.dictionaryDirpath.DictionaryResourceLoader;
 import jp.livlog.numexp.durationExpressionNormalizer.DurationExpression;
 import jp.livlog.numexp.inappropriateExpressionRemover.InappropriateExpressionRemover;
 import jp.livlog.numexp.inappropriateExpressionRemover.InappropriateStrings;
@@ -391,7 +389,7 @@ public class InappropriateExpressionRemoverImpl extends InappropriateExpressionR
 
         loadTarget.clear();
 
-        final var reader = this.fileLoad(dictionaryPath);
+        final var reader = DictionaryResourceLoader.load(dictionaryPath);
 
         final var gson = new Gson();
         final var listType = new TypeToken <HashMap <String, Object>>() {
@@ -436,17 +434,4 @@ public class InappropriateExpressionRemoverImpl extends InappropriateExpressionR
         }
     }
 
-
-    private Reader fileLoad(String dictionaryPath) {
-
-        try {
-            return new InputStreamReader(
-                    DigitUtilityImpl.class.getResourceAsStream(dictionaryPath));
-        } catch (final Exception e) {
-            dictionaryPath = dictionaryPath.replace("/zh/", "/ja/");
-            dictionaryPath = dictionaryPath.replace("/en/", "/ja/");
-            return new InputStreamReader(
-                    DigitUtilityImpl.class.getResourceAsStream(dictionaryPath));
-        }
-    }
 }

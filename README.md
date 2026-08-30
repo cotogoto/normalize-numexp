@@ -17,7 +17,7 @@ mvn compile
 mvn package
 ```
 
-`pom.xml` の現行設定では Surefire がテストをスキップするため、上記コマンドではテストは実行されません。詳細は [テスト方針](docs/testing-policy.md) を参照してください。
+テストは `mvn test` で実行できます。詳細は [テスト方針](docs/testing-policy.md) を参照してください。
 
 ## ドキュメント
 

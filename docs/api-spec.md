@@ -14,8 +14,8 @@ NormalizeNumexp normalizer = new NormalizeNumexpImpl("ja");
 
 - 実装: `jp.livlog.numexp.normalizeNumexp.impl.NormalizeNumexpImpl`
 - コンストラクタ引数: `String language`
-- 実装で特別扱いされる値: `ja`、`zh`。その他は数値変換に `ArabicNumberConverterImpl` を使います。
-- Validation: null、空文字、未知言語を明示的に拒否する検証はありません。正式な対応言語と未知言語時の契約は要確認です。
+- 対応値: `ja`、`zh`
+- Validation: nullは `NullPointerException`、空文字と未知言語は `IllegalArgumentException` です。
 
 ### `normalize(String text)`
 
@@ -25,7 +25,7 @@ NormalizeNumexp normalizer = new NormalizeNumexpImpl("ja");
 - `type`: `numerical`、`abstime`、`reltime`、`duration`
 - `counter`: 数量では単位、時間系では `none`
 - 相対時間: lower/upper内が絶対部分と相対部分のカンマ区切りです。
-- Validation / error: nullや巨大入力の契約はありません。辞書読込IOExceptionはログ記録後に処理が継続します。
+- Validation / error: nullは `NullPointerException` です。最大入力サイズは規定していません。辞書読込IOExceptionはログ記録後に処理が継続しますが、辞書リソース自体がない場合は `IllegalStateException` です。
 
 ### `normalizeData(String text)`
 
@@ -53,9 +53,9 @@ NormalizeNumexp normalizer = new NormalizeNumexpImpl("ja");
 java jp.livlog.numexp.Main <language> <text>
 ```
 
-- 引数が2個未満: 使用法を標準エラーへ表示してreturnします。
+- 引数が2個未満: 使用法を標準エラーへ表示し、終了コード2で終了します。
 - 引数が2個以上: 先頭2個だけを使用し、各規格化文字列を標準出力へ出します。
-- 終了コード、引用符、複数語テキストのシェル別起動手順は定義されていません。
+- 正常終了コードは0です。未処理の実行時例外はJVMの非0終了となります。引用符、複数語テキストのシェル別起動手順は定義されていません。
 - POMには実行用プラグインやfat JAR設定がないため、依存を含む具体的な起動コマンドは未整備です。
 
 ## 内部拡張API
@@ -66,9 +66,12 @@ java jp.livlog.numexp.Main <language> <text>
 
 Method、Path、Request Body、HTTP Response、Status Code、Controller / Service、認証・権限は該当しません。将来HTTP層を追加する場合は、このJava APIと別の契約として文書化してください。
 
+## 並行利用と入力サイズ
+
+- `NormalizeNumexpImpl` インスタンスのスレッドセーフ性は保証しません。並行処理ではインスタンスを共有しないでください。
+- 最大入力サイズは定めていません。呼び出し側で入力制限とタイムアウトを設けてください。ライブラリとしての推奨値は性能計測後に決定します。
+
 ## 未確認事項
 
-- 対応言語、null、未知言語、辞書障害時の正式なエラー契約。
 - `positionEnd` が常に排他的終端であることの公開保証。
-- スレッドセーフ性と `NormalizeNumexpImpl` インスタンスの再利用可否。
 - バージョン間で互換性を維持するpublicクラスとフィールドの範囲。

@@ -2,7 +2,6 @@ package jp.livlog.numexp.normalizerTemplate;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import jp.livlog.numexp.dictionaryDirpath.DictionaryDirpath;
-import jp.livlog.numexp.digitUtility.impl.DigitUtilityImpl;
+import jp.livlog.numexp.dictionaryDirpath.DictionaryResourceLoader;
 import jp.livlog.numexp.normalizerUtility.LimitedExpressionTemplate;
 import jp.livlog.numexp.normalizerUtility.NormalizedExpressionTemplate;
 import jp.livlog.numexp.normalizerUtility.NormalizerUtility;
@@ -135,7 +134,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
         loadTarget.clear();
 
-        final var reader = this.fileLoad(dictionaryPath);
+        final var reader = DictionaryResourceLoader.load(dictionaryPath);
 
         final var gson = new Gson();
         final var listType = new TypeToken <HashMap <String, String>>() {
@@ -338,15 +337,7 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
     public Reader fileLoad(String dictionaryPath) {
 
-        try {
-            return new InputStreamReader(
-                    DigitUtilityImpl.class.getResourceAsStream(dictionaryPath));
-        } catch (final Exception e) {
-            dictionaryPath = dictionaryPath.replace("/zh/", "/ja/");
-            dictionaryPath = dictionaryPath.replace("/en/", "/ja/");
-            return new InputStreamReader(
-                    DigitUtilityImpl.class.getResourceAsStream(dictionaryPath));
-        }
+        return DictionaryResourceLoader.load(dictionaryPath);
     }
 
     public NavigableSet <Pair <String, Integer>> limitedExpressionPatterns    = new TreeSet <>(new PairKey0Comp <String, Integer>());

@@ -177,11 +177,4 @@ class NormalizerUtilityTest {
         final var str = "aiueo";
         org.junit.Assert.assertEquals(this.normalizerUtility.reverseString(str), "oeuia");
     }
-
-    // @Test
-    // void testCast() {
-    //
-    // fail("まだ実装されていません");
-    // }
-
 }

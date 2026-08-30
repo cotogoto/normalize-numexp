@@ -1,8 +1,10 @@
 package jp.livlog.numexp.normalizeNumexp.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import jp.livlog.numexp.abstimeExpressionNormalizer.AbstimeExpression;
 import jp.livlog.numexp.durationExpressionNormalizer.DurationExpression;
@@ -219,18 +221,22 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
     private <AnyTypeExpression extends NormalizedExpressionTemplate> String showOptions(AnyTypeExpression anyTypeExpression) {
 
         final var ss = new StringBuilder();
-        if (anyTypeExpression.ordinary) {
-            anyTypeExpression.options.add("ordinary");
-        }
-        final var sz = anyTypeExpression.options.size();
-        for (var i = 0; i < sz; i++) {
-            if (anyTypeExpression.options.get(i).equals("")) {
+        var hasOption = false;
+        for (final var option : anyTypeExpression.options) {
+            if (option.isEmpty()) {
                 continue;
             }
-            ss.append(anyTypeExpression.options.get(i));
-            if (i != sz - 1) {
+            if (hasOption) {
                 ss.append(NumexpSymbol.COMMA);
             }
+            ss.append(option);
+            hasOption = true;
+        }
+        if (anyTypeExpression.ordinary) {
+            if (hasOption) {
+                ss.append(NumexpSymbol.COMMA);
+            }
+            ss.append("ordinary");
         }
 
         return ss.toString();
@@ -239,11 +245,10 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
 
     public String format(double d) {
 
-        if (d == (int) d) {
-            return String.format("%d", (int) d);
-        } else {
-            return String.format("%s", d);
+        if (!Double.isFinite(d)) {
+            return String.valueOf(d);
         }
+        return BigDecimal.valueOf(d).stripTrailingZeros().toPlainString();
     }
 
 
@@ -256,6 +261,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
     @Override
     public List <String> normalize(final String text) {
 
+        Objects.requireNonNull(text, "text must not be null");
         final var numexps = new ArrayList <NumericalExpression>();
         final var abstimeexps = new ArrayList <AbstimeExpression>();
         final var reltimeexps = new ArrayList <ReltimeExpression>();
@@ -275,6 +281,7 @@ public class NormalizeNumexpImpl extends NormalizeNumexp {
     @Override
     public List <Expression> normalizeData(String text) {
 
+        Objects.requireNonNull(text, "text must not be null");
         final var numexps = new ArrayList <NumericalExpression>();
         final var abstimeexps = new ArrayList <AbstimeExpression>();
         final var reltimeexps = new ArrayList <ReltimeExpression>();
