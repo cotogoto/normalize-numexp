@@ -1,7 +1,6 @@
 package jp.livlog.numexp.normalizeNumexp;
 
 import java.util.List;
-import java.util.Objects;
 
 import jp.livlog.numexp.abstimeExpressionNormalizer.AbstimeExpressionNormalizer;
 import jp.livlog.numexp.abstimeExpressionNormalizer.impl.AbstimeExpressionNormalizerImpl;
@@ -14,6 +13,7 @@ import jp.livlog.numexp.numericalExpressionNormalizer.impl.NumericalExpressionNo
 import jp.livlog.numexp.reltimeExpressionNormalizer.ReltimeExpressionNormalizer;
 import jp.livlog.numexp.reltimeExpressionNormalizer.impl.ReltimeExpressionNormalizerImpl;
 import jp.livlog.numexp.share.Expression;
+import jp.livlog.numexp.share.LanguageValidator;
 
 /**
  * 数量・時間表現を規格化する統合API.
@@ -33,10 +33,7 @@ public abstract class NormalizeNumexp {
 
     public NormalizeNumexp(String language) {
 
-        Objects.requireNonNull(language, "language must not be null");
-        if (!language.equals("ja") && !language.equals("zh")) {
-            throw new IllegalArgumentException("Unsupported language: " + language);
-        }
+        LanguageValidator.requireSupported(language);
         this.NEN = new NumericalExpressionNormalizerImpl(language);
         this.AEN = new AbstimeExpressionNormalizerImpl(language);
         this.REN = new ReltimeExpressionNormalizerImpl(language);

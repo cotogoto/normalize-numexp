@@ -31,15 +31,15 @@ Controller / Service / Repository / Entity / DTO / View / Component というWeb
 
 ## 外部連携と設定
 
-実行時の外部API、ネットワーク、環境変数、設定ファイル、DB接続は確認されていません。辞書は `DigitUtilityImpl.class.getResourceAsStream()` でJAR内から読みます。ビルド時のみMaven Central等から依存を解決し、POMにはJitPack向け配布設定があります。
+実行時の外部API、ネットワーク、環境変数、設定ファイル、DB接続は確認されていません。辞書は `DictionaryResourceLoader` がclasspathから読みます。ビルド時のみMaven Central等から依存を解決し、POMにはJitPack向け配布設定があります。
 
 ## エラー処理とログ
 
 - CLIの引数が2個未満なら、使用法を標準エラーへ表示し、終了コード2で終了します。正常時は0です。実行中の未処理例外はJVMの非0終了となります。
-- 辞書の読み取り中の `IOException` はLombok `@Slf4j` によるerrorログへ記録され、例外は再送出されません。
+- 辞書は一時リストへ全行を読み切ってから反映します。読取中の `IOException` は辞書パスを含む `IllegalStateException` として再送出され、不完全な辞書状態では処理を継続しません。
 - 一部の未対応文字変換は `NullPointerException` を送出します。
 - 辞書ロードは `DictionaryResourceLoader` に集約されています。UTF-8で読み、要求言語のリソースがなければ日本語パスを試し、それもなければ解決後のパスを含む `IllegalStateException` を送出します。
-- Logback依存はありますが、リポジトリ固有の `logback.xml` やログ保管・ローテーション方針はありません。ライブラリ側でSecretsや入力全文を新たにログ出力しないでください。
+- ライブラリ固有のログ実装やログ設定はありません。利用アプリケーションのログ構成へ干渉せず、Secretsや入力全文を新たにログ出力しないでください。
 
 ## 設計上の注意点
 
@@ -51,3 +51,4 @@ Controller / Service / Repository / Entity / DTO / View / Component というWeb
 - 新規依存、公開API変更、辞書一括再生成、例外方針変更は事前に人間の判断を得る。
 - normalizerは処理中に内部フィールドを利用するため、`NormalizeNumexpImpl` インスタンスの並行共有は保証しない。スレッドセーフ化は共有状態の除去と並行テストを伴う独立した変更として扱う。
 - 最大入力サイズは計測前に固定しない。性能要件を定める場合は代表入力と極端な数字列について時間・メモリを測定する。
+- 表現種別間の重複除去は位置区間の索引を使います。削除優先順を変更すると規格化結果が変わり得るため、最適化時も数量→相対時間→持続時間→絶対時間の既存順を維持します。

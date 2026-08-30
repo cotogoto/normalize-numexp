@@ -456,6 +456,24 @@ class NormalizeNumexpTest {
 
 
     @Test
+    void rejectsUnsupportedLanguageInLowerLevelApis() {
+
+        org.junit.jupiter.api.Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> new jp.livlog.numexp.numberNormalizer.impl.NumberNormalizerImpl("en"));
+        org.junit.jupiter.api.Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> new jp.livlog.numexp.numericalExpressionNormalizer.impl.NumericalExpressionNormalizerImpl("en"));
+        org.junit.jupiter.api.Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> new jp.livlog.numexp.inappropriateExpressionRemover.impl.InappropriateExpressionRemoverImpl("en"));
+        org.junit.jupiter.api.Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> new jp.livlog.numexp.digitUtility.impl.DigitUtilityImpl().initKansuji("en"));
+    }
+
+
+    @Test
     void rejectsNullText() {
 
         final var normalizer = new NormalizeNumexpImpl("ja");

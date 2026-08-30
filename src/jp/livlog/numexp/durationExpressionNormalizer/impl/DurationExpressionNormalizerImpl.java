@@ -2,6 +2,7 @@ package jp.livlog.numexp.durationExpressionNormalizer.impl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,9 +17,7 @@ import jp.livlog.numexp.share.NTime;
 import jp.livlog.numexp.share.NumberModifier;
 import jp.livlog.numexp.share.RefObject;
 import jp.livlog.numexp.share.NumexpSymbol;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class DurationExpressionNormalizerImpl extends DurationExpressionNormalizer {
 
     public DurationExpressionNormalizerImpl(String language) {
@@ -46,9 +45,8 @@ public class DurationExpressionNormalizerImpl extends DurationExpressionNormaliz
     @Override
     public void loadFromDictionary1(String dictionaryPath, List <LimitedDurationExpression> loadTarget) {
 
-        loadTarget.clear();
-
         final var reader = this.fileLoad(dictionaryPath);
+        final var loaded = new ArrayList <LimitedDurationExpression>();
 
         final var gson = new Gson();
         final var listType = new TypeToken <HashMap <String, Object>>() {
@@ -64,11 +62,13 @@ public class DurationExpressionNormalizerImpl extends DurationExpressionNormaliz
                 expression.processType = (List <String>) map.get("process_type");
                 expression.ordinary = (Boolean) map.get("ordinary");
                 expression.option = (String) map.get("option");
-                loadTarget.add(expression);
+                loaded.add(expression);
             }
         } catch (final IOException e) {
-            DurationExpressionNormalizerImpl.log.error(e.getMessage(), e);
+            throw new IllegalStateException("Failed to read dictionary: " + dictionaryPath, e);
         }
+        loadTarget.clear();
+        loadTarget.addAll(loaded);
     }
 
 

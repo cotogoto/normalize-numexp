@@ -17,9 +17,7 @@ import jp.livlog.numexp.share.NTime;
 import jp.livlog.numexp.share.NumberModifier;
 import jp.livlog.numexp.share.RefObject;
 import jp.livlog.numexp.share.NumexpSymbol;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class ReltimeExpressionNormalizerImpl extends ReltimeExpressionNormalizer {
 
     public ReltimeExpressionNormalizerImpl(String language) {
@@ -47,9 +45,8 @@ public class ReltimeExpressionNormalizerImpl extends ReltimeExpressionNormalizer
     @Override
     public void loadFromDictionary1(String dictionaryPath, List <LimitedReltimeExpression> loadTarget) {
 
-        loadTarget.clear();
-
         final var reader = this.fileLoad(dictionaryPath);
+        final var loaded = new ArrayList <LimitedReltimeExpression>();
 
         final var gson = new Gson();
         final var listType = new TypeToken <HashMap <String, Object>>() {
@@ -65,11 +62,13 @@ public class ReltimeExpressionNormalizerImpl extends ReltimeExpressionNormalizer
                 expression.processType = (List <String>) map.get("process_type");
                 expression.ordinary = (Boolean) map.get("ordinary");
                 expression.option = (String) map.get("option");
-                loadTarget.add(expression);
+                loaded.add(expression);
             }
         } catch (final IOException e) {
-            ReltimeExpressionNormalizerImpl.log.error(e.getMessage(), e);
+            throw new IllegalStateException("Failed to read dictionary: " + dictionaryPath, e);
         }
+        loadTarget.clear();
+        loadTarget.addAll(loaded);
     }
 
 

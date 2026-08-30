@@ -2,6 +2,7 @@ package jp.livlog.numexp.abstimeExpressionNormalizer.impl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,9 +17,7 @@ import jp.livlog.numexp.share.NTime;
 import jp.livlog.numexp.share.NumberModifier;
 import jp.livlog.numexp.share.RefObject;
 import jp.livlog.numexp.share.NumexpSymbol;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer {
 
     public AbstimeExpressionNormalizerImpl(String language) {
@@ -46,9 +45,8 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
     @Override
     public void loadFromDictionary1(String dictionaryPath, List <LimitedAbstimeExpression> loadTarget) {
 
-        loadTarget.clear();
-
         final var reader = this.fileLoad(dictionaryPath);
+        final var loaded = new ArrayList <LimitedAbstimeExpression>();
 
         final var gson = new Gson();
         final var listType = new TypeToken <HashMap <String, Object>>() {
@@ -64,11 +62,13 @@ public class AbstimeExpressionNormalizerImpl extends AbstimeExpressionNormalizer
                 expression.processType = (List <String>) map.get("process_type");
                 expression.ordinary = (Boolean) map.get("ordinary");
                 expression.option = (String) map.get("option");
-                loadTarget.add(expression);
+                loaded.add(expression);
             }
         } catch (final IOException e) {
-            AbstimeExpressionNormalizerImpl.log.error(e.getMessage(), e);
+            throw new IllegalStateException("Failed to read dictionary: " + dictionaryPath, e);
         }
+        loadTarget.clear();
+        loadTarget.addAll(loaded);
     }
 
 

@@ -7,6 +7,7 @@ import jp.livlog.numexp.digitUtility.impl.DigitUtilityImpl;
 import jp.livlog.numexp.numberNormalizer.impl.NumberExtractorImpl;
 import jp.livlog.numexp.numberNormalizer.impl.SymbolFixerImpl;
 import jp.livlog.numexp.share.NNumber;
+import jp.livlog.numexp.share.LanguageValidator;
 
 public abstract class NumberNormalizer {
 
@@ -20,7 +21,7 @@ public abstract class NumberNormalizer {
 
     public NumberNormalizer(String language) {
 
-        this.language = language;
+        this.language = LanguageValidator.requireSupported(language);
         this.digitUtility = new DigitUtilityImpl();
         this.digitUtility.initKansuji(language);
         this.NE = new NumberExtractorImpl(this.digitUtility);

@@ -6,3 +6,5 @@ target/
 .settings/
 .factorypath
 .idea/
+release.properties
+pom.xml.releaseBackup

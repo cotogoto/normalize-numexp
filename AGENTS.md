@@ -5,7 +5,7 @@
 ## Project Overview
 
 - 日本語（および一部中国語）の文章から数量・絶対時間・相対時間・持続時間表現を抽出し、ルールと辞書で規格化する Java ライブラリです。
-- Java 17 / Maven の JAR プロジェクトです。主要依存は Gson、Lombok、ModelMapper、SLF4J/Logback、テストは JUnit 5 です。
+- Java 17 / Maven の JAR プロジェクトです。主要依存は Gson、Lombok、テストは JUnit 5（既存assertionのためJUnit 4も併用）です。
 - 標準 Maven 配置ではありません。実装は `src/jp/livlog/numexp/`、テストは `test/jp/livlog/numexp/`、実行時辞書は `resources/dic/{ja,zh}/` にあります。
 - `*Normalizer` が処理の抽象/API、`impl/*Impl` が実装、`normalizerTemplate` と `normalizerUtility` が共通処理、`share` が共通データ型を担います。Web/DB レイヤーや開発サーバーはありません。
 

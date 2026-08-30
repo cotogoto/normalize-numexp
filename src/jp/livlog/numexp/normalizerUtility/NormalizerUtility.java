@@ -55,13 +55,6 @@ public abstract class NormalizerUtility {
 
     abstract public String reverseString(String str);
 
-    // @SuppressWarnings ("unchecked")
-    // public <T1, T2> void cast(final T1 a, T2 b) {
-    //
-    // final var modelMapper = new ModelMapper();
-    // b = (T2) modelMapper.map(a, b.getClass());
-    // }
-
     // LATIN LETTER ALVEOLAR CLICK
     public static final char PLACE_HOLDER = 'ǂ';
 

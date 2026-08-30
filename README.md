@@ -31,14 +31,14 @@ mvn package
 Latest Version:
 [![](https://jitpack.io/v/cotogoto/normalize-numexp.svg)](https://jitpack.io/#cotogoto/normalize-numexp)
 
-下記の **VERSION** キーを上記の最新バージョンに必ず置き換えてください
+MavenではJitPackリポジトリとリリースタグを指定します。
 
 Maven
 ```xml
 <dependency>
     <groupId>com.github.cotogoto</groupId>
     <artifactId>normalize-numexp</artifactId>
-    <version>VERSION</version>
+    <version>v1.0.4</version>
 </dependency>
 <repositories>
     <repository>

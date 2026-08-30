@@ -144,6 +144,9 @@ class DigitUtilityTest {
         org.junit.Assert.assertTrue(this.digitUtility.isRangeExpression("〜10"));
         org.junit.Assert.assertTrue(this.digitUtility.isRangeExpression("から10"));
         org.junit.Assert.assertFalse(this.digitUtility.isRangeExpression("10〜20"));
+        org.junit.jupiter.api.Assertions.assertThrows(
+                NullPointerException.class,
+                () -> this.digitUtility.isRangeExpression(null));
     }
 
 
@@ -152,7 +155,7 @@ class DigitUtilityTest {
 
         org.junit.Assert.assertEquals(1, this.digitUtility.convertKansuji09ToValue('一'));
         org.junit.jupiter.api.Assertions.assertThrows(
-                NullPointerException.class,
+                IllegalArgumentException.class,
                 () -> this.digitUtility.convertKansuji09ToValue('あ'));
     }
 
@@ -163,7 +166,7 @@ class DigitUtilityTest {
         org.junit.Assert.assertEquals(1, this.digitUtility.convertKansujiKuraiToPowerValue('十'));
         org.junit.Assert.assertEquals(4, this.digitUtility.convertKansujiKuraiToPowerValue('万'));
         org.junit.jupiter.api.Assertions.assertThrows(
-                NullPointerException.class,
+                IllegalArgumentException.class,
                 () -> this.digitUtility.convertKansujiKuraiToPowerValue('あ'));
     }
 

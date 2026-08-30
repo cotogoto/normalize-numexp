@@ -25,7 +25,7 @@ NormalizeNumexp normalizer = new NormalizeNumexpImpl("ja");
 - `type`: `numerical`、`abstime`、`reltime`、`duration`
 - `counter`: 数量では単位、時間系では `none`
 - 相対時間: lower/upper内が絶対部分と相対部分のカンマ区切りです。
-- Validation / error: nullは `NullPointerException` です。最大入力サイズは規定していません。辞書読込IOExceptionはログ記録後に処理が継続しますが、辞書リソース自体がない場合は `IllegalStateException` です。
+- Validation / error: nullは `NullPointerException` です。最大入力サイズは規定していません。辞書の欠落・読取失敗は `IllegalStateException` となり、不完全な辞書状態では処理を継続しません。
 
 ### `normalizeData(String text)`
 

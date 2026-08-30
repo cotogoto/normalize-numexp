@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.TreeMap;
 
 import com.google.gson.Gson;
@@ -14,9 +15,8 @@ import jp.livlog.numexp.dictionaryDirpath.DictionaryDirpath;
 import jp.livlog.numexp.dictionaryDirpath.DictionaryResourceLoader;
 import jp.livlog.numexp.digitUtility.DigitUtility;
 import jp.livlog.numexp.share.ENotationType;
-import lombok.extern.slf4j.Slf4j;
+import jp.livlog.numexp.share.LanguageValidator;
 
-@Slf4j
 public class DigitUtilityImpl extends DigitUtility {
 
     public TreeMap <String, ENotationType> stringToNotationType     = new TreeMap <>();
@@ -49,26 +49,28 @@ public class DigitUtilityImpl extends DigitUtility {
 
     void loadFromDictionary(final String dictionaryPath, List <ChineseCharacter> loadTarget) {
 
-        loadTarget.clear();
-
         final var reader = DictionaryResourceLoader.load(dictionaryPath);
+        final var loaded = new ArrayList <ChineseCharacter>();
 
         final var gson = new Gson();
         try (var br = new BufferedReader(reader)) {
             String line;
             while ((line = br.readLine()) != null) {
                 final var chineseCharacter = gson.fromJson(line, ChineseCharacter.class);
-                loadTarget.add(chineseCharacter);
+                loaded.add(chineseCharacter);
             }
         } catch (final IOException e) {
-            DigitUtilityImpl.log.error(e.getMessage(), e);
+            throw new IllegalStateException("Failed to read dictionary: " + dictionaryPath, e);
         }
+        loadTarget.clear();
+        loadTarget.addAll(loaded);
     }
 
 
     @Override
     public void initKansuji(String language) {
 
+        LanguageValidator.requireSupported(language);
         final var chineseCharacters = new ArrayList <ChineseCharacter>();
         final var dictionaryPath = new StringBuilder(DictionaryDirpath.DICTIONARY_DIRPATH);
         if (language.equals("ja")) {
@@ -227,6 +229,7 @@ public class DigitUtilityImpl extends DigitUtility {
     @Override
     public boolean isRangeExpression(String str) {
 
+        Objects.requireNonNull(str, "str must not be null");
         return str.startsWith("~") || str.startsWith( "〜") || str.startsWith("～") || str.startsWith("-") || str.startsWith("−") || str.startsWith("ー")
                 || str.startsWith("―") || str.startsWith("から");
     }
@@ -238,7 +241,7 @@ public class DigitUtilityImpl extends DigitUtility {
         final var value = this.kansuji09ToValue.get(String.valueOf(uc));
         if (value == null) {
             // 例外処理
-            throw new NullPointerException("Exception : is not kansuji09");
+            throw new IllegalArgumentException("Character is not a kansuji digit: " + uc);
         }
 
         return value;
@@ -251,7 +254,7 @@ public class DigitUtilityImpl extends DigitUtility {
         final var powerValue = this.kansujiKuraiToPowerValue.get(String.valueOf(uc));
         if (powerValue == null) {
             // 例外処理
-            throw new NullPointerException("Exception : is not kansuji_kurai");
+            throw new IllegalArgumentException("Character is not a kansuji power: " + uc);
         }
 
         return powerValue;

@@ -24,7 +24,6 @@ import jp.livlog.numexp.share.NumberModifier;
 import jp.livlog.numexp.share.Pair;
 import jp.livlog.numexp.share.PairKey0Comp;
 import jp.livlog.numexp.share.RefObject;
-import lombok.extern.slf4j.Slf4j;
 
 /*
  * 数量表現（「三人」「約1000円」などといった表現）や時間表現（「1989年3月」「3:30」「百年後」などといった表現）は以下のように構成される
@@ -43,7 +42,6 @@ import lombok.extern.slf4j.Slf4j;
  * 派生クラスとなるnumerical_expression_normalizer, abstime_expression_normalizer, reltime_expression_normalizer, duration_expression_normalizerでは、認識したパターンに対応する処理を書く。
  *
  */
-@Slf4j
 public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedExpressionTemplate, AnyTypeLimitedExpression extends LimitedExpressionTemplate> {
 
     protected NormalizerUtility normalizerUtility = new NormalizerUtilityImpl();
@@ -132,9 +130,8 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
 
     public void loadFromDictionary2(String dictionaryPath, List <NumberModifier> loadTarget) {
 
-        loadTarget.clear();
-
         final var reader = DictionaryResourceLoader.load(dictionaryPath);
+        final var loaded = new ArrayList <NumberModifier>();
 
         final var gson = new Gson();
         final var listType = new TypeToken <HashMap <String, String>>() {
@@ -146,11 +143,13 @@ public abstract class NormalizerTemplate <AnyTypeExpression extends NormalizedEx
                 @SuppressWarnings ("unchecked")
                 final var map = (HashMap <String, String>) gson.fromJson(line, listType);
                 numberModifier = new NumberModifier(map.get("pattern"), map.get("process_type"));
-                loadTarget.add(numberModifier);
+                loaded.add(numberModifier);
             }
         } catch (final IOException e) {
-            NormalizerTemplate.log.error(e.getMessage(), e);
+            throw new IllegalStateException("Failed to read dictionary: " + dictionaryPath, e);
         }
+        loadTarget.clear();
+        loadTarget.addAll(loaded);
     }
 
 

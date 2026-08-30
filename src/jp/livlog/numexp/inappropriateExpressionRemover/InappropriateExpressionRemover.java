@@ -9,12 +9,13 @@ import jp.livlog.numexp.durationExpressionNormalizer.DurationExpression;
 import jp.livlog.numexp.numericalExpressionNormalizer.NumericalExpression;
 import jp.livlog.numexp.reltimeExpressionNormalizer.ReltimeExpression;
 import jp.livlog.numexp.share.BaseExpressionTemplate;
+import jp.livlog.numexp.share.LanguageValidator;
 
 public abstract class InappropriateExpressionRemover {
 
     public InappropriateExpressionRemover(String language) {
 
-        this.language = language;
+        this.language = LanguageValidator.requireSupported(language);
     }
 
 

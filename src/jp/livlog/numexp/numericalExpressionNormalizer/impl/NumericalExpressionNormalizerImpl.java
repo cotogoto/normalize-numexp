@@ -3,6 +3,7 @@ package jp.livlog.numexp.numericalExpressionNormalizer.impl;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,9 +17,7 @@ import jp.livlog.numexp.share.NNumber;
 import jp.livlog.numexp.share.NumberModifier;
 import jp.livlog.numexp.share.RefObject;
 import jp.livlog.numexp.share.NumexpSymbol;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class NumericalExpressionNormalizerImpl extends NumericalExpressionNormalizer {
 
     public NumericalExpressionNormalizerImpl(String language) {
@@ -45,9 +44,8 @@ public class NumericalExpressionNormalizerImpl extends NumericalExpressionNormal
     @Override
     public void loadFromDictionary1(String dictionaryPath, List <Counter> loadTarget) {
 
-        loadTarget.clear();
-
         final var reader = this.fileLoad(dictionaryPath);
+        final var loaded = new ArrayList <Counter>();
 
         final var gson = new Gson();
         final var listType = new TypeToken <HashMap <String, Object>>() {
@@ -65,11 +63,13 @@ public class NumericalExpressionNormalizerImpl extends NumericalExpressionNormal
                 expression.optionalPowerOfTen = new BigDecimal((double) map.get("optional_power_of_ten")).intValue();
                 expression.ordinary = (Boolean) map.get("ordinary");
                 expression.option = (String) map.get("option");
-                loadTarget.add(expression);
+                loaded.add(expression);
             }
         } catch (final IOException e) {
-            NumericalExpressionNormalizerImpl.log.error(e.getMessage(), e);
+            throw new IllegalStateException("Failed to read dictionary: " + dictionaryPath, e);
         }
+        loadTarget.clear();
+        loadTarget.addAll(loaded);
     }
 
 

@@ -3,6 +3,7 @@ package jp.livlog.numexp.inappropriateExpressionRemover.impl;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,9 +23,7 @@ import jp.livlog.numexp.share.BaseExpressionTemplate;
 import jp.livlog.numexp.share.NTime;
 import jp.livlog.numexp.share.RefObject;
 import jp.livlog.numexp.share.NumexpSymbol;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class InappropriateExpressionRemoverImpl extends InappropriateExpressionRemover {
 
     public InappropriateExpressionRemoverImpl(String language) {
@@ -35,19 +34,50 @@ public class InappropriateExpressionRemoverImpl extends InappropriateExpressionR
     }
 
 
-    private <AnyTypeExpression1 extends NormalizedExpressionTemplate, AnyTypeExpression2 extends NormalizedExpressionTemplate> boolean isCoveredByOtherTypeExpression(
-            AnyTypeExpression1 anyTypeExpression1, AnyTypeExpression2 anyTypeExpression2) {
+    private static final class CoverageIndex {
 
-        return anyTypeExpression2.positionStart <= anyTypeExpression1.positionStart
-                && anyTypeExpression1.positionEnd <= anyTypeExpression2.positionEnd;
+        private final int[] starts;
+
+        private final int[] maximumEnds;
+
+        private CoverageIndex(List <? extends NormalizedExpressionTemplate> expressions) {
+
+            final var sorted = new ArrayList <NormalizedExpressionTemplate>(expressions);
+            sorted.sort(Comparator.comparingInt(expression -> expression.positionStart));
+            this.starts = new int[sorted.size()];
+            this.maximumEnds = new int[sorted.size()];
+            var maximumEnd = Integer.MIN_VALUE;
+            for (var i = 0; i < sorted.size(); i++) {
+                this.starts[i] = sorted.get(i).positionStart;
+                maximumEnd = Math.max(maximumEnd, sorted.get(i).positionEnd);
+                this.maximumEnds[i] = maximumEnd;
+            }
+        }
+
+
+        private boolean covers(NormalizedExpressionTemplate expression) {
+
+            var low = 0;
+            var high = this.starts.length - 1;
+            var found = -1;
+            while (low <= high) {
+                final var middle = (low + high) >>> 1;
+                if (this.starts[middle] <= expression.positionStart) {
+                    found = middle;
+                    low = middle + 1;
+                } else {
+                    high = middle - 1;
+                }
+            }
+            return found >= 0 && this.maximumEnds[found] >= expression.positionEnd;
+        }
     }
 
 
-    private <AnyTypeExpression1 extends NormalizedExpressionTemplate, AnyTypeExpression2 extends NormalizedExpressionTemplate> boolean isCoveredByOtherTypeExpressions(
-            AnyTypeExpression1 anyTypeExpression1, List <AnyTypeExpression2> anyTypeExpressions2) {
+    private boolean isCoveredByAny(NormalizedExpressionTemplate expression, CoverageIndex... indexes) {
 
-        for (var i = 0; i < anyTypeExpressions2.size(); i++) {
-            if (this.isCoveredByOtherTypeExpression(anyTypeExpression1, anyTypeExpressions2.get(i))) {
+        for (final var index : indexes) {
+            if (index.covers(expression)) {
                 return true;
             }
         }
@@ -61,51 +91,37 @@ public class InappropriateExpressionRemoverImpl extends InappropriateExpressionR
             List <ReltimeExpression> reltimeexps,
             List <DurationExpression> durationexps) {
         // 表現タイプ毎に重複があるので、これを削除する（例：「300年間」はabstimeexpsでも「300年」として規格化されている）
-        // TODO : O(N^2)のアルゴリズム。対象となる表現と、その他すべての表現に対して重複をチェックしている。必要に応じて高速化する
-
         // TODO : inappropriate_abstime, 以下の削除順番 の最適な順番は？
         // 不適切な絶対時間を削除(1万年、など) -> durationを削除(3月3日)など -> abstime の流れで。
 
         // erase numexp
         // 時間表現と被っていた場合、時間表現を優先するため、一番先にnumexpを削除（例：「1分」）
-        for (var i = 0; i < numexps.size(); i++) {
-            if (this.isCoveredByOtherTypeExpressions(numexps.get(i), abstimeexps)
-                    || this.isCoveredByOtherTypeExpressions(numexps.get(i), reltimeexps)
-                    || this.isCoveredByOtherTypeExpressions(numexps.get(i), durationexps)) {
-                numexps.remove(i);
-                i--;
-            }
-        }
+        final var abstimeIndexForNumexp = new CoverageIndex(abstimeexps);
+        final var reltimeIndexForNumexp = new CoverageIndex(reltimeexps);
+        final var durationIndexForNumexp = new CoverageIndex(durationexps);
+        numexps.removeIf(expression -> this.isCoveredByAny(
+                expression, abstimeIndexForNumexp, reltimeIndexForNumexp, durationIndexForNumexp));
 
         // erase reltime
-        for (var i = 0; i < reltimeexps.size(); i++) {
-            if (this.isCoveredByOtherTypeExpressions(reltimeexps.get(i), abstimeexps)
-                    || this.isCoveredByOtherTypeExpressions(reltimeexps.get(i), numexps)
-                    || this.isCoveredByOtherTypeExpressions(reltimeexps.get(i), durationexps)) {
-                reltimeexps.remove(i);
-                i--;
-            }
-        }
+        final var abstimeIndexForReltime = new CoverageIndex(abstimeexps);
+        final var numexpIndexForReltime = new CoverageIndex(numexps);
+        final var durationIndexForReltime = new CoverageIndex(durationexps);
+        reltimeexps.removeIf(expression -> this.isCoveredByAny(
+                expression, abstimeIndexForReltime, numexpIndexForReltime, durationIndexForReltime));
 
         // erase duration
-        for (var i = 0; i < durationexps.size(); i++) {
-            if (this.isCoveredByOtherTypeExpressions(durationexps.get(i), abstimeexps)
-                    || this.isCoveredByOtherTypeExpressions(durationexps.get(i), reltimeexps)
-                    || this.isCoveredByOtherTypeExpressions(durationexps.get(i), numexps)) {
-                durationexps.remove(i);
-                i--;
-            }
-        }
+        final var abstimeIndexForDuration = new CoverageIndex(abstimeexps);
+        final var reltimeIndexForDuration = new CoverageIndex(reltimeexps);
+        final var numexpIndexForDuration = new CoverageIndex(numexps);
+        durationexps.removeIf(expression -> this.isCoveredByAny(
+                expression, abstimeIndexForDuration, reltimeIndexForDuration, numexpIndexForDuration));
 
         // erase abstime
-        for (var i = 0; i < abstimeexps.size(); i++) {
-            if (this.isCoveredByOtherTypeExpressions(abstimeexps.get(i), numexps)
-                    || this.isCoveredByOtherTypeExpressions(abstimeexps.get(i), reltimeexps)
-                    || this.isCoveredByOtherTypeExpressions(abstimeexps.get(i), durationexps)) {
-                abstimeexps.remove(i);
-                i--;
-            }
-        }
+        final var numexpIndexForAbstime = new CoverageIndex(numexps);
+        final var reltimeIndexForAbstime = new CoverageIndex(reltimeexps);
+        final var durationIndexForAbstime = new CoverageIndex(durationexps);
+        abstimeexps.removeIf(expression -> this.isCoveredByAny(
+                expression, numexpIndexForAbstime, reltimeIndexForAbstime, durationIndexForAbstime));
     }
 
 
@@ -387,9 +403,8 @@ public class InappropriateExpressionRemoverImpl extends InappropriateExpressionR
     @SuppressWarnings ("unchecked")
     private void loadFromDictionary(final String dictionaryPath, List <InappropriateStrings> loadTarget) {
 
-        loadTarget.clear();
-
         final var reader = DictionaryResourceLoader.load(dictionaryPath);
+        final var loaded = new ArrayList <InappropriateStrings>();
 
         final var gson = new Gson();
         final var listType = new TypeToken <HashMap <String, Object>>() {
@@ -401,11 +416,13 @@ public class InappropriateExpressionRemoverImpl extends InappropriateExpressionR
                 final var map = (HashMap <String, Object>) gson.fromJson(line, listType);
                 expression = new InappropriateStrings();
                 expression.str = (String) map.get("str");
-                loadTarget.add(expression);
+                loaded.add(expression);
             }
         } catch (final IOException e) {
-            InappropriateExpressionRemoverImpl.log.error(e.getMessage(), e);
+            throw new IllegalStateException("Failed to read dictionary: " + dictionaryPath, e);
         }
+        loadTarget.clear();
+        loadTarget.addAll(loaded);
     }
 
 
